@@ -1,0 +1,13 @@
+# Taken from the pretix project with some modifications
+# <https://github.com/pretix/pretix/blob/master/src/.gitignore>
+
+data/
+emails/
+chaosinventory.cfg
+*.sqlite
+.cache
+static/
+build/
+dist/
+*.egg-info/
+*.bak
