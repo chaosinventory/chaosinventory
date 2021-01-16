@@ -35,4 +35,9 @@ setup(
         'psycopg2-binary'
     ],
     packages=find_packages(),
+    entry_points = {
+        'console_scripts': [
+            'chaosinventory = chaosinventory.__main__:main'
+        ]
+    }
 )
