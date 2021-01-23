@@ -1,5 +1,6 @@
 from pathlib import Path
-from setuptools import find_packages, setup
+
+from setuptools import setup
 
 here = Path(__file__).resolve().parent
 
