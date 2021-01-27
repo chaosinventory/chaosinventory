@@ -1,0 +1,24 @@
+[django]
+secret = foobar2342
+debug = True
+allowed_hosts = *
+language_code = en-us
+time_zone = UTC
+
+[database]
+engine = sqlite3
+name = db.sqlite3
+user =
+password =
+host =
+port =
+
+[email]
+backend = filebased.EmailBackend
+host =
+port =
+user =
+password =
+ssl = False
+tls = False
+
