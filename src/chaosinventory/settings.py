@@ -7,7 +7,7 @@ config = configparser.RawConfigParser()
 if 'CHAOSINVENTORY_CONFIG_FILE' in os.environ:
     config.read_file(open(os.environ.get('CHAOSINVENTORY_CONFIG_FILE'), encoding='utf-8'))
 else:
-    config.read(['/etc/chaosinventory/chaosinventory.cfg', 'chaosinventory.cfg'], encoding='utf-8')
+    config.read(['chaosinventory.cfg', '/etc/chaosinventory/chaosinventory.cfg'], encoding='utf-8')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_ROOT = BASE_DIR / 'static'
