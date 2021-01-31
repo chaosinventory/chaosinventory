@@ -2,7 +2,10 @@ from django.db import models
 
 
 class CommonModel(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(
+        max_length=255
+    )
+
     note = models.TextField()
 
     class Meta:
@@ -21,8 +24,25 @@ class CommonTypeData(models.Model):
         abstract = True
 
 
+class CommonInventoryId(models.Model):
+    schema = models.ForeignKey(
+        'InventoryIdSchema',
+        on_delete=models.RESTRICT,
+    )
+
+    value = models.CharField(
+        max_length=255,
+    )
+
+    class Meta:
+        abstract = True
+
+
 class Tag(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(
+        max_length=255
+    )
+
     parent = models.ForeignKey(
         'self',
         on_delete=models.RESTRICT,
@@ -56,11 +76,21 @@ class ProductData(CommonTypeData):
     )
 
 
+class ProductInventoryId(CommonInventoryId):
+    class Meta:
+        pass
+
+
 class ItemData(CommonTypeData):
     item = models.ForeignKey(
         'Item',
         on_delete=models.CASCADE,
     )
+
+
+class ItemInventoryId(CommonInventoryId):
+    class Meta:
+        pass
 
 
 class Entity(CommonModel):
@@ -101,8 +131,9 @@ class Product(CommonModel):
         'Tag'
     )
 
-    inventory_ids = models.ManyToManyField(
-        'InventoryId',
+    inventory_id = models.ForeignKey(
+        'ProductInventoryId',
+        on_delete=models.RESTRICT
     )
 
 
@@ -157,8 +188,9 @@ class Item(CommonModel):
         'Tag'
     )
 
-    inventory_ids = models.ManyToManyField(
-        'InventoryId',
+    inventory_id = models.ForeignKey(
+        'ItemInventoryId',
+        on_delete=models.RESTRICT
     )
 
 
@@ -166,19 +198,9 @@ class InventoryIdSchema(CommonModel):
     pass
 
 
-class InventoryId(models.Model):
-    schema = models.ForeignKey(
-        'InventoryIdSchema',
-        on_delete=models.RESTRICT,
-    )
-
-    value = models.CharField(
-        max_length=255,
-    )
-
-
 class Overlay(CommonModel):
     active = models.BooleanField()
+
     parent = models.ForeignKey(
         'self',
         on_delete=models.RESTRICT,
@@ -210,6 +232,7 @@ class OverlayItem(models.Model):
     target_location = models.ForeignKey(
         'Location',
         on_delete=models.RESTRICT,
+        related_name='overlay_contents',
         null=True,
         blank=True,
     )
