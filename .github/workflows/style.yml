@@ -5,6 +5,7 @@ on:
   - pull_request
 jobs:
   isort:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     name: isort
     runs-on: ubuntu-latest
     steps:
@@ -29,6 +30,7 @@ jobs:
         working-directory: ./src
 
   flake:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     name: flake8
     runs-on: ubuntu-latest
     steps:
