@@ -124,10 +124,22 @@ class ItemAdmin(admin.ModelAdmin):
 class InventoryIdSchemaAdmin(admin.ModelAdmin):
     pass
 
+class OverlayItemInline(CommonInline):
+    model = OverlayItem
+
 @admin.register(Overlay)
 class OverlayAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(OverlayItem)
-class OverlayItemAdmin(admin.ModelAdmin):
-    pass
+    fieldsets = (
+        (None, {
+            'fields': ( 'name', 'note', ),
+        }),
+        ("Status", {
+            'fields': ( 'active', ),
+        }),
+        ("Properties", {
+            'fields': ( 'parent', ),
+        }),
+    )
+    inlines = [
+        OverlayItemInline,
+    ]
