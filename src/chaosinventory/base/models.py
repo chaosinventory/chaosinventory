@@ -6,7 +6,9 @@ class CommonModel(models.Model):
         max_length=255
     )
 
-    note = models.TextField()
+    note = models.TextField(
+        blank=True,
+    )
 
     class Meta:
         abstract = True
@@ -103,6 +105,7 @@ class Entity(CommonModel):
 
     tags = models.ManyToManyField(
         'Tag',
+        blank=True,
     )
 
 
@@ -123,17 +126,20 @@ class Location(CommonModel):
 
     tags = models.ManyToManyField(
         'Tag',
+        blank=True,
     )
 
 
 class Product(CommonModel):
     tags = models.ManyToManyField(
-        'Tag'
+        'Tag',
+        blank=True,
     )
 
     inventory_id = models.ForeignKey(
         'ProductInventoryId',
-        on_delete=models.RESTRICT
+        on_delete=models.RESTRICT,
+        blank=True,
     )
 
 
@@ -185,12 +191,14 @@ class Item(CommonModel):
     )
 
     tags = models.ManyToManyField(
-        'Tag'
+        'Tag',
+        blank=True,
     )
 
     inventory_id = models.ForeignKey(
         'ItemInventoryId',
-        on_delete=models.RESTRICT
+        on_delete=models.RESTRICT,
+        blank=True,
     )
 
 
