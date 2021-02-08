@@ -6,6 +6,12 @@ from .models import (
     Overlay, OverlayItem,
 )
 
+class CommonInline(admin.TabularInline):
+    extra = 0
+
+class CommonDataInline(CommonInline):
+    fields = ( 'type', 'value', )
+
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     pass
@@ -30,9 +36,8 @@ class ProductDataAdmin(admin.ModelAdmin):
 class ProductInventoryIdAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(ItemData)
-class ItemDataAdmin(admin.ModelAdmin):
-    pass
+class ItemDataInline(CommonDataInline):
+    model = ItemData
 
 @admin.register(ItemInventoryId)
 class ItemInventoryIdAdmin(admin.ModelAdmin):
@@ -72,6 +77,9 @@ class ItemAdmin(admin.ModelAdmin):
             'fields': ( 'tags', ),
         }),
     )
+    inlines = [
+        ItemDataInline,
+    ]
 
 @admin.register(InventoryIdSchema)
 class InventoryIdSchemaAdmin(admin.ModelAdmin):
