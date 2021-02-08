@@ -52,7 +52,26 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    pass
+    fieldsets = (
+        (None, {
+            'fields': ( 'name', 'note', ),
+        }),
+        ("Properties", {
+            'fields': ( 'product', 'amount', ),
+        }),
+        ("Location", {
+            'fields': ( 'target_location', 'actual_location', 'target_item', 'actual_item', ),
+        }),
+        ("Ownership", {
+            'fields': ( 'belongs_to', ),
+        }),
+        ("Inventory IDs", {
+            'fields': ( 'inventory_id', ),
+        }),
+        ("Tags", {
+            'fields': ( 'tags', ),
+        }),
+    )
 
 @admin.register(InventoryIdSchema)
 class InventoryIdSchemaAdmin(admin.ModelAdmin):
