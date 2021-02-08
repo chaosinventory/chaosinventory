@@ -14,11 +14,22 @@ class CommonDataInline(CommonInline):
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    pass
+    fieldsets = (
+        (None, {
+            'fields': ( 'name', ),
+        }),
+        ("Properties", {
+            'fields': ( 'parent', ),
+        }),
+    )
 
 @admin.register(DataType)
 class DataTypeAdmin(admin.ModelAdmin):
-    pass
+    fieldsets = (
+        (None, {
+            'fields': ( 'name', 'note', ),
+        }),
+    )
 
 class EntityDataInline(CommonDataInline):
     model = EntityData
@@ -122,7 +133,11 @@ class ItemAdmin(admin.ModelAdmin):
 
 @admin.register(InventoryIdSchema)
 class InventoryIdSchemaAdmin(admin.ModelAdmin):
-    pass
+    fieldsets = (
+        (None, {
+            'fields': ( 'name', 'note', ),
+        }),
+    )
 
 class OverlayItemInline(CommonInline):
     model = OverlayItem
