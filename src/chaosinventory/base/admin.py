@@ -153,9 +153,6 @@ class OverlayItemInline(CommonInline):
     model = OverlayItem
 
 
-class OverlayItemInline(CommonInline):
-    model = OverlayItem
-
 @admin.register(Overlay)
 class OverlayAdmin(admin.ModelAdmin):
     fieldsets = (
