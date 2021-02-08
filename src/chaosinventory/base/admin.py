@@ -20,9 +20,8 @@ class TagAdmin(admin.ModelAdmin):
 class DataTypeAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(EntityData)
-class EntityDataAdmin(admin.ModelAdmin):
-    pass
+class EntityDataInline(CommonDataInline):
+    model = EntityData
 
 class LocationDataInline(CommonDataInline):
     model = LocationData
@@ -43,7 +42,20 @@ class ItemInventoryIdAdmin(admin.ModelAdmin):
 
 @admin.register(Entity)
 class EntityAdmin(admin.ModelAdmin):
-    pass
+    fieldsets = (
+        (None, {
+            'fields': ( 'name', 'note', ),
+        }),
+        ("Ownership", {
+            'fields': ( 'part_of', ),
+        }),
+        ("Tags", {
+            'fields': ( 'tags', ),
+        }),
+    )
+    inlines = [
+        EntityDataInline,
+    ]
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
