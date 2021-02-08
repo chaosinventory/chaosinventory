@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.validators import MinValueValidator
 
 class CommonModel(models.Model):
     name = models.CharField(
@@ -150,7 +150,10 @@ class Product(CommonModel):
 
 
 class Item(CommonModel):
-    amount = models.PositiveIntegerField()
+    amount = models.PositiveIntegerField(
+        default=1,
+        validators=[ MinValueValidator(1) ],
+    )
 
     belongs_to = models.ForeignKey(
         'Entity',
