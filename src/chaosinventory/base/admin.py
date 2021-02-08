@@ -24,9 +24,8 @@ class DataTypeAdmin(admin.ModelAdmin):
 class EntityDataAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(LocationData)
-class LocationDataAdmin(admin.ModelAdmin):
-    pass
+class LocationDataInline(CommonDataInline):
+    model = LocationData
 
 class ProductDataInline(CommonDataInline):
     model = ProductData
@@ -48,7 +47,23 @@ class EntityAdmin(admin.ModelAdmin):
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
-    pass
+    fieldsets = (
+        (None, {
+            'fields': ( 'name', 'note', ),
+        }),
+        ("Location", {
+            'fields': ( 'in_location', ),
+        }),
+        ("Ownership", {
+            'fields': ( 'belongs_to', ),
+        }),
+        ("Tags", {
+            'fields': ( 'tags', ),
+        }),
+    )
+    inlines = [
+        LocationDataInline,
+    ]
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
