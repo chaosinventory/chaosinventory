@@ -105,6 +105,7 @@ class Entity(CommonModel):
 
     tags = models.ManyToManyField(
         'Tag',
+        null=True,
         blank=True,
     )
 
@@ -126,6 +127,7 @@ class Location(CommonModel):
 
     tags = models.ManyToManyField(
         'Tag',
+        null=True,
         blank=True,
     )
 
@@ -133,12 +135,14 @@ class Location(CommonModel):
 class Product(CommonModel):
     tags = models.ManyToManyField(
         'Tag',
+        null=True,
         blank=True,
     )
 
     inventory_id = models.ForeignKey(
         'ProductInventoryId',
         on_delete=models.RESTRICT,
+        null=True,
         blank=True,
     )
 
@@ -192,12 +196,14 @@ class Item(CommonModel):
 
     tags = models.ManyToManyField(
         'Tag',
+        null=True,
         blank=True,
     )
 
     inventory_id = models.ForeignKey(
         'ItemInventoryId',
         on_delete=models.RESTRICT,
+        null=True,
         blank=True,
     )
 
