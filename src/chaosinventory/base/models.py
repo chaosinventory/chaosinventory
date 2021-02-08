@@ -27,7 +27,7 @@ class CommonTypeData(models.Model):
         abstract = True
 
     def __str__(self):
-        return self.type.name + ": "+  self.value[:25]
+        return self.type.name + ": " + self.value[:25]
 
 
 class CommonInventoryId(models.Model):
