@@ -28,9 +28,8 @@ class EntityDataAdmin(admin.ModelAdmin):
 class LocationDataAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(ProductData)
-class ProductDataAdmin(admin.ModelAdmin):
-    pass
+class ProductDataInline(CommonDataInline):
+    model = ProductData
 
 @admin.register(ProductInventoryId)
 class ProductInventoryIdAdmin(admin.ModelAdmin):
@@ -53,7 +52,20 @@ class LocationAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    pass
+    fieldsets = (
+        (None, {
+            'fields': ( 'name', 'note', ),
+        }),
+        ("Inventory IDs", {
+            'fields': ( 'inventory_id', ),
+        }),
+        ("Tags", {
+            'fields': ( 'tags', ),
+        }),
+    )
+    inlines = [
+        ProductDataInline,
+    ]
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
