@@ -11,6 +11,9 @@ class CommonModel(models.Model):
     class Meta:
         abstract = True
 
+    def __str__(self):
+        return self.name
+
 
 class CommonTypeData(models.Model):
     value = models.TextField()
@@ -22,6 +25,9 @@ class CommonTypeData(models.Model):
 
     class Meta:
         abstract = True
+
+    def __str__(self):
+        return self.type.name + ": "+  self.value[:25]
 
 
 class CommonInventoryId(models.Model):
@@ -37,6 +43,9 @@ class CommonInventoryId(models.Model):
     class Meta:
         abstract = True
 
+    def __str__(self):
+        return self.schema.name + ": " + self.value[:25]
+
 
 class Tag(models.Model):
     name = models.CharField(
@@ -49,6 +58,9 @@ class Tag(models.Model):
         null=True,
         blank=True,
     )
+
+    def __str__(self):
+        return self.name
 
 
 class DataType(CommonModel):
@@ -236,3 +248,6 @@ class OverlayItem(models.Model):
         null=True,
         blank=True,
     )
+
+    def __str__(self):
+        return self.overlay.name + ": " + self.item.name
