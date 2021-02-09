@@ -92,6 +92,10 @@ class ProductData(CommonTypeData):
 
 
 class ProductInventoryId(CommonInventoryId):
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.CASCADE,
+    )
     class Meta:
         pass
 
@@ -104,6 +108,10 @@ class ItemData(CommonTypeData):
 
 
 class ItemInventoryId(CommonInventoryId):
+    item = models.ForeignKey(
+        'Item',
+        on_delete=models.CASCADE,
+    )
     class Meta:
         pass
 
@@ -148,13 +156,6 @@ class Location(CommonModel):
 class Product(CommonModel):
     tags = models.ManyToManyField(
         'Tag',
-        null=True,
-        blank=True,
-    )
-
-    inventory_id = models.ForeignKey(
-        'ProductInventoryId',
-        on_delete=models.RESTRICT,
         null=True,
         blank=True,
     )
@@ -212,13 +213,6 @@ class Item(CommonModel):
 
     tags = models.ManyToManyField(
         'Tag',
-        null=True,
-        blank=True,
-    )
-
-    inventory_id = models.ForeignKey(
-        'ItemInventoryId',
-        on_delete=models.RESTRICT,
         null=True,
         blank=True,
     )
