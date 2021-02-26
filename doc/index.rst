@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Chaosinventory core's documentation!
+Welcome to Chaosinventory Core's documentation!
 ===============================================
 
 .. toctree::
@@ -11,6 +11,10 @@ Welcome to Chaosinventory core's documentation!
 
    admin/index
    dev/index
+
+.. Information::
+   This is the documentation for developers and instance administrators.
+   The Chaosinventory User Documentation is available under https://chaosinventory.readthedocs.io/.
 
 Indices and tables
 ==================

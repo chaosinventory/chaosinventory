@@ -24,7 +24,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "chaosinventory.settings")
 
 # -- Project information -----------------------------------------------------
 
-project = 'Chaosinventory core'
+project = 'Chaosinventory Core'
 copyright = '2021, Chaosinventory Developers, AGPL License'
 author = 'Chaosinventory Developers'
 
