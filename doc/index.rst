@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Chaosinventory Core's documentation!
-===============================================
+Welcome to the Chaosinventory Core documentation!
+=================================================
 
 .. toctree::
    :maxdepth: 2
