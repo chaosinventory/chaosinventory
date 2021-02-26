@@ -12,9 +12,8 @@ Welcome to Chaosinventory Core's documentation!
    admin/index
    dev/index
 
-.. Information::
-   This is the documentation for developers and instance administrators.
-   The Chaosinventory User Documentation is available under https://chaosinventory.readthedocs.io/.
+.. note::
+   This is the documentation for developers and instance administrators. The Chaosinventory User Documentation is available under https://chaosinventory.readthedocs.io/.
 
 Indices and tables
 ==================
