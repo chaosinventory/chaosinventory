@@ -6,7 +6,14 @@ Installation guide
 .. warning::
 
    The project is currently in pre-alpha state. This setup documentation
-   is rudimentary at best and definetly not suited for production. 
+   is rudimentary at best and definitely not suited for production.
+
+   Setup instructions will change in future, installation methods may come
+   and go. Please always refer to the documentation of the version you
+   are installing!
+
+   Help in the development is always appreciated, head over to `GitHub`_
+   for a list of open issues!
 
 
 Chaosinventory ships as a standalone app. Therefore, you don't need to bring your own django project.
@@ -90,3 +97,4 @@ When visiting http://[::1]:1234/ we will be greeted by hello world page (for now
 .. _gunicorn: https://gunicorn.org/
 .. _PostgreSQL: https://www.postgresql.org/
 .. _virtual environment: https://docs.python.org/3/library/venv.html
+.. _GitHub: https://github.com/chaosinventory/chaosinventory/issues
