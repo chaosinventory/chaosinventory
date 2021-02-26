@@ -18,7 +18,8 @@ import django
 sys.path.insert(0, os.path.abspath('../src'))
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "chaosinventory.settings")
-django.setup()
+# FIXME: The django setup is broken at the moment. Uncomment after django is stable.
+# django.setup()
 
 
 # -- Project information -----------------------------------------------------
