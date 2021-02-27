@@ -36,8 +36,8 @@ advised to install in a so called `virtual environment`_.
    (venv) $ which python # check it is setup correctly
    /path/to/chaosinventory/venv/bin/python
 
-Install Chaosinventory
-----------------------
+Install and configure Chaosinventory
+------------------------------------
 
 Chaosinventory can currently only be installed via pip from the source code as shown below.
 
@@ -46,6 +46,48 @@ Chaosinventory can currently only be installed via pip from the source code as s
    (venv) $ pip install https://github.com/chaosinventory/chaosinventory/archive/main.tar.gz#subdirectory=src gunicorn
    ...
    Successfully installed Django-3.1.5 chaosinventory-0.0.0 gunicorn-20.0.4
+
+Now we need to provide a configuration for chaosinventory. This can be
+located in multiple locations (in the order of preference, first found
+will be used):
+
+* The path specified in the Environment variable :code:`CHAOSINVENTORY_CONFIG_FILE`
+* The :code:`chaosinventory.cfg` in your curent working directory
+* :code:`/etc/chaosinventory/chaosinventory.cfg`
+
+.. todo::
+
+   Improve documentation of the config file.
+
+The example configuration looks like this and, except for **changing the secret**,
+should work out of the box using a sqlite Database, however this is not
+recommended for production use.
+
+.. code:: ini
+
+  [django]
+  secret = foobar2342
+  debug = True
+  allowed_hosts = *
+  language_code = en-us
+  time_zone = UTC
+
+  [database]
+  engine = sqlite3
+  name = db.sqlite3
+  user =
+  password =
+  host =
+  port =
+
+  [email]
+  backend = filebased.EmailBackend
+  host =
+  port =
+  user =
+  password =
+  ssl = False
+  tls = False
 
 Before the app can be started, the database structure must be created and
 all static files collected.
@@ -63,12 +105,6 @@ all static files collected.
    (venv) $ chaosinventory collectstatic
    132 static files copied to '/path/to/chaosinventory/venv/lib/python3.9/site-packages/static'.
 
-
-.. todo::
-
-   This will place a db.sqlite3 in the venv directory. This is in
-   **no way** recommended or stable. This will need to be updated once
-   the configuration is in place.
 
 .. todo::
 

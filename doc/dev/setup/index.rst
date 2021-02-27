@@ -34,6 +34,21 @@ You will also need to install some requirements using pip.
    (venv) $ cd src/
    (venv) $ pip install -r requirements.txt
 
+Before you can go on and start coding, you will need a valid configuration file.
+The easiest way would be, to just link the example config like this:
+
+.. code-block:: bash
+
+   (venv) $ ln -s chaosinventory.cfg.example chaosinventory.cfg
+
+If you want to use your own configuration (e.G. another Database, E-Mail backend)
+you can start by copying the example config and edit it to suit your needs.
+
+.. code-block:: bash
+
+   (venv) $ cp chaosinventory.cfg.example chaosinventory.cfg
+   (venv) $ $EDITOR chaosinventory.cfg
+
 To populate your local development database you must execute the migrations.
 
 .. code-block:: bash
