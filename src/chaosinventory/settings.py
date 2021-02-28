@@ -1,8 +1,11 @@
 import configparser
 import os
+import logging
 from pathlib import Path
 
 config = configparser.RawConfigParser()
+# Read fallback config, initalizing all values needed for basic execution
+config.read_file(open(Path(__file__).parent / "fallback.cfg"))
 
 if 'CHAOSINVENTORY_CONFIG_FILE' in os.environ:
     config.read_file(open(os.environ.get('CHAOSINVENTORY_CONFIG_FILE'), encoding='utf-8'))
@@ -13,6 +16,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_ROOT = BASE_DIR / 'static'
 
 SECRET_KEY = config.get('django', 'secret')
+
+if SECRET_KEY == "fallback-secret":
+    logging.warn("No custom secret configured. This configuration is not secure!")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config.getboolean('django', 'debug', fallback=False)

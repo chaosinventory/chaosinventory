@@ -1,5 +1,5 @@
 [django]
-secret = foobar2342
+secret = fallback-secret
 debug = True
 allowed_hosts = *
 language_code = en-us
