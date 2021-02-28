@@ -13,3 +13,4 @@ Development documentation
 
    setup/index
    structure
+   configuration
