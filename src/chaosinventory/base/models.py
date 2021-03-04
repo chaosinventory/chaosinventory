@@ -96,6 +96,7 @@ class ProductInventoryId(CommonInventoryId):
         'Product',
         on_delete=models.CASCADE,
     )
+
     class Meta:
         pass
 
@@ -112,6 +113,7 @@ class ItemInventoryId(CommonInventoryId):
         'Item',
         on_delete=models.CASCADE,
     )
+
     class Meta:
         pass
 
