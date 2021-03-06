@@ -1,8 +1,8 @@
 from rest_framework import serializers
 
 from .models import (
-    DataType, Entity, Item, ItemInventoryId, Location, LocationData, Product,
-    ProductData, ProductInventoryId, Tag,
+    DataType, Entity, Item, ItemData, ItemInventoryId, Location, LocationData,
+    Product, ProductData, ProductInventoryId, Tag,
 )
 
 
@@ -19,6 +19,18 @@ class CommonBasicInventoryIdSerializer(serializers.ModelSerializer):
             'id',
             'value',
             'schema',
+        ]
+
+
+class CommonBasicDataSerializer(serializers.ModelSerializer):
+    type = serializers.ReadOnlyField(source='type.name')
+
+    class Meta:
+        model = ProductData
+        fields = [
+            'id',
+            'value',
+            'type'
         ]
 
 
@@ -40,18 +52,6 @@ class TagSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'parent'
-        ]
-
-
-class BasicProductDataSerializer(serializers.ModelSerializer):
-    type = serializers.ReadOnlyField(source='type.name')
-
-    class Meta:
-        model = ProductData
-        fields = [
-            'id',
-            'value',
-            'type'
         ]
 
 
@@ -119,6 +119,16 @@ class EntitySerializer(serializers.ModelSerializer):
         ]
 
 
+class BasicProductDataSerializer(CommonBasicDataSerializer):
+    class Meta(CommonBasicDataSerializer.Meta):
+        model = ProductData
+
+
+class BasicItemDataSerializer(CommonBasicDataSerializer):
+    class Meta(CommonBasicDataSerializer.Meta):
+        model = ItemData
+
+
 class BasicProductInventoryIdSerializer(CommonBasicInventoryIdSerializer):
     class Meta(CommonBasicInventoryIdSerializer.Meta):
         model = ProductInventoryId
@@ -161,6 +171,11 @@ class ItemSerializer(serializers.ModelSerializer):
     target_location = LocationSerializer
     actual_location = LocationSerializer
 
+    itemdata_set = BasicItemDataSerializer(
+        many=True,
+        required=False
+    )
+
     iteminventoryid_set = BasicItemInventoryIdSerializer(
         many=True,
         required=False
@@ -180,5 +195,6 @@ class ItemSerializer(serializers.ModelSerializer):
             'target_item',  # TODO: Make recursive?
             'actual_item',  # TODO: Make recursive?
             'iteminventoryid_set',
+            'itemdata_set',
             'tags',
         ]
