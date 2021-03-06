@@ -1,8 +1,25 @@
 from rest_framework import serializers
 
 from .models import (
-    DataType, Entity, Item, Location, LocationData, Product, ProductData, Tag,
+    DataType, Entity, Item, ItemInventoryId, Location, LocationData, Product,
+    ProductData, ProductInventoryId, Tag,
 )
+
+
+class CommonBasicInventoryIdSerializer(serializers.ModelSerializer):
+    # Only using a PK-Related field since this would be another level
+    # of recursion with a high degree of redundancy and little use.
+    schema = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+    )
+
+    class Meta:
+        model = ProductInventoryId
+        fields = [
+            'id',
+            'value',
+            'schema',
+        ]
 
 
 class BasicLocationSerializer(serializers.ModelSerializer):
@@ -102,10 +119,25 @@ class EntitySerializer(serializers.ModelSerializer):
         ]
 
 
+class BasicProductInventoryIdSerializer(CommonBasicInventoryIdSerializer):
+    class Meta(CommonBasicInventoryIdSerializer.Meta):
+        model = ProductInventoryId
+
+
+class BasicItemInventoryIdSerializer(CommonBasicInventoryIdSerializer):
+    class Meta(CommonBasicInventoryIdSerializer.Meta):
+        model = ItemInventoryId
+
+
 class ProductSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, required=False)
 
     productdata_set = BasicProductDataSerializer(
+        many=True,
+        required=False
+    )
+
+    productinventoryid_set = BasicProductInventoryIdSerializer(
         many=True,
         required=False
     )
@@ -117,7 +149,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'name',
             'note',
             'tags',
-            'inventory_id',
+            'productinventoryid_set',
             'productdata_set',
         ]
 
@@ -128,6 +160,11 @@ class ItemSerializer(serializers.ModelSerializer):
     product = ProductSerializer
     target_location = LocationSerializer
     actual_location = LocationSerializer
+
+    iteminventoryid_set = BasicItemInventoryIdSerializer(
+        many=True,
+        required=False
+    )
 
     class Meta:
         model = Item
@@ -142,6 +179,6 @@ class ItemSerializer(serializers.ModelSerializer):
             'product',
             'target_item',  # TODO: Make recursive?
             'actual_item',  # TODO: Make recursive?
-            'inventory_id',  # TODO: Rework once #24 is merged
+            'iteminventoryid_set',
             'tags',
         ]
