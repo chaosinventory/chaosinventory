@@ -21,19 +21,8 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = [
             'id',
+            'name',
             'parent'
-        ]
-
-
-class BasicLocationDataSerializer(serializers.ModelSerializer):
-    type = serializers.ReadOnlyField(source='type.name')
-
-    class Meta:
-        model = LocationData
-        fields = [
-            'id',
-            'value',
-            'type'
         ]
 
 
@@ -73,6 +62,18 @@ class LocationDataSerializer(serializers.ModelSerializer):
         ]
 
 
+class BasicLocationDataSerializer(serializers.ModelSerializer):
+    type = serializers.ReadOnlyField(source='type.name')
+
+    class Meta:
+        model = LocationData
+        fields = [
+            'id',
+            'value',
+            'type'
+        ]
+
+
 class LocationSerializer(serializers.ModelSerializer):
     locationdata_set = BasicLocationDataSerializer(many=True, required=False)
 
@@ -93,6 +94,7 @@ class EntitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Entity
         fields = [
+            'id',
             'name',
             'note',
             'part_of',  # TODO: Make recursive?
@@ -103,7 +105,7 @@ class EntitySerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, required=False)
 
-    productdata_set = BasicLocationDataSerializer(
+    productdata_set = BasicProductDataSerializer(
         many=True,
         required=False
     )
@@ -111,6 +113,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = [
+            'id',
             'name',
             'note',
             'tags',
@@ -129,6 +132,7 @@ class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = [
+            'id',
             'name',
             'note',
             'amount',

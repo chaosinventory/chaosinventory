@@ -8,11 +8,11 @@ API Structure
 
 The API is implemented via the `django rest framework`_.
 Using `viewsets`_, most models are serialized and presented at the
-:code:`/api/` endpoint. There a browsable API is presented but also in
+:code:`/api/` endpoint. There a browseable API is presented but also in
 json format (depending on the requested content-type or if `.json` is
 appended).
 
-View sets can be very simple, but also quite extendable. If needed,
+Viewsets can be very simple, but also quite extendable. If needed,
 a lower-level approach could also be taken. However, it is recommended
 to use viewsets and other higher abstractions as much as possible to
 keep the paths consistent.
@@ -32,7 +32,7 @@ Currently, we have the following paths for different models:
   }
 
 The API supports both reading and writing. Items can be listed and created
-trough GET and PUT, obtaining details, updating and deletion of can be
+through GET and PUT, obtaining details, updating and deletion of can be
 done trough GET, PATCH, and DELETE http requests. For now, please refer
 to the `drf documentation on making requests`_.
 
