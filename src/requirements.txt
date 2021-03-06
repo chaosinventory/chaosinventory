@@ -7,3 +7,5 @@ django-filter==2.4.*
 flake8==3.8.*
 isort[colors]
 django_extensions
+uritemplate
+pyyaml

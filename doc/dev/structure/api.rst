@@ -36,6 +36,12 @@ through GET and POST, obtaining details, updating and deletion of can be
 done trough GET, PUT, PATH, and DELETE http requests. For now, please refer
 to the `drf documentation on making requests`_ and on `generic viewsets`_.
 
+A openapi compatible schema description can be generated using
+
+.. code-block:: shell
+
+   $ python manage.py generateschema --format openapi > schema.yml
+
 .. _django rest framework: https://www.django-rest-framework.org/
 .. _viewsets: https://www.django-rest-framework.org/api-guide/viewsets/
 .. _drf documentation on making requests: https://www.django-rest-framework.org/api-guide/testing/#making-requests
