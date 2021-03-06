@@ -32,10 +32,11 @@ Currently, we have the following paths for different models:
   }
 
 The API supports both reading and writing. Items can be listed and created
-through GET and PUT, obtaining details, updating and deletion of can be
-done trough GET, PATCH, and DELETE http requests. For now, please refer
-to the `drf documentation on making requests`_.
+through GET and POST, obtaining details, updating and deletion of can be
+done trough GET, PUT, PATH, and DELETE http requests. For now, please refer
+to the `drf documentation on making requests`_ and on `generic viewsets`_.
 
 .. _django rest framework: https://www.django-rest-framework.org/
 .. _viewsets: https://www.django-rest-framework.org/api-guide/viewsets/
 .. _drf documentation on making requests: https://www.django-rest-framework.org/api-guide/testing/#making-requests
+.. _generic viewsets: https://www.django-rest-framework.org/api-guide/generic-views/#concrete-view-classes
