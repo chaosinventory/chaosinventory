@@ -48,18 +48,16 @@ class ProductDataInline(CommonDataInline):
     model = ProductData
 
 
-@admin.register(ProductInventoryId)
-class ProductInventoryIdAdmin(admin.ModelAdmin):
-    pass
+class ProductInventoryIdInline(CommonInline):
+    model = ProductInventoryId
 
 
 class ItemDataInline(CommonDataInline):
     model = ItemData
 
 
-@admin.register(ItemInventoryId)
-class ItemInventoryIdAdmin(admin.ModelAdmin):
-    pass
+class ItemInventoryIdInline(CommonInline):
+    model = ItemInventoryId
 
 
 @admin.register(Entity)
@@ -107,14 +105,12 @@ class ProductAdmin(admin.ModelAdmin):
         (None, {
             'fields': ('name', 'note',),
         }),
-        ("Inventory IDs", {
-            'fields': ('inventory_id',),
-        }),
         ("Tags", {
             'fields': ('tags',),
         }),
     )
     inlines = [
+        ProductInventoryIdInline,
         ProductDataInline,
     ]
 
@@ -134,14 +130,12 @@ class ItemAdmin(admin.ModelAdmin):
         ("Ownership", {
             'fields': ('belongs_to',),
         }),
-        ("Inventory IDs", {
-            'fields': ('inventory_id',),
-        }),
         ("Tags", {
             'fields': ('tags',),
         }),
     )
     inlines = [
+        ItemInventoryIdInline,
         ItemDataInline,
     ]
 
