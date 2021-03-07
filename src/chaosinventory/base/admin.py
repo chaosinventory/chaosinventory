@@ -52,14 +52,12 @@ class ProductInventoryIdInline(CommonInline):
     model = ProductInventoryId
 
 
-
 class ItemDataInline(CommonDataInline):
     model = ItemData
 
 
 class ItemInventoryIdInline(CommonInline):
     model = ItemInventoryId
-
 
 
 @admin.register(Entity)
