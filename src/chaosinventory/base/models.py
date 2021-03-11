@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
 
@@ -218,6 +219,12 @@ class Item(CommonModel):
         null=True,
         blank=True,
     )
+
+    def clean(self):
+        if (self.target_location and self.target_item):
+            raise ValidationError("Target location and item are mutually exclusive")
+        if (self.actual_location and self.actual_item):
+            raise ValidationError("Actual location and item are mutually exclusive")
 
 
 class InventoryIdSchema(CommonModel):
