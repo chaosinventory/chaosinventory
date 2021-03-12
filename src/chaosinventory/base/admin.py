@@ -104,6 +104,10 @@ class LocationAdmin(admin.ModelAdmin):
         LocationDataInline,
     ]
 
+    list_display = ('name', 'in_location', 'belongs_to')
+    list_filter = ('belongs_to',)
+    ordering = ('name',)
+
     search_fields = ('name',)
 
 
