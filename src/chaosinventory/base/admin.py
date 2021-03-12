@@ -26,6 +26,10 @@ class TagAdmin(admin.ModelAdmin):
         }),
     )
 
+    list_display = ('name', 'parent')
+    list_filter = ('parent',)
+    ordering = ('name',)
+
     search_fields = ('name',)
 
 
