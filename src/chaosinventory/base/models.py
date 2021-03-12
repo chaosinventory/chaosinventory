@@ -222,6 +222,32 @@ class Item(CommonModel):
         blank=True,
     )
 
+    @property
+    def target_parent(self):
+        return self.target_item if self.target_item else self.target_location
+
+    @target_parent.setter
+    def target_parent(self, new_parent):
+        if type(new_parent) is Item:
+            self.target_location = None
+            self.target_item = new_parent
+        else:
+            self.target_item = None
+            self.target_location = new_parent
+
+    @property
+    def actual_parent(self):
+        return self.actual_item if self.actual_item else self.actual_location
+
+    @actual_parent.setter
+    def actual_parent(self, new_parent):
+        if type(new_parent) is Item:
+            self.actual_location = None
+            self.actual_item = new_parent
+        else:
+            self.actual_item = None
+            self.actual_location = new_parent
+
     def clean(self):
         if (self.target_location and self.target_item):
             raise ValidationError("Target location and item are mutually exclusive")
