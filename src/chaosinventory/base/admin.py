@@ -149,6 +149,10 @@ class ItemAdmin(admin.ModelAdmin):
         ItemDataInline,
     ]
 
+    list_display = ('name', 'product', 'amount', 'belongs_to')
+    list_filter = ('product', 'belongs_to')
+    ordering = ('name', )
+
     search_fields = ('name',)
 
 
