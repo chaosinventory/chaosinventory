@@ -20,7 +20,9 @@ class CommonModel(models.Model):
 
 
 class CommonTypeData(models.Model):
-    value = models.TextField()
+    value = models.CharField(
+        max_length=255,
+    )
 
     type = models.ForeignKey(
         'DataType',
