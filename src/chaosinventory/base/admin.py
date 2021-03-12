@@ -122,6 +122,9 @@ class ProductAdmin(admin.ModelAdmin):
         ProductDataInline,
     ]
 
+    list_display = ('name',)
+    ordering = ('name',)
+
     search_fields = ('name',)
 
 
