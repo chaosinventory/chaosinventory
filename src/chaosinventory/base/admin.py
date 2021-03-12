@@ -26,6 +26,8 @@ class TagAdmin(admin.ModelAdmin):
         }),
     )
 
+    search_fields = ('name',)
+
 
 @admin.register(DataType)
 class DataTypeAdmin(admin.ModelAdmin):
@@ -34,6 +36,8 @@ class DataTypeAdmin(admin.ModelAdmin):
             'fields': ('name', 'note',),
         }),
     )
+
+    search_fields = ('name',)
 
 
 class EntityDataInline(CommonDataInline):
@@ -77,6 +81,8 @@ class EntityAdmin(admin.ModelAdmin):
         EntityDataInline,
     ]
 
+    search_fields = ('name',)
+
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
@@ -98,6 +104,8 @@ class LocationAdmin(admin.ModelAdmin):
         LocationDataInline,
     ]
 
+    search_fields = ('name',)
+
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -113,6 +121,8 @@ class ProductAdmin(admin.ModelAdmin):
         ProductInventoryIdInline,
         ProductDataInline,
     ]
+
+    search_fields = ('name',)
 
 
 @admin.register(Item)
@@ -139,6 +149,8 @@ class ItemAdmin(admin.ModelAdmin):
         ItemDataInline,
     ]
 
+    search_fields = ('name',)
+
 
 @admin.register(InventoryIdSchema)
 class InventoryIdSchemaAdmin(admin.ModelAdmin):
@@ -147,6 +159,8 @@ class InventoryIdSchemaAdmin(admin.ModelAdmin):
             'fields': ('name', 'note',),
         }),
     )
+
+    search_fields = ('name',)
 
 
 class OverlayItemInline(CommonInline):
@@ -169,3 +183,5 @@ class OverlayAdmin(admin.ModelAdmin):
     inlines = [
         OverlayItemInline,
     ]
+
+    search_fields = ('name',)
