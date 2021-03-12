@@ -81,6 +81,10 @@ class EntityAdmin(admin.ModelAdmin):
         EntityDataInline,
     ]
 
+    list_display = ('name', 'part_of')
+    list_filter = ('part_of',)
+    ordering = ('name',)
+
     search_fields = ('name',)
 
 
