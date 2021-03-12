@@ -223,6 +223,19 @@ class Item(CommonModel):
     )
 
     @property
+    def target_parent(self):
+        return self.target_item if self.target_item else self.target_location
+
+    @target_parent.setter
+    def target_parent(self, new_parent):
+        if type(new_parent) is Item:
+            self.target_location = None
+            self.target_item = new_parent
+        else:
+            self.target_item = None
+            self.target_location = new_parent
+
+    @property
     def actual_parent(self):
         return self.actual_item if self.actual_item else self.actual_location
 
