@@ -16,8 +16,29 @@ is practiced by us:
 Further more, to have consistent imports (e.g. relative references, line
 wrapping) we sort them using `isort`_, as configured in the :code:`setup.cfg`.
 
+.. attention::
+   Please quality-check all your contributions before submitting using the provided script!
+
 Checking your code
 ------------------
+
+For convenience, a :code:`lint.py` script is located in :code:`/scripts/`.
+Whilst it does **no** automatic fixing with isort by default, it can be run as a git
+pre-commit hook like so:
+
+.. code:: bash
+
+   $ ln scripts/lint.py .git/hooks/pre-commit
+   $ chmod +x .git/hooks/pre-commit
+
+By adding the :code:`--fix` flag, this tool tries to fix your code where possible.
+
+At the moment, this script executes flake8 and isort.
+
+Of course, it can be used outside of git hooks to!
+
+Checking manually
+-----------------
 
 To check our code against PEP 8 conformity, we use flake8. To check your
 code, execute the following command from within the :code:`src` folder:
@@ -49,20 +70,6 @@ flake8 can also fix it up for you:
 
 These tools are also used in our ci, checking every commit and PR for
 conformity.
-
-All in one script
------------------
-
-For convenience, a :code:`lint.sh` script is located in :code:`/scripts/`.
-Whilst it does **no** automatic fixing with isort, it can be run as a git
-pre-commit hook like so:
-
-.. code:: bash
-
-   $ ln scripts/lint.sh .git/hooks/pre-commit
-   $ chmod +x .git/hooks/pre-commit
-
-Of course, it can be used outside of git hooks to!
 
 .. _PEP 8: https://legacy.python.org/dev/peps/pep-0008/
 .. _isort: https://pycqa.github.io/isort/
