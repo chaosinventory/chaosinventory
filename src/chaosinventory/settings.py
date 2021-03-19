@@ -5,15 +5,35 @@ from pathlib import Path
 
 config = configparser.RawConfigParser()
 
-if 'CHAOSINVENTORY_CONFIG_FILE' in os.environ:
-    config.read_file(open(os.environ.get('CHAOSINVENTORY_CONFIG_FILE'), encoding='utf-8'))
-else:
-    config.read(['chaosinventory.cfg', '/etc/chaosinventory/chaosinventory.cfg'], encoding='utf-8')
+try:
+    if 'CHAOSINVENTORY_CONFIG_FILE' in os.environ:
+        config.read_file(open(os.environ.get('CHAOSINVENTORY_CONFIG_FILE'), encoding='utf-8'))
+    else:
+        config.read(['chaosinventory.cfg', '/etc/chaosinventory/chaosinventory.cfg'], encoding='utf-8')
+except configparser.Error as e:
+    logging.critical((
+        '{0} occured while parsing the configuration at {1}:{2}:\n'
+        '{3}\nNote: {4}'
+    ).format(
+        type(e).__name__,
+        e.source,
+        e.lineno,
+        e,
+        type(e).__doc__.splitlines()[0]
+    ))
+    exit(1)
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_ROOT = BASE_DIR / 'static'
 
 SECRET_KEY = config.get('django', 'secret', fallback=None)
+
+if not len(config.sections()):
+    logging.warn(
+        "No custom configuration file was provided! "
+        "Continuing with example values."
+    )
 
 if SECRET_KEY is None:
     logging.warn("No custom secret configured. This configuration is not secure!")
