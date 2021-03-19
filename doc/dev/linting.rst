@@ -23,19 +23,25 @@ Checking your code
 ------------------
 
 For convenience, a :code:`lint.py` script is located in :code:`/scripts/`.
-Whilst it does **no** automatic fixing with isort by default, it can be run as a git
-pre-commit hook like so:
+Whilst it does **no** automatic fixing with isort by default. To invoke
+the script, simply run
 
 .. code:: bash
 
-   $ ln scripts/lint.py .git/hooks/pre-commit
+   $ python3 scripts/lint.py
+   $ scripts/lint.py # Alternative execution as a binary
+
+
+By adding the :code:`--fix` flag, this tool tries to fix your isort
+issues where possible.
+
+Further more, it can be run as a git pre-commit hook like so:
+
+.. code:: bash
+
+   $ ln scripts/pre-commit-hook.sh .git/hooks/pre-commit
    $ chmod +x .git/hooks/pre-commit
 
-By adding the :code:`--fix` flag, this tool tries to fix your code where possible.
-
-At the moment, this script executes flake8 and isort.
-
-Of course, it can be used outside of git hooks to!
 
 Checking manually
 -----------------
