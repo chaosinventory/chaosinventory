@@ -100,9 +100,6 @@ class ProductInventoryId(CommonInventoryId):
         on_delete=models.CASCADE,
     )
 
-    class Meta:
-        pass
-
 
 class ItemData(CommonTypeData):
     item = models.ForeignKey(
@@ -117,9 +114,6 @@ class ItemInventoryId(CommonInventoryId):
         on_delete=models.CASCADE,
     )
 
-    class Meta:
-        pass
-
 
 class Entity(CommonModel):
     part_of = models.ForeignKey(
@@ -131,8 +125,6 @@ class Entity(CommonModel):
 
     tags = models.ManyToManyField(
         'Tag',
-        null=True,
-        blank=True,
     )
 
 
@@ -153,16 +145,12 @@ class Location(CommonModel):
 
     tags = models.ManyToManyField(
         'Tag',
-        null=True,
-        blank=True,
     )
 
 
 class Product(CommonModel):
     tags = models.ManyToManyField(
         'Tag',
-        null=True,
-        blank=True,
     )
 
 
@@ -218,8 +206,6 @@ class Item(CommonModel):
 
     tags = models.ManyToManyField(
         'Tag',
-        null=True,
-        blank=True,
     )
 
     @property
@@ -266,8 +252,6 @@ class Overlay(CommonModel):
         'self',
         on_delete=models.RESTRICT,
         related_name='children',
-        null=True,
-        blank=True,
     )
 
 
