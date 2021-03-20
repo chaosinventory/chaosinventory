@@ -32,6 +32,27 @@ class Colors:
     UNDERLINE = '\033[4m'
 
 
+class AvailableChecks:
+    flake8 = [
+        'flake8',
+        '--show-source',
+        '.',
+    ]
+    isort = [
+        'isort',
+        '--color',
+        '-q',
+        '.',
+    ]
+    django = [
+        'python',
+        'manage.py',
+        'check',
+        '--fail-level',
+        'WARNING',
+    ]
+
+
 def passed_failed(b, color=None, prefix=None, highlight=False):
     if color is None:
         color = not args.no_color
@@ -57,6 +78,26 @@ def passed_failed(b, color=None, prefix=None, highlight=False):
     return response
 
 
+def run_check(name, additionalParameters=[], cwd=None):
+    if not cwd:
+        cwd = basepath
+
+    check_args = getattr(AvailableChecks, name)
+    check_args += additionalParameters
+
+    print('running {}...\n'.format(name))
+
+    proc = subprocess.run(
+        check_args,
+        env=os.environ.copy(),
+        cwd=cwd
+    )
+
+    passed = not proc.returncode
+    print('=> {}\n'.format(passed_failed(passed)))
+    return passed
+
+
 parser = argparse.ArgumentParser(description=(
     'Linting script for the chaosinventory core to be invoked manually'
     'or using a git pre-commit hook.'
@@ -71,6 +112,13 @@ parser.add_argument(
     '--no-color',
     action='store_true',
     help='Display colorfull summary',
+)
+parser.add_argument(
+    '--checks',
+    type=str,
+    nargs='+',
+    help='Checks to run',
+    default=['isort', 'flake8', 'django']
 )
 args = parser.parse_args()
 
@@ -94,46 +142,31 @@ else:
     basepath = Path(__file__).absolute().parents[1]
 
 basepath /= 'src'
-print('Testing the code under {}'.format(basepath))
-print('\nRunning isort...')
+checks = {}
+all_passed = True
 
-# Run as subprocess for maximum compatibility
-isort_subprocess_args = [
-    'isort',
-    '--color',
-    '-q',
-    '.'
-]
+print('Will run {}'.format(', '.join(args.checks)))
 
-if not args.fix:
-    isort_subprocess_args.append('--check')
+for c in args.checks:
+    additional_args = []
 
-isort_exit = subprocess.run(
-    isort_subprocess_args,
-    env=os.environ.copy(),
-    cwd=basepath,
-)
-isort_passed = not isort_exit.returncode
-print(passed_failed(isort_passed))
+    if c == 'isort' and not args.fix:
+        additional_args.append('--check')
 
-print('\nRunning flake8...')
-flake8_subprocess_args = ['flake8', '.', '--show-source']
-flake8_exit = subprocess.run(
-    flake8_subprocess_args,
-    env=os.environ.copy(),
-    cwd=basepath
-)
-flake8_passed = not flake8_exit.returncode
-print(passed_failed(flake8_passed))
+    passed = run_check(c, additional_args)
 
-all_passed = isort_passed and flake8_passed
+    if not passed:
+        all_passed = False
+
+    checks[c] = passed
 
 print(passed_failed(
     all_passed,
     prefix='\nSummary:\t',
     highlight=True,
 ))
-print('isort:\t\t{}'.format(passed_failed(isort_passed)))
-print('flake8:\t\t{}'.format(passed_failed(flake8_passed)))
 
-exit(not(all_passed))
+for c in checks:
+    print('{}\t\t{}'.format(c, passed_failed(checks[c])))
+
+exit(not all_passed)
