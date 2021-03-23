@@ -50,6 +50,7 @@ ALLOWED_HOSTS = config.get('django', 'allowed_hosts', fallback='*').split(',')
 
 INSTALLED_APPS = [
     'chaosinventory.base',
+    'chaosinventory.authentication',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -152,3 +153,9 @@ EMAIL_HOST_USER = config.get('email', 'user', fallback='')
 EMAIL_HOST_PASSWORD = config.get('email', 'password', fallback='')
 EMAIL_USE_TLS = config.getboolean('email', 'tls', fallback=False)
 EMAIL_USE_SSL = config.getboolean('email', 'ssl', fallback=False)
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'chaosinventory.authentication.authentication.TokenAuthentication',
+    ]
+}

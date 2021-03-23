@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 from ..models import (
     DataType, Entity, InventoryIdSchema, Item, ItemData, ItemInventoryId,
@@ -20,16 +21,19 @@ class InventoryIdSchemaViewSet(viewsets.ModelViewSet):
 
 
 class TagViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
 
 class DataTypeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = DataType.objects.all()
     serializer_class = DataTypeSerializer
 
 
 class LocationDataViewset(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = LocationData.objects.all()
     serializer_class = LocationDataSerializer
 
@@ -45,6 +49,7 @@ class ProductDataViewset(viewsets.ModelViewSet):
 
 
 class LocationViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Location.objects.all()
     serializer_class = LocationSerializer
 
@@ -60,6 +65,7 @@ class OverlayItemViewset(viewsets.ModelViewSet):
 
 
 class EntityViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Entity.objects.all()
     serializer_class = EntitySerializer
 
@@ -75,10 +81,12 @@ class ItemInventoryIdViewSet(viewsets.ModelViewSet):
 
 
 class ProductViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
 
 class ItemViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
