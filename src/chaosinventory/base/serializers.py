@@ -1,18 +1,12 @@
 from rest_framework import serializers
 
 from .models import (
-    DataType, Entity, Item, ItemData, ItemInventoryId, Location, LocationData,
-    Product, ProductData, ProductInventoryId, Tag,
+    DataType, Entity, InventoryIdSchema, Item, ItemData, ItemInventoryId,
+    Location, LocationData, Product, ProductData, ProductInventoryId, Tag,
 )
 
 
 class CommonBasicInventoryIdSerializer(serializers.ModelSerializer):
-    # Only using a PK-Related field since this would be another level
-    # of recursion with a high degree of redundancy and little use.
-    schema = serializers.PrimaryKeyRelatedField(
-        read_only=True,
-    )
-
     class Meta:
         model = ProductInventoryId
         fields = [
@@ -23,14 +17,25 @@ class CommonBasicInventoryIdSerializer(serializers.ModelSerializer):
 
 
 class CommonBasicDataSerializer(serializers.ModelSerializer):
-    type = serializers.ReadOnlyField(source='type.name')
+    type_name = serializers.ReadOnlyField(source='type.name')
 
     class Meta:
         model = ProductData
         fields = [
             'id',
             'value',
-            'type'
+            'type',
+            'type_name',
+        ]
+
+
+class InventoryIdSchemaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InventoryIdSchema
+        fields = [
+            'id',
+            'name',
+            'note',
         ]
 
 
@@ -66,8 +71,7 @@ class DataTypeSerializer(serializers.ModelSerializer):
 
 
 class LocationDataSerializer(serializers.ModelSerializer):
-    type = serializers.ReadOnlyField(source='type.name')
-    location = BasicLocationSerializer()
+    type_name = serializers.ReadOnlyField(source='type.name', read_only=True)
 
     class Meta:
         model = LocationData
@@ -75,6 +79,7 @@ class LocationDataSerializer(serializers.ModelSerializer):
             'id',
             'value',
             'type',
+            'type_name',
             'location'
         ]
 
@@ -92,7 +97,7 @@ class BasicLocationDataSerializer(serializers.ModelSerializer):
 
 
 class LocationSerializer(serializers.ModelSerializer):
-    locationdata_set = BasicLocationDataSerializer(many=True, required=False)
+    locationdata_set = BasicLocationDataSerializer(many=True, required=False, read_only=True)
 
     class Meta:
         model = Location
@@ -106,7 +111,24 @@ class LocationSerializer(serializers.ModelSerializer):
 
 
 class EntitySerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True, required=False)
+    """
+    .. note::
+
+        Currently, entitys can not be created if we use the TagSerializer.
+        Thus, all the _set attributes (and all other foreign Keys
+        therefore) only consist of the foreign id. This, for now,
+        requires multiple requests but we would like tho improve on this
+        in the future. A notable exception are all Models with a
+        :code:`type`  for which we serialize the :code:`id` and, as
+        :code:`type_name` the name of the type. However, **this is not
+        consideres stable and will probably change in the (near) future!**
+
+    .. todo::
+
+        Write a custom create method so that we can print out the
+        Tag data but also append Tags to newly created entitys
+    """
+    # tags = TagSerializer(many=True, required=False)
 
     class Meta:
         model = Entity
@@ -129,28 +151,53 @@ class BasicItemDataSerializer(CommonBasicDataSerializer):
         model = ItemData
 
 
-class BasicProductInventoryIdSerializer(CommonBasicInventoryIdSerializer):
+class ProductInventoryIdSerializer(CommonBasicInventoryIdSerializer):
     class Meta(CommonBasicInventoryIdSerializer.Meta):
+        """
+        Originally we tried to do simple inheritance like this:
+
+        .. code-block:: python
+
+            class ProductInventoryIdSerializer(SuperClass):
+                class Meta(SuperClass.Meta):
+                    fields = SuperClass.Meta.fields
+                    fields.append('product')
+
+        and the same for ItemInventoryId. However things broke in
+        strange™ ways, since the
+        :code:`ItemInventoryIdSerializer.Meta.Fields` contained
+        :code:`product` since it was inherrited from
+        :code:`ProductInventoryIdSerializer`. Because of this behaviour,
+        and our motivation to keep everything inherited, we had to do it
+        this way...
+        """
         model = ProductInventoryId
+        fields = []
+        fields.extend(CommonBasicInventoryIdSerializer.Meta.fields)
+        fields.append('product')
 
 
-class BasicItemInventoryIdSerializer(CommonBasicInventoryIdSerializer):
+class ItemInventoryIdSerializer(CommonBasicInventoryIdSerializer):
     class Meta(CommonBasicInventoryIdSerializer.Meta):
         model = ItemInventoryId
+        fields = []
+        fields.extend(CommonBasicInventoryIdSerializer.Meta.fields)
+        fields.append('item')
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True, required=False)
+    # Same issue as with EntitySerializer
+    # TODO: custom create method
+    # tags = TagSerializer(many=True, required=False)
 
-    productdata_set = BasicProductDataSerializer(
-        many=True,
-        required=False
-    )
-
-    productinventoryid_set = BasicProductInventoryIdSerializer(
-        many=True,
-        required=False
-    )
+    # productdata_set = BasicProductDataSerializer(
+    #     many=True,
+    #     required=False
+    # )
+    # productinventoryid_set = ProductInventoryIdSerializer(
+    #     many=True,
+    #     required=False
+    # )
 
     class Meta:
         model = Product
@@ -165,21 +212,23 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True, required=False)
-    belongs_to = EntitySerializer
-    product = ProductSerializer
-    target_location = LocationSerializer
-    actual_location = LocationSerializer
+    # Same issue as with EntitySerializer
+    # TODO: custom create method
+    # tags = TagSerializer(many=True, required=False)
+    # belongs_to = EntitySerializer()
+    # product = ProductSerializer()
+    # target_location = LocationSerializer(required=False)
+    # actual_location = LocationSerializer()
 
-    itemdata_set = BasicItemDataSerializer(
-        many=True,
-        required=False
-    )
+    # itemdata_set = BasicItemDataSerializer(
+    #     many=True,
+    #     required=False
+    # )
 
-    iteminventoryid_set = BasicItemInventoryIdSerializer(
-        many=True,
-        required=False
-    )
+    # iteminventoryid_set = ItemInventoryIdSerializer(
+    #     many=True,
+    #     required=False
+    # )
 
     class Meta:
         model = Item
@@ -194,7 +243,7 @@ class ItemSerializer(serializers.ModelSerializer):
             'product',
             'target_item',  # TODO: Make recursive?
             'actual_item',  # TODO: Make recursive?
-            'iteminventoryid_set',
+            'iteminventoryid_set',  # can not yet be created via the API
             'itemdata_set',
             'tags',
         ]

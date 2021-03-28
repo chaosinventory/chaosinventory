@@ -1,13 +1,20 @@
 from rest_framework import viewsets
 
 from ..models import (
-    DataType, Entity, Item, Location, LocationData, Product, Tag,
+    DataType, Entity, InventoryIdSchema, Item, ItemInventoryId, Location,
+    LocationData, Product, ProductInventoryId, Tag,
 )
 from ..serializers import (
-    DataTypeSerializer, EntitySerializer, ItemSerializer,
-    LocationDataSerializer, LocationSerializer, ProductSerializer,
+    DataTypeSerializer, EntitySerializer, InventoryIdSchemaSerializer,
+    ItemInventoryIdSerializer, ItemSerializer, LocationDataSerializer,
+    LocationSerializer, ProductInventoryIdSerializer, ProductSerializer,
     TagSerializer,
 )
+
+
+class InventoryIdSchemaViewSet(viewsets.ModelViewSet):
+    queryset = InventoryIdSchema.objects.all()
+    serializer_class = InventoryIdSchemaSerializer
 
 
 class TagViewSet(viewsets.ModelViewSet):
@@ -33,6 +40,16 @@ class LocationViewSet(viewsets.ModelViewSet):
 class EntityViewSet(viewsets.ModelViewSet):
     queryset = Entity.objects.all()
     serializer_class = EntitySerializer
+
+
+class ProductInventoryIdViewSet(viewsets.ModelViewSet):
+    queryset = ProductInventoryId.objects.all()
+    serializer_class = ProductInventoryIdSerializer
+
+
+class ItemInventoryIdViewSet(viewsets.ModelViewSet):
+    queryset = ItemInventoryId.objects.all()
+    serializer_class = ItemInventoryIdSerializer
 
 
 class ProductViewSet(viewsets.ModelViewSet):
