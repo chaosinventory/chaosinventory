@@ -42,6 +42,40 @@ Further more, it can be run as a git pre-commit hook like so:
    $ ln scripts/pre-commit-hook.sh .git/hooks/pre-commit
    $ chmod +x .git/hooks/pre-commit
 
+ 
+Individual tests
+________________
+
+Individual tets can be run using the :code:`--checks` parameter. Multiple
+checks can be separated by spaces.
+
+.. code-block:: bash
+  
+  $ ./lint.py --checks django
+  Will run django
+  running django...
+
+  System check identified no issues (0 silenced).
+  => passed
+
+  Summary:	passed
+  django		passed
+
+  $ ./lint.py --checks django isort
+  System check identified no issues (0 silenced).
+  Will run django, isort
+  running django...
+
+  => passed
+
+  running isort...
+
+  => passed
+
+  passed
+  django	passed
+  isort		passed
+
 
 Checking manually
 -----------------

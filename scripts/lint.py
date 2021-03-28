@@ -111,7 +111,7 @@ parser.add_argument(
 parser.add_argument(
     '--no-color',
     action='store_true',
-    help='Display colorfull summary',
+    help='Do not display colorfull summary',
 )
 parser.add_argument(
     '--checks',
