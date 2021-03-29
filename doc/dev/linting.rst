@@ -7,13 +7,12 @@ Introduction
 ------------
 
 Our goal is to have readable and consistent code, our definition of that
-is to respect `PEP 8`_ guidelines. The application of these guidelines
-have especially one limitation, which is also laid out in the spec and
-is practiced by us:
+is to respect `PEP 8`_ guidelines. The application of the guidelines can
+be ignored in especially one case, which is also specified in PEP 8:
 
    When applying the guideline would make the code less readable, even for someone who is used to reading code that follows this PEP.
 
-Further more, to have consistent imports (e.g. relative references, line
+Furthermore, to have consistent imports (e.g. relative references, line
 wrapping) we sort them using `isort`_, as configured in the :code:`setup.cfg`.
 
 .. attention::
@@ -23,7 +22,7 @@ Checking your code
 ------------------
 
 For convenience, a :code:`lint.py` script is located in :code:`/scripts/`.
-Whilst it does **no** automatic fixing with isort by default. To invoke
+It does **no** automatic fixing with isort by default. To invoke
 the script, simply run
 
 .. code:: bash
@@ -35,7 +34,7 @@ the script, simply run
 By adding the :code:`--fix` flag, this tool tries to fix your isort
 issues where possible.
 
-Further more, it can be run as a git pre-commit hook like so:
+Furthermore, it can be run as a git pre-commit hook like so:
 
 .. code:: bash
 
@@ -46,7 +45,7 @@ Further more, it can be run as a git pre-commit hook like so:
 Individual tests
 ________________
 
-Individual tets can be run using the :code:`--checks` parameter. Multiple
+Individual tests can be run using the :code:`--checks` parameter. Multiple
 checks can be separated by spaces.
 
 .. code-block:: bash
@@ -108,7 +107,7 @@ flake8 can also fix it up for you:
    If you just want to have it fixed without approval of every change,
    leave out the :code:`--interactive`
 
-These tools are also used in our ci, checking every commit and PR for
+These tools are also used in our CI, checking every commit and PR for
 conformity.
 
 .. _PEP 8: https://legacy.python.org/dev/peps/pep-0008/
