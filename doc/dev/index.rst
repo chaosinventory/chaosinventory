@@ -13,4 +13,5 @@ Development documentation
 
    setup/index
    structure
+   linting
    configuration

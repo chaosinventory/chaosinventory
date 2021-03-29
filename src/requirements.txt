@@ -3,4 +3,4 @@ psycopg2-binary
 
 # Dev
 flake8==3.8.*
-isort[color]
+isort[colors]
