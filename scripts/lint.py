@@ -162,11 +162,11 @@ for c in args.checks:
 
 print(passed_failed(
     all_passed,
-    prefix='\nSummary:\t',
+    prefix='\n{:<16}'.format('Summary:'),
     highlight=True,
 ))
 
 for c in checks:
-    print('{}\t\t{}'.format(c, passed_failed(checks[c])))
+    print('{:<16}{}'.format(c, passed_failed(checks[c])))
 
 exit(not all_passed)
