@@ -125,6 +125,7 @@ class Entity(CommonModel):
 
     tags = models.ManyToManyField(
         'Tag',
+        blank=True,
     )
 
 
@@ -145,12 +146,14 @@ class Location(CommonModel):
 
     tags = models.ManyToManyField(
         'Tag',
+        blank=True,
     )
 
 
 class Product(CommonModel):
     tags = models.ManyToManyField(
         'Tag',
+        blank=True,
     )
 
 
@@ -206,6 +209,7 @@ class Item(CommonModel):
 
     tags = models.ManyToManyField(
         'Tag',
+        blank=True,
     )
 
     @property
@@ -252,6 +256,8 @@ class Overlay(CommonModel):
         'self',
         on_delete=models.RESTRICT,
         related_name='children',
+        null=True,
+        blank=True,
     )
 
 
