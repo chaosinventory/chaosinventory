@@ -2,13 +2,13 @@ from rest_framework import viewsets
 
 from ..models import (
     DataType, Entity, InventoryIdSchema, Item, ItemInventoryId, Location,
-    LocationData, Product, ProductInventoryId, Tag,
+    LocationData, Overlay, OverlayItem, Product, ProductInventoryId, Tag,
 )
 from ..serializers import (
     DataTypeSerializer, EntitySerializer, InventoryIdSchemaSerializer,
     ItemInventoryIdSerializer, ItemSerializer, LocationDataSerializer,
-    LocationSerializer, ProductInventoryIdSerializer, ProductSerializer,
-    TagSerializer,
+    LocationSerializer, OverlayItemSerializer, OverlaySerializer,
+    ProductInventoryIdSerializer, ProductSerializer, TagSerializer,
 )
 
 
@@ -35,6 +35,16 @@ class LocationDataViewset(viewsets.ModelViewSet):
 class LocationViewSet(viewsets.ModelViewSet):
     queryset = Location.objects.all()
     serializer_class = LocationSerializer
+
+
+class OverlayViewset(viewsets.ModelViewSet):
+    queryset = Overlay.objects.all()
+    serializer_class = OverlaySerializer
+
+
+class OverlayItemViewset(viewsets.ModelViewSet):
+    queryset = OverlayItem.objects.all()
+    serializer_class = OverlayItemSerializer
 
 
 class EntityViewSet(viewsets.ModelViewSet):

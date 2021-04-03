@@ -2,7 +2,8 @@ from rest_framework import serializers
 
 from .models import (
     DataType, Entity, InventoryIdSchema, Item, ItemData, ItemInventoryId,
-    Location, LocationData, Product, ProductData, ProductInventoryId, Tag,
+    Location, LocationData, Overlay, OverlayItem, Product, ProductData,
+    ProductInventoryId, Tag,
 )
 
 
@@ -107,6 +108,31 @@ class LocationSerializer(serializers.ModelSerializer):
             'note',
             'in_location',
             'locationdata_set'
+        ]
+
+
+class OverlaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Overlay
+        fields = [
+            'id',
+            'name',
+            'note',
+            'active',
+            'parent',
+            'overlayitem_set',
+        ]
+
+
+class OverlayItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OverlayItem
+        fields = [
+            'id',
+            'overlay',
+            'item',
+            'target_item',
+            'target_location',
         ]
 
 
