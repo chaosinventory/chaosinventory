@@ -55,7 +55,7 @@ class CommonInventoryId(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(
-        max_length=255
+        max_length=255,
     )
 
     parent = models.ForeignKey(
@@ -67,6 +67,14 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
+    def clean(self):
+        if self.parent and self.pk == self.parent.pk:
+            raise ValidationError("A object can not be its own parent.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super(Tag, self).save(*args, **kwargs)
 
 
 class DataType(CommonModel):
@@ -259,6 +267,14 @@ class Overlay(CommonModel):
         null=True,
         blank=True,
     )
+
+    def clean(self):
+        if self.parent and self.pk == self.parent.pk:
+            raise ValidationError("A object can not be its own parent.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super(Tag, self).save(*args, **kwargs)
 
 
 class OverlayItem(models.Model):
