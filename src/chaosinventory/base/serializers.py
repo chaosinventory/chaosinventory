@@ -140,6 +140,8 @@ class LocationSerializer(serializers.ModelSerializer):
 
 
 class OverlaySerializer(serializers.ModelSerializer):
+    overlayitem_set = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
     class Meta:
         model = Overlay
         fields = [
