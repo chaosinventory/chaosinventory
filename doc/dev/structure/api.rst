@@ -21,13 +21,21 @@ Currently, we have the following paths for different models:
 
 .. code-block:: json
 
-   {
+  
+  {
+    "inventoryidschema": "/api/inventoryidschema/",
     "tag": "/api/tag/",
     "datatype": "/api/datatype/",
     "locationdata": "/api/locationdata/",
+    "itemdata": "/api/itemdata/",
+    "productdata": "/api/productdata/",
+    "overlay": "/api/overlay/",
+    "overlayitem": "/api/overlayitem/",
     "entity": "/api/entity/",
     "location": "/api/location/",
+    "productinventoryid": "/api/productinventoryid/",
     "product": "/api/product/",
+    "iteminventoryid": "/api/iteminventoryid/",
     "item": "/api/item/"
   }
 
