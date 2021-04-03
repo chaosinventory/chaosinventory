@@ -4,8 +4,6 @@
 Linting script for the chaosinventory core to be invoked manually
 or using a git pre-commit hook.
 
-.. todo:: Let the script check itself
-
 .. todo::
 
     Update this to work in a functional manner so that the checks are
@@ -32,25 +30,56 @@ class Colors:
     UNDERLINE = '\033[4m'
 
 
+class CheckFlavours:
+    flake8 = {
+        'default': {},
+        'scripts': {
+            'path': '../scripts/'
+        },
+    }
+    isort = {
+        'default': {},
+        'scripts': {
+            'path': '../scripts/'
+        },
+    }
+    django = {
+        'default': {},
+    }
+
+
 class AvailableChecks:
-    flake8 = [
-        'flake8',
-        '--show-source',
-        '.',
-    ]
-    isort = [
-        'isort',
-        '--color',
-        '-q',
-        '.',
-    ]
-    django = [
-        'python',
-        'manage.py',
-        'check',
-        '--fail-level',
-        'WARNING',
-    ]
+    flake8 = {
+        'args': [
+            'flake8',
+            '--show-source',
+            '[[path]]',
+        ],
+        'params': {
+            'path': '.'
+        },
+    }
+    isort = {
+        'args': [
+            'isort',
+            '--color',
+            '-q',
+            '[[path]]',
+        ],
+        'params': {
+            'path': '.'
+        },
+    }
+    django = {
+        'args': [
+            'python',
+            'manage.py',
+            'check',
+            '--fail-level',
+            'WARNING',
+        ],
+        'params': []
+    }
 
 
 def passed_failed(b, color=None, prefix=None, highlight=False):
@@ -78,14 +107,36 @@ def passed_failed(b, color=None, prefix=None, highlight=False):
     return response
 
 
-def run_check(name, additionalParameters=[], cwd=None):
+def format_check_args(check, additiona_params=[]) -> dict:
+    args = check['args']
+    params = check['params']
+
+    for key in additiona_params:
+        params[key] = additiona_params[key]
+
+    for key in params:
+        placeholder = '[[{}]]'.format(key)
+        args = [i.replace(placeholder, params[key]) for i in args]
+
+    return args
+
+
+def run_check(
+        name, extra_args=[], extra_params=[], cwd=None,
+        verbose_name=None) -> bool:
+
+    if not verbose_name:
+        verbose_name = name
+
     if not cwd:
         cwd = basepath
 
-    check_args = getattr(AvailableChecks, name)
-    check_args += additionalParameters
+    check = getattr(AvailableChecks, name)
 
-    print('running {}...\n'.format(name))
+    check_args = format_check_args(check, extra_params)
+    check_args += extra_args
+
+    print('running {}...\n'.format(verbose_name))
 
     proc = subprocess.run(
         check_args,
@@ -148,25 +199,37 @@ all_passed = True
 print('Will run {}'.format(', '.join(args.checks)))
 
 for c in args.checks:
-    additional_args = []
+    flavours = getattr(CheckFlavours, c)
+    for flavour in flavours:
+        check_name = c
 
-    if c == 'isort' and not args.fix:
-        additional_args.append('--check')
+        if flavour != 'default':
+            check_name += ' ({})'.format(flavour)
 
-    passed = run_check(c, additional_args)
+        additional_args = []
 
-    if not passed:
-        all_passed = False
+        if c == 'isort' and not args.fix:
+            additional_args.append('--check')
 
-    checks[c] = passed
+        passed = run_check(
+            c,
+            additional_args,
+            flavours[flavour],
+            verbose_name=check_name
+        )
+
+        if not passed:
+            all_passed = False
+
+        checks[check_name] = passed
 
 print(passed_failed(
     all_passed,
-    prefix='\n{:<16}'.format('Summary:'),
+    prefix='\n{:<32}'.format('Summary:'),
     highlight=True,
 ))
 
 for c in checks:
-    print('{:<16}{}'.format(c, passed_failed(checks[c])))
+    print('{:<32}{}'.format(c, passed_failed(checks[c])))
 
 exit(not all_passed)
