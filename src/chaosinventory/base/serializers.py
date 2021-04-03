@@ -85,6 +85,34 @@ class LocationDataSerializer(serializers.ModelSerializer):
         ]
 
 
+class ItemDataSerializer(serializers.ModelSerializer):
+    type_name = serializers.ReadOnlyField(source='type.name', read_only=True)
+
+    class Meta:
+        model = ItemData
+        fields = [
+            'id',
+            'value',
+            'type',
+            'type_name',
+            'item'
+        ]
+
+
+class ProductDataSerializer(serializers.ModelSerializer):
+    type_name = serializers.ReadOnlyField(source='type.name', read_only=True)
+
+    class Meta:
+        model = ProductData
+        fields = [
+            'id',
+            'value',
+            'type',
+            'type_name',
+            'product'
+        ]
+
+
 class BasicLocationDataSerializer(serializers.ModelSerializer):
     type = serializers.ReadOnlyField(source='type.name')
 
