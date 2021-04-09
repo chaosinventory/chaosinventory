@@ -12,6 +12,6 @@ Development documentation
    :maxdepth: 2
 
    setup/index
-   structure
    linting
+   structure/index
    configuration

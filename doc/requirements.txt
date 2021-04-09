@@ -3,4 +3,4 @@ sphinx_rtd_theme
 
 sphinx-autobuild # Thats just for comfort
 
-django
+-r ../src/requirements.txt
