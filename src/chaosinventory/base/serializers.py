@@ -60,6 +60,24 @@ class TagSerializer(serializers.ModelSerializer):
             'parent'
         ]
 
+    def validate(self, data):
+        """
+        When the object is updated, self.instance still is the original
+        instance. If we validate on that, we could use self as a parent
+        but not change it afterwards. Thus, as far as I know, we cant
+        use validators on the models.
+        """
+
+        if (data['parent'] is not None and
+            self.instance is not None and
+                data['parent'].pk == self.instance.pk):
+
+            raise serializers.ValidationError(
+                {'parent': "Must not be self"},
+            )
+
+        return data
+
 
 class DataTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -138,6 +156,21 @@ class LocationSerializer(serializers.ModelSerializer):
             'locationdata_set'
         ]
 
+    def validate(self, data):
+        """
+        See TagSerializer.validate().
+        """
+
+        if (data['in_location'] is not None and
+            self.instance is not None and
+                data['in_location'].pk == self.instance.pk):
+
+            raise serializers.ValidationError(
+                {'in_location': "Must not be self"},
+            )
+
+        return data
+
 
 class OverlaySerializer(serializers.ModelSerializer):
     overlayitem_set = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
@@ -152,6 +185,21 @@ class OverlaySerializer(serializers.ModelSerializer):
             'parent',
             'overlayitem_set',
         ]
+
+    def validate(self, data):
+        """
+        See TagSerializer.validate().
+        """
+
+        if (data['parent'] is not None and
+            self.instance is not None and
+                data['parent'].pk == self.instance.pk):
+
+            raise serializers.ValidationError(
+                {'parent': "Must not be self"},
+            )
+
+        return data
 
 
 class OverlayItemSerializer(serializers.ModelSerializer):
@@ -195,6 +243,21 @@ class EntitySerializer(serializers.ModelSerializer):
             'part_of',  # TODO: Make recursive?
             'tags',
         ]
+
+    def validate(self, data):
+        """
+        See TagSerializer.validate().
+        """
+
+        if (data['part_of'] is not None and
+            self.instance is not None and
+                data['part_of'].pk == self.instance.pk):
+
+            raise serializers.ValidationError(
+                {'part_of': "Must not be self"},
+            )
+
+        return data
 
 
 class BasicProductDataSerializer(CommonBasicDataSerializer):

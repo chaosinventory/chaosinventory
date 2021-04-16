@@ -70,11 +70,9 @@ class Tag(models.Model):
 
     def clean(self):
         if self.parent and self.pk == self.parent.pk:
-            raise ValidationError("A object can not be its own parent.")
-
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        return super(Tag, self).save(*args, **kwargs)
+            raise ValidationError(
+                {'parent': 'Must not be self'},
+            )
 
 
 class DataType(CommonModel):
@@ -136,6 +134,12 @@ class Entity(CommonModel):
         blank=True,
     )
 
+    def clean(self):
+        if self.part_of and self.pk == self.part_of.pk:
+            raise ValidationError(
+                {'part_of': 'Must not be self'},
+            )
+
 
 class Location(CommonModel):
     in_location = models.ForeignKey(
@@ -156,6 +160,12 @@ class Location(CommonModel):
         'Tag',
         blank=True,
     )
+
+    def clean(self):
+        if self.in_location and self.pk == self.in_location.pk:
+            raise ValidationError(
+                {'in_location': 'Must not be self'},
+            )
 
 
 class Product(CommonModel):
@@ -270,11 +280,9 @@ class Overlay(CommonModel):
 
     def clean(self):
         if self.parent and self.pk == self.parent.pk:
-            raise ValidationError("A object can not be its own parent.")
-
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        return super(Tag, self).save(*args, **kwargs)
+            raise ValidationError(
+                {'parent': 'A object can not be its own parent'},
+            )
 
 
 class OverlayItem(models.Model):
