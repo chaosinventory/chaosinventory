@@ -56,6 +56,7 @@ class TokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Token
         fields = [
+            'id',
             'token_beginning',
             'application',
             'created',

@@ -1,14 +1,17 @@
 import secrets
+import uuid
 
 from django.contrib.auth.models import User
 from django.db import models
 
 
 class Token(models.Model):
-    key = models.CharField(
-        max_length=40,
-        primary_key=True
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
     )
+    key = models.CharField(max_length=40)
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE
@@ -17,7 +20,8 @@ class Token(models.Model):
     application = models.CharField(max_length=255)
     expiring = models.DateTimeField(
         null=True,
-        blank=True)
+        blank=True
+    )
     renewable = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):

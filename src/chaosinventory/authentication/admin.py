@@ -7,5 +7,5 @@ from .models import Token
 @admin.register(Token)
 class TokenAdmin(admin.ModelAdmin):
     fields = ('user',)
-    list_display = ('key', 'user', 'created', 'application')
+    list_display = ('id', 'key', 'user', 'created', 'application')
     actions = None

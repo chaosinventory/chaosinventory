@@ -1,5 +1,6 @@
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import authentication
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import NotFound, PermissionDenied
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -33,6 +34,25 @@ class AuthTokenView(APIView):
             expiring=serializer.validated_data.get('expiring'),
             renewable=serializer.validated_data['renewable'])
         return Response({'token': token.key})
+
+
+class AuthTokenDetailView(APIView):
+    """
+    View to revoke auth tokens
+
+    * Requires authentication
+    """
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            Token.objects.get(
+                user=request.user,
+                id=kwargs.get("id")
+            ).delete()
+            return Response({"detail": "OK"})
+        except ObjectDoesNotExist:
+            raise NotFound
 
 
 class ObtainAuthTokenWithCredentialsView(APIView):
