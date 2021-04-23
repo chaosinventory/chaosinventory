@@ -209,4 +209,8 @@ class OverlayAdmin(admin.ModelAdmin):
         OverlayItemInline,
     ]
 
+    list_display = ('name', 'parent', 'active')
+    list_filter = ('active', 'parent')
+    ordering = ('name',)
+
     search_fields = ('name',)
