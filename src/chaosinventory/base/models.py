@@ -161,8 +161,24 @@ class Location(CommonModel):
         blank=True,
     )
 
+    @property
+    def in_location_root(self):
+        if self.in_location is None:
+            return self
+        else:
+            return self.in_location.in_location_root
+
+    def am_i_my_own_parent(self, me):
+        if me == self:
+            return True
+        else:
+            if self.in_location:
+                return self.in_location.am_i_my_own_parent(me)
+            else:
+                False
+
     def clean(self):
-        if self.in_location and self.pk == self.in_location.pk:
+        if self.in_location and self.in_location.am_i_my_own_parent(self):
             raise ValidationError(
                 {'in_location': 'Must not be self'},
             )
