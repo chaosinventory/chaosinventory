@@ -15,3 +15,4 @@ Development documentation
    linting
    structure/index
    configuration
+   api/index

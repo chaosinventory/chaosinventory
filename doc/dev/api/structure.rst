@@ -1,10 +1,8 @@
 .. _`api_structure`:
 
 
-API Structure
-=============
-
-.. todo:: Authentication
+Structure
+=========
 
 The API is implemented via the `django rest framework`_.
 Using `viewsets`_, most models are serialized and presented at the
@@ -21,7 +19,7 @@ Currently, we have the following paths for different models:
 
 .. code-block:: json
 
-  
+
   {
     "inventoryidschema": "/api/inventoryidschema/",
     "tag": "/api/tag/",
