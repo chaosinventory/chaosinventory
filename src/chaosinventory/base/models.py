@@ -65,11 +65,20 @@ class Tag(models.Model):
         blank=True,
     )
 
+    def parent_is_parent(self, parent):
+        if parent == self:
+            return True
+        else:
+            if self.parent:
+                return self.parent.parent_is_parent(parent)
+            else:
+                False
+
     def __str__(self):
         return self.name
 
     def clean(self):
-        if self.parent and self.pk == self.parent.pk:
+        if self.parent and self.parent.parent_is_parent(self):
             raise ValidationError(
                 {'parent': 'Must not be self'},
             )
@@ -129,13 +138,22 @@ class Entity(CommonModel):
         blank=True,
     )
 
+    def part_of_is_parent(self, part_of):
+        if part_of == self:
+            return True
+        else:
+            if self.part_of:
+                return self.part_of.part_of_is_parent(part_of)
+            else:
+                False
+
     tags = models.ManyToManyField(
         'Tag',
         blank=True,
     )
 
     def clean(self):
-        if self.part_of and self.pk == self.part_of.pk:
+        if self.part_of and self.part_of.part_of_is_parent(self):
             raise ValidationError(
                 {'part_of': 'Must not be self'},
             )
@@ -146,18 +164,6 @@ class Location(CommonModel):
         'self',
         on_delete=models.RESTRICT,
         null=True,
-        blank=True,
-    )
-
-    belongs_to = models.ForeignKey(
-        'Entity',
-        on_delete=models.RESTRICT,
-        null=True,
-        blank=True,
-    )
-
-    tags = models.ManyToManyField(
-        'Tag',
         blank=True,
     )
 
@@ -176,6 +182,18 @@ class Location(CommonModel):
                 return self.in_location.in_location_is_parent(location)
             else:
                 False
+
+    belongs_to = models.ForeignKey(
+        'Entity',
+        on_delete=models.RESTRICT,
+        null=True,
+        blank=True,
+    )
+
+    tags = models.ManyToManyField(
+        'Tag',
+        blank=True,
+    )
 
     def clean(self):
         if self.in_location and self.in_location.in_location_is_parent(self):
@@ -233,6 +251,15 @@ class Item(CommonModel):
         blank=True,
     )
 
+    def target_item_is_parent(self, target_item):
+        if target_item == self:
+            return True
+        else:
+            if self.target_item:
+                return self.target_item.target_item_is_parent(target_item)
+            else:
+                False
+
     actual_item = models.ForeignKey(
         'Item',
         on_delete=models.RESTRICT,
@@ -240,6 +267,15 @@ class Item(CommonModel):
         null=True,
         blank=True,
     )
+
+    def actual_item_is_parent(self, actual_item):
+        if actual_item == self:
+            return True
+        else:
+            if self.actual_item:
+                return self.actual_item.actual_item_is_parent(actual_item)
+            else:
+                False
 
     tags = models.ManyToManyField(
         'Tag',
@@ -273,6 +309,14 @@ class Item(CommonModel):
             self.actual_location = new_parent
 
     def clean(self):
+        if self.target_item and self.target_item.target_item_is_parent(self):
+            raise ValidationError(
+                {'target_item': 'Must not be self'},
+            )
+        if self.actual_item and self.actual_item.actual_item_is_parent(self):
+            raise ValidationError(
+                {'actual_item': 'Must not be self'},
+            )
         if (self.target_location and self.target_item):
             raise ValidationError("Target location and item are mutually exclusive")
         if (self.actual_location and self.actual_item):
@@ -294,8 +338,17 @@ class Overlay(CommonModel):
         blank=True,
     )
 
+    def parent_is_parent(self, parent):
+        if parent == self:
+            return True
+        else:
+            if self.parent:
+                return self.parent.parent_is_parent(parent)
+            else:
+                False
+
     def clean(self):
-        if self.parent and self.pk == self.parent.pk:
+        if self.parent and self.parent.parent_is_parent(self):
             raise ValidationError(
                 {'parent': 'A object can not be its own parent'},
             )
