@@ -167,13 +167,6 @@ class Location(CommonModel):
         blank=True,
     )
 
-    @property
-    def in_location_root(self):
-        if self.in_location is None:
-            return self
-        else:
-            return self.in_location.in_location_root
-
     def in_location_is_parent(self, location):
         if location == self:
             return True

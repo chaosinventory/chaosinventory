@@ -98,8 +98,6 @@ class LocationAdmin(admin.ModelAdmin):
         LocationDataInline,
     ]
 
-    list_display = ('name', 'in_location', 'in_location_root', 'belongs_to')
-
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
