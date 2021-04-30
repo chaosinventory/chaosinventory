@@ -26,6 +26,12 @@ class TagAdmin(admin.ModelAdmin):
         }),
     )
 
+    list_display = ('name', 'parent')
+    list_filter = ('parent',)
+    ordering = ('name',)
+
+    search_fields = ('name',)
+
 
 @admin.register(DataType)
 class DataTypeAdmin(admin.ModelAdmin):
@@ -34,6 +40,11 @@ class DataTypeAdmin(admin.ModelAdmin):
             'fields': ('name', 'note',),
         }),
     )
+
+    list_display = ('name',)
+    ordering = ('name', )
+
+    search_fields = ('name',)
 
 
 class EntityDataInline(CommonDataInline):
@@ -77,6 +88,12 @@ class EntityAdmin(admin.ModelAdmin):
         EntityDataInline,
     ]
 
+    list_display = ('name', 'part_of')
+    list_filter = ('part_of',)
+    ordering = ('name',)
+
+    search_fields = ('name',)
+
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
@@ -98,6 +115,12 @@ class LocationAdmin(admin.ModelAdmin):
         LocationDataInline,
     ]
 
+    list_display = ('name', 'in_location', 'belongs_to')
+    list_filter = ('belongs_to',)
+    ordering = ('name',)
+
+    search_fields = ('name',)
+
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -113,6 +136,11 @@ class ProductAdmin(admin.ModelAdmin):
         ProductInventoryIdInline,
         ProductDataInline,
     ]
+
+    list_display = ('name',)
+    ordering = ('name',)
+
+    search_fields = ('name',)
 
 
 @admin.register(Item)
@@ -139,6 +167,12 @@ class ItemAdmin(admin.ModelAdmin):
         ItemDataInline,
     ]
 
+    list_display = ('name', 'product', 'amount', 'belongs_to')
+    list_filter = ('product', 'belongs_to')
+    ordering = ('name', )
+
+    search_fields = ('name',)
+
 
 @admin.register(InventoryIdSchema)
 class InventoryIdSchemaAdmin(admin.ModelAdmin):
@@ -147,6 +181,11 @@ class InventoryIdSchemaAdmin(admin.ModelAdmin):
             'fields': ('name', 'note',),
         }),
     )
+
+    list_display = ('name',)
+    ordering = ('name',)
+
+    search_fields = ('name',)
 
 
 class OverlayItemInline(CommonInline):
@@ -169,3 +208,9 @@ class OverlayAdmin(admin.ModelAdmin):
     inlines = [
         OverlayItemInline,
     ]
+
+    list_display = ('name', 'parent', 'active')
+    list_filter = ('active', 'parent')
+    ordering = ('name',)
+
+    search_fields = ('name',)
