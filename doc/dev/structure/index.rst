@@ -11,4 +11,3 @@ components and their inner-workings.
    :maxdepth: 2
 
   directory
-  api
