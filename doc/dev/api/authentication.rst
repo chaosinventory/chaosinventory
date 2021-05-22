@@ -64,9 +64,9 @@ Obtaining a token is possible via two ways:
             "token": "fce7780c725443ce86d89035a3680ebf0a56f4744b47b7c1307b89fc94e00f16"
         }
 
-This token can be used in an ``Authentication`` Header like this:
+This token can be used in an ``Authorization`` Header like this:
 ::
-    Authentication: Token fce7780c725443ce86d89035a3680ebf0a56f4744b47b7c1307b89fc94e00f16
+    Authorization: Token fce7780c725443ce86d89035a3680ebf0a56f4744b47b7c1307b89fc94e00f16
 
 You're successfully authenticated :)
 
