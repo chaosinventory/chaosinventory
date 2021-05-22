@@ -8,17 +8,20 @@ class ObtainAuthTokenSerializer(serializers.Serializer):
     application = serializers.CharField(label="Application Name")
     expiring = serializers.DateTimeField(
         label="Date/Time when token expires",
-        required=False)
+        required=False,
+    )
     renewable = serializers.BooleanField(
         label="Renewability of token",
-        default=True)
+        default=True,
+    )
 
 
 class ObtainAuthTokenByAuthenticationSerializer(ObtainAuthTokenSerializer):
     username = serializers.CharField(label="Username")
     password = serializers.CharField(
         label="Password",
-        style={'input_type': 'password'})
+        style={'input_type': 'password'},
+    )
 
     def validate(self, attrs):
         username = attrs.get('username')
@@ -27,12 +30,14 @@ class ObtainAuthTokenByAuthenticationSerializer(ObtainAuthTokenSerializer):
         user = authenticate(
             request=self.context.get('request'),
             username=username,
-            password=password)
+            password=password,
+        )
 
         if not user:
             raise serializers.ValidationError(
                 'Username and/or password is wrong',
-                code='authorization')
+                code='authorization',
+            )
 
         attrs['user'] = user
         return attrs
@@ -41,10 +46,12 @@ class ObtainAuthTokenByAuthenticationSerializer(ObtainAuthTokenSerializer):
 class RenewAuthTokenSerializer(serializers.Serializer):
     expiring = serializers.DateTimeField(
         label="Date/Time when token expires",
-        required=False)
+        required=False,
+    )
     renewable = serializers.BooleanField(
         label="Renewability of token",
-        default=True)
+        default=True,
+    )
 
 
 class TokenSerializer(serializers.ModelSerializer):
@@ -61,5 +68,5 @@ class TokenSerializer(serializers.ModelSerializer):
             'application',
             'created',
             'expiring',
-            'renewable'
+            'renewable',
         ]

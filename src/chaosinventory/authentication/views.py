@@ -32,7 +32,8 @@ class AuthTokenView(APIView):
             user=request.user,
             application=serializer.validated_data['application'],
             expiring=serializer.validated_data.get('expiring'),
-            renewable=serializer.validated_data['renewable'])
+            renewable=serializer.validated_data['renewable'],
+        )
         return Response({'token': token.key})
 
 
@@ -48,7 +49,7 @@ class AuthTokenDetailView(APIView):
         try:
             Token.objects.get(
                 user=request.user,
-                id=kwargs.get("id")
+                id=kwargs.get("id"),
             ).delete()
             return Response({"detail": "OK"})
         except ObjectDoesNotExist:
@@ -66,7 +67,8 @@ class ObtainAuthTokenWithCredentialsView(APIView):
             user=serializer.validated_data['user'],
             application=serializer.validated_data['application'],
             expiring=serializer.validated_data.get('expiring'),
-            renewable=serializer.validated_data['renewable'])
+            renewable=serializer.validated_data['renewable'],
+        )
         return Response({'token': token.key})
 
 
@@ -87,7 +89,8 @@ class RenewAuthTokenView(APIView):
                 user=request.user,
                 application=request.auth.application,
                 expiring=serializer.validated_data.get('expiring'),
-                renewable=serializer.validated_data['renewable'])
+                renewable=serializer.validated_data['renewable'],
+            )
             request.auth.delete()
             return Response({'token': token.key})
         else:
