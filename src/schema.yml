@@ -1,0 +1,2307 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /api/authentication/token:
+    get:
+      operationId: listAuthTokens
+      description: 'View to list available auth tokens and obtain them
+
+
+        * Requires authentication'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createAuthToken
+      description: 'View to list available auth tokens and obtain them
+
+
+        * Requires authentication'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/inventoryidschema/:
+    get:
+      operationId: listInventoryIdSchemas
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InventoryIdSchema'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createInventoryIdSchema
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InventoryIdSchema'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InventoryIdSchema'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InventoryIdSchema'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryIdSchema'
+          description: ''
+      tags:
+      - api
+  /api/inventoryidschema/{id}/:
+    get:
+      operationId: retrieveInventoryIdSchema
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this inventory id schema.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryIdSchema'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateInventoryIdSchema
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this inventory id schema.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InventoryIdSchema'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InventoryIdSchema'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InventoryIdSchema'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryIdSchema'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateInventoryIdSchema
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this inventory id schema.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InventoryIdSchema'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InventoryIdSchema'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InventoryIdSchema'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryIdSchema'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyInventoryIdSchema
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this inventory id schema.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/tag/:
+    get:
+      operationId: listTags
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tag'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createTag
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tag'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Tag'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Tag'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+          description: ''
+      tags:
+      - api
+  /api/tag/{id}/:
+    get:
+      operationId: retrieveTag
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this tag.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateTag
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this tag.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tag'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Tag'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Tag'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateTag
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this tag.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tag'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Tag'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Tag'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyTag
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this tag.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/datatype/:
+    get:
+      operationId: listDataTypes
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataType'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createDataType
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DataType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DataType'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataType'
+          description: ''
+      tags:
+      - api
+  /api/datatype/{id}/:
+    get:
+      operationId: retrieveDataType
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this data type.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataType'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateDataType
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this data type.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DataType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DataType'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataType'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateDataType
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this data type.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DataType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DataType'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataType'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyDataType
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this data type.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/locationdata/:
+    get:
+      operationId: listLocationDatas
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LocationData'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createLocationData
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationData'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LocationData'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LocationData'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationData'
+          description: ''
+      tags:
+      - api
+  /api/locationdata/{id}/:
+    get:
+      operationId: retrieveLocationData
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this location data.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationData'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateLocationData
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this location data.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationData'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LocationData'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LocationData'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationData'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateLocationData
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this location data.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationData'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LocationData'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LocationData'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationData'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyLocationData
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this location data.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/itemdata/:
+    get:
+      operationId: listItemDatas
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ItemData'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createItemData
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemData'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ItemData'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ItemData'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemData'
+          description: ''
+      tags:
+      - api
+  /api/itemdata/{id}/:
+    get:
+      operationId: retrieveItemData
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this item data.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemData'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateItemData
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this item data.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemData'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ItemData'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ItemData'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemData'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateItemData
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this item data.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemData'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ItemData'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ItemData'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemData'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyItemData
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this item data.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/productdata/:
+    get:
+      operationId: listProductDatas
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductData'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createProductData
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductData'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProductData'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductData'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductData'
+          description: ''
+      tags:
+      - api
+  /api/productdata/{id}/:
+    get:
+      operationId: retrieveProductData
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this product data.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductData'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateProductData
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this product data.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductData'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProductData'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductData'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductData'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateProductData
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this product data.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductData'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProductData'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductData'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductData'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyProductData
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this product data.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/overlay/:
+    get:
+      operationId: listOverlays
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Overlay'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createOverlay
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Overlay'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Overlay'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Overlay'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Overlay'
+          description: ''
+      tags:
+      - api
+  /api/overlay/{id}/:
+    get:
+      operationId: retrieveOverlay
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this overlay.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Overlay'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateOverlay
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this overlay.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Overlay'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Overlay'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Overlay'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Overlay'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateOverlay
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this overlay.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Overlay'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Overlay'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Overlay'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Overlay'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyOverlay
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this overlay.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/overlayitem/:
+    get:
+      operationId: listOverlayItems
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OverlayItem'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createOverlayItem
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OverlayItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OverlayItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OverlayItem'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OverlayItem'
+          description: ''
+      tags:
+      - api
+  /api/overlayitem/{id}/:
+    get:
+      operationId: retrieveOverlayItem
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this overlay item.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OverlayItem'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateOverlayItem
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this overlay item.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OverlayItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OverlayItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OverlayItem'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OverlayItem'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateOverlayItem
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this overlay item.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OverlayItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OverlayItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OverlayItem'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OverlayItem'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyOverlayItem
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this overlay item.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/entity/:
+    get:
+      operationId: listEntitys
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Entity'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createEntity
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entity'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Entity'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Entity'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+          description: ''
+      tags:
+      - api
+  /api/entity/{id}/:
+    get:
+      operationId: retrieveEntity
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this entity.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateEntity
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this entity.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entity'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Entity'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Entity'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateEntity
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this entity.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entity'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Entity'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Entity'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyEntity
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this entity.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/location/:
+    get:
+      operationId: listLocations
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createLocation
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Location'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+          description: ''
+      tags:
+      - api
+  /api/location/{id}/:
+    get:
+      operationId: retrieveLocation
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this location.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateLocation
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this location.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Location'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateLocation
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this location.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Location'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyLocation
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this location.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/productinventoryid/:
+    get:
+      operationId: listProductInventoryIds
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductInventoryId'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createProductInventoryId
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInventoryId'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProductInventoryId'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductInventoryId'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductInventoryId'
+          description: ''
+      tags:
+      - api
+  /api/productinventoryid/{id}/:
+    get:
+      operationId: retrieveProductInventoryId
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this product inventory id.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductInventoryId'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateProductInventoryId
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this product inventory id.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInventoryId'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProductInventoryId'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductInventoryId'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductInventoryId'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateProductInventoryId
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this product inventory id.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInventoryId'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProductInventoryId'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductInventoryId'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductInventoryId'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyProductInventoryId
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this product inventory id.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/product/:
+    get:
+      operationId: listProducts
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createProduct
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Product'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+      tags:
+      - api
+  /api/product/{id}/:
+    get:
+      operationId: retrieveProduct
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this product.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateProduct
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this product.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Product'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateProduct
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this product.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Product'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyProduct
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this product.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/iteminventoryid/:
+    get:
+      operationId: listItemInventoryIds
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ItemInventoryId'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createItemInventoryId
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemInventoryId'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ItemInventoryId'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ItemInventoryId'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemInventoryId'
+          description: ''
+      tags:
+      - api
+  /api/iteminventoryid/{id}/:
+    get:
+      operationId: retrieveItemInventoryId
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this item inventory id.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemInventoryId'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateItemInventoryId
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this item inventory id.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemInventoryId'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ItemInventoryId'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ItemInventoryId'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemInventoryId'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateItemInventoryId
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this item inventory id.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemInventoryId'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ItemInventoryId'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ItemInventoryId'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemInventoryId'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyItemInventoryId
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this item inventory id.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/item/:
+    get:
+      operationId: listItems
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createItem
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Item'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+          description: ''
+      tags:
+      - api
+  /api/item/{id}/:
+    get:
+      operationId: retrieveItem
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this item.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateItem
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this item.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Item'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateItem
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this item.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Item'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyItem
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this item.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/authentication/token/credentials:
+    post:
+      operationId: createObtainAuthTokenWithCredentials
+      description: View to obtain an authentication token with username/password
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/authentication/token/renew:
+    post:
+      operationId: createRenewAuthToken
+      description: 'View to renew the token currently logged in with.
+
+
+        * Requires authentication with renewable token.'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/authentication/token/{id}:
+    delete:
+      operationId: destroyAuthTokenDetail
+      description: 'View to revoke auth tokens
+
+
+        * Requires authentication'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+components:
+  schemas:
+    InventoryIdSchema:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        note:
+          type: string
+      required:
+      - name
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        parent:
+          type: integer
+          nullable: true
+      required:
+      - name
+    DataType:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        note:
+          type: string
+      required:
+      - name
+    LocationData:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        value:
+          type: string
+          maxLength: 255
+        type:
+          type: integer
+        type_name:
+          type: string
+          readOnly: true
+        location:
+          type: integer
+      required:
+      - value
+      - type
+      - location
+    ItemData:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        value:
+          type: string
+          maxLength: 255
+        type:
+          type: integer
+        type_name:
+          type: string
+          readOnly: true
+        item:
+          type: integer
+      required:
+      - value
+      - type
+      - item
+    ProductData:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        value:
+          type: string
+          maxLength: 255
+        type:
+          type: integer
+        type_name:
+          type: string
+          readOnly: true
+        product:
+          type: integer
+      required:
+      - value
+      - type
+      - product
+    Overlay:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        note:
+          type: string
+        active:
+          type: boolean
+        parent:
+          type: integer
+          nullable: true
+        overlayitem_set:
+          type: array
+          items:
+            type: string
+          readOnly: true
+      required:
+      - name
+      - active
+    OverlayItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        overlay:
+          type: integer
+        item:
+          type: integer
+        target_item:
+          type: integer
+          nullable: true
+        target_location:
+          type: integer
+          nullable: true
+      required:
+      - overlay
+      - item
+    Entity:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        note:
+          type: string
+        part_of:
+          type: integer
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: integer
+      required:
+      - name
+    Location:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        note:
+          type: string
+        in_location:
+          type: integer
+          nullable: true
+        locationdata_set:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              value:
+                type: string
+                maxLength: 255
+              type:
+                type: string
+                readOnly: true
+            required:
+            - value
+          readOnly: true
+      required:
+      - name
+    ProductInventoryId:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        value:
+          type: string
+          maxLength: 255
+        schema:
+          type: integer
+        product:
+          type: integer
+      required:
+      - value
+      - schema
+      - product
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        note:
+          type: string
+        tags:
+          type: array
+          items:
+            type: integer
+        productinventoryid_set:
+          type: array
+          items:
+            type: integer
+        productdata_set:
+          type: array
+          items:
+            type: integer
+      required:
+      - name
+      - productinventoryid_set
+      - productdata_set
+    ItemInventoryId:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        value:
+          type: string
+          maxLength: 255
+        schema:
+          type: integer
+        item:
+          type: integer
+      required:
+      - value
+      - schema
+      - item
+    Item:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        note:
+          type: string
+        amount:
+          type: integer
+          minimum: 1
+        belongs_to:
+          type: integer
+          nullable: true
+        actual_location:
+          type: integer
+          nullable: true
+        target_location:
+          type: integer
+          nullable: true
+        product:
+          type: integer
+        target_item:
+          type: integer
+          nullable: true
+        actual_item:
+          type: integer
+          nullable: true
+        iteminventoryid_set:
+          type: array
+          items:
+            type: integer
+        itemdata_set:
+          type: array
+          items:
+            type: integer
+        tags:
+          type: array
+          items:
+            type: integer
+      required:
+      - name
+      - product
+      - iteminventoryid_set
+      - itemdata_set
