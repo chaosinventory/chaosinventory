@@ -44,6 +44,8 @@ Obtaining a token is possible via two ways:
             "token": "fce7780c725443ce86d89035a3680ebf0a56f4744b47b7c1307b89fc94e00f16"
         }
 
+    The token is a random hexa-decimal string with a length of 64 characters.
+
 * If you're authenticated
     Send an POST request with a body containing the following attributes to
     ``/api/authentication/token``

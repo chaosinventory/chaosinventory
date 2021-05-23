@@ -11,7 +11,7 @@ class Token(models.Model):
         default=uuid.uuid4,
         editable=False
     )
-    key = models.CharField(max_length=40)
+    key = models.CharField(max_length=64)
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE
