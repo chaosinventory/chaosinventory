@@ -23,7 +23,6 @@ except configparser.Error as e:
     ))
     exit(1)
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_ROOT = BASE_DIR / 'static'
 
@@ -45,6 +44,8 @@ DEBUG = config.getboolean('django', 'debug', fallback=False)
 
 ALLOWED_HOSTS = config.get('django', 'allowed_hosts', fallback='*').split(',')
 
+CORS_ALLOWED_ORIGINS = config.get('django', 'cors_allowed_origins', fallback='http://localhost').split(',')
+CORS_ALLOW_ALL_ORIGINS = config.getboolean('django', 'cors_allow_all', fallback=True)
 
 # Application definition
 
@@ -59,9 +60,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_extensions',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -107,7 +110,6 @@ DATABASES = {
         'CONN_MAX_AGE': 0 if database_backend == 'sqlite3' else 120
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
