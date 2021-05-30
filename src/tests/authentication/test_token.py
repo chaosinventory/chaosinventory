@@ -55,7 +55,7 @@ class TokenTestCase(TestCase):
 
     def api_call(self, path: str, payload: dict = None, token: str = None, method: str = 'get',
                  decode_json: bool = True):
-        if payload is not None:
+        if payload is None:
             payload = {}
 
         headers = {}
