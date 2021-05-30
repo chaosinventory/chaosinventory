@@ -68,7 +68,8 @@ class TagSerializer(serializers.ModelSerializer):
         use validators on the models.
         """
 
-        if (data['parent'] is not None and
+        if ('parent' in data and
+            data['parent'] is not None and
             self.instance is not None and
                 data['parent'].pk == self.instance.pk):
 
