@@ -72,7 +72,7 @@ class Tag(models.Model):
             if self.parent:
                 return self.parent.parent_is_parent(parent)
             else:
-                False
+                return False
 
     def __str__(self):
         return self.name
@@ -145,7 +145,7 @@ class Entity(CommonModel):
             if self.part_of:
                 return self.part_of.part_of_is_parent(part_of)
             else:
-                False
+                return False
 
     tags = models.ManyToManyField(
         'Tag',
@@ -174,7 +174,7 @@ class Location(CommonModel):
             if self.in_location:
                 return self.in_location.in_location_is_parent(location)
             else:
-                False
+                return False
 
     belongs_to = models.ForeignKey(
         'Entity',
@@ -251,7 +251,7 @@ class Item(CommonModel):
             if self.target_item:
                 return self.target_item.target_item_is_parent(target_item)
             else:
-                False
+                return False
 
     actual_item = models.ForeignKey(
         'Item',
@@ -268,7 +268,7 @@ class Item(CommonModel):
             if self.actual_item:
                 return self.actual_item.actual_item_is_parent(actual_item)
             else:
-                False
+                return False
 
     tags = models.ManyToManyField(
         'Tag',
@@ -310,9 +310,9 @@ class Item(CommonModel):
             raise ValidationError(
                 {'actual_item': 'Must not be self'},
             )
-        if (self.target_location and self.target_item):
+        if self.target_location and self.target_item:
             raise ValidationError("Target location and item are mutually exclusive")
-        if (self.actual_location and self.actual_item):
+        if self.actual_location and self.actual_item:
             raise ValidationError("Actual location and item are mutually exclusive")
 
 
@@ -338,7 +338,7 @@ class Overlay(CommonModel):
             if self.parent:
                 return self.parent.parent_is_parent(parent)
             else:
-                False
+                return False
 
     def clean(self):
         if self.parent and self.parent.parent_is_parent(self):
