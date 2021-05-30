@@ -3,6 +3,9 @@ import os
 import logging
 from pathlib import Path
 
+from Crypto.PublicKey import ECC
+from builtins import FileNotFoundError
+
 config = configparser.RawConfigParser()
 
 try:
@@ -158,6 +161,35 @@ EMAIL_USE_SSL = config.getboolean('email', 'ssl', fallback=False)
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'chaosinventory.authentication.authentication.TokenAuthentication',
+        'chaosinventory.authentication.token.authentication.TokenAuthentication',
+        'chaosinventory.authentication.oidc.authentication.OIDCAuthentication',
     ]
 }
+
+
+# OIDC
+OIDC_GRANT_EXPIRY_MINUTES = config.get('oidc', 'grant_expiry_minutes', fallback=5)
+OIDC_REFRESH_TOKEN_EXPIRY_DAYS = config.get('oidc', 'refresh_token_expiry_days', fallback=30)
+OIDC_ACCESS_TOKEN_EXPIRY_MINUTES = config.get('oidc', 'access_token_expiry_minutes', fallback=120)
+OIDC_ID_TOKEN_EXPIRY_MINUTES = config.get('oidc', 'id_token_expiry_minutes', fallback=10)
+_OIDC_JWT_PRIVATE_KEY_PATH = BASE_DIR / config.get('oidc', 'jwt_private_key_path', fallback='.jwt.key')
+_OIDC_JWT_PUBLIC_KEY_PATH = BASE_DIR / config.get('oidc', 'jwt_public_key_path', fallback='.jwt.pub')
+try:
+    with open(_OIDC_JWT_PRIVATE_KEY_PATH, 'r') as f:
+        OIDC_JWT_PRIVATE_KEY = f.read()
+except FileNotFoundError:
+    key = ECC.generate(curve='P-256')
+    OIDC_JWT_PRIVATE_KEY = key.export_key(format='PEM')
+    with open(_OIDC_JWT_PRIVATE_KEY_PATH, 'w') as f:
+        f.write(OIDC_JWT_PRIVATE_KEY)
+
+try:
+    with open(_OIDC_JWT_PUBLIC_KEY_PATH) as f:
+        OIDC_JWT_PUBLIC_KEY = f.read()
+except FileNotFoundError:
+    private_key = ECC.import_key(OIDC_JWT_PRIVATE_KEY)
+    OIDC_JWT_PUBLIC_KEY = private_key.public_key().export_key(format='PEM')
+    with open(_OIDC_JWT_PUBLIC_KEY_PATH, 'w') as f:
+        f.write(OIDC_JWT_PUBLIC_KEY)
+
+OIDC_JWT_KEY_ALGORITHM = "ES256"

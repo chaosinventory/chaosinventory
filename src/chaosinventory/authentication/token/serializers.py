@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate
 from rest_framework import serializers
 
-from .models import Token
+from chaosinventory.authentication.models import Token
 
 
 class ObtainAuthTokenSerializer(serializers.Serializer):

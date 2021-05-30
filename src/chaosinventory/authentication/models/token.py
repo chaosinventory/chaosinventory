@@ -2,16 +2,11 @@ import secrets
 import uuid
 
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class User(AbstractUser):
-    uuid = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-    )
+def _generate_secret():
+    return secrets.token_hex(32)
 
 
 class Token(models.Model):
@@ -40,7 +35,7 @@ class Token(models.Model):
 
     @classmethod
     def generate_token(cls):
-        token = secrets.token_hex(32)
+        token = _generate_secret()
         while cls.objects.filter(key=token).count() > 0:
-            token = secrets.token_hex(32)
+            token = _generate_secret()
         return token

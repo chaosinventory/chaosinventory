@@ -1,7 +1,7 @@
 from django.utils import timezone
 from rest_framework import authentication, exceptions
 
-from . import models
+from chaosinventory.authentication import models
 
 
 class TokenAuthentication(authentication.TokenAuthentication):
