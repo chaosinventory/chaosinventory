@@ -5,7 +5,6 @@ from typing import Optional
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
-from django.urls import reverse
 
 from chaosinventory.authentication.models import Token, User
 
@@ -48,7 +47,14 @@ class TokenTestCase(TestCase):
 
         return json.loads(response.content)['token']
 
-    def api_call(self, path: str, payload: dict = None, token: str = None, method: str = 'get'):
+    def assertValidJson(self, content: str):
+        try:
+            return json.loads(content)
+        except json.JSONDecodeError:
+            self.fail('Failed to parse JSON')
+
+    def api_call(self, path: str, payload: dict = None, token: str = None, method: str = 'get',
+                 decode_json: bool = True):
         if payload is not None:
             payload = {}
 
@@ -57,13 +63,13 @@ class TokenTestCase(TestCase):
             headers['HTTP_AUTHORIZATION'] = f'Token {token}'
 
         if method == 'get':
-            return self.client.get(
+            response = self.client.get(
                 path,
                 payload,
                 **headers,
             )
         elif method == 'post':
-            return self.client.post(
+            response = self.client.post(
                 path,
                 payload,
                 **headers,
@@ -71,50 +77,67 @@ class TokenTestCase(TestCase):
         else:
             raise ValueError('method mus be either get or post')
 
+        if decode_json:
+            self.assertValidJson(response.content)
+            return response, json.loads(response.content)
+        else:
+            return response, response.content
+
+    def validate_token_against_api(self, token):
+        response, response_content = self.api_call('/api/authentication/token/', token=token)
+        self.assertEqual(response.status_code, 200)
+        return response
+
     def test_obtain_token_json(self):
         response = self.obtain_token()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['content-type'], 'application/json')
-        try:
-            token = json.loads(response.content)
-        except json.JSONDecodeError:
-            self.fail('Failed to parse JSON')
+        token = self.assertValidJson(response.content)
         self.assertTrue('token' in token)
 
-    def test_token_in_db(self):
+    def test_user_token_in_db(self):
         token = self.get_token()
         try:
             self.user.token_set.filter(key=token).get()
         except ObjectDoesNotExist:
             self.fail('No matching token was found for this user in the database.')
 
-    def _test_renewable_token(self, renewable):
+    def validate_token_renewal(self, renewable):
         token = self.get_token(renewable=renewable)
         db_token: Token = get_db_token(key=token)
         self.assertEqual(db_token.renewable, renewable)
+        new_token_response, new_token = self.api_call(
+            '/api/authentication/token/renew',
+            token=token,
+            method='post'
+        )
+        if renewable:
+            self.assertEqual(new_token_response.status_code, 200)
+            self.validate_token_against_api(new_token['token'])
+        else:
+            self.assertEqual(new_token_response.status_code, 403)
 
     def test_token_renewable(self):
-        self._test_renewable_token(True)
-        self._test_renewable_token(False)
-        # TODO: Actually try to renew the token
+        self.validate_token_renewal(True)
+        self.validate_token_renewal(False)
 
     def test_token_api_auth(self):
         self.assertEqual(
-            self.api_call(reverse('tag-list')).status_code,
+            self.api_call('/api/authentication/token/')[0].status_code,
             401,
         )
         token = self.get_token()
         self.assertEqual(
             self.api_call(
-                reverse('tag-list'),
-                token=token[0:-10],
-            ).status_code,
+                '/api/authentication/token/',
+                token='invalid',
+            )[0].status_code,
             401
         )
         self.assertEqual(
             self.api_call(
-                reverse('tag-list'),
+                '/api/authentication/token/',
                 token=token,
-            ).status_code,
+            )[0].status_code,
             200,
         )
