@@ -9,3 +9,4 @@ isort[colors]
 django_extensions
 uritemplate
 pyyaml
+coverage==5.5
