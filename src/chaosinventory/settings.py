@@ -45,7 +45,7 @@ DEBUG = config.getboolean('django', 'debug', fallback=False)
 ALLOWED_HOSTS = config.get('django', 'allowed_hosts', fallback='*').split(',')
 
 CORS_ALLOWED_ORIGINS = config.get('django', 'cors_allowed_origins', fallback='http://localhost').split(',')
-CORS_ALLOW_ALL_ORIGINS = config.getboolean('django', 'cors_allow_all', fallback=True)
+CORS_ALLOW_ALL_ORIGINS = config.getboolean('django', 'cors_allow_all', fallback=False)
 
 # Application definition
 
