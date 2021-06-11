@@ -69,6 +69,8 @@ recommended for production use.
   secret = foobar2342
   debug = True
   allowed_hosts = *
+  cors_allow_all = False
+  cors_allowed_origins = http://localhost,http://127.0.0.1:8080,http://[::1]:8080
   language_code = en-us
   time_zone = UTC
 
