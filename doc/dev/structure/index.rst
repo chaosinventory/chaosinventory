@@ -10,4 +10,4 @@ components and their inner-workings.
 .. toctree::
    :maxdepth: 2
 
-  directory
+   directory

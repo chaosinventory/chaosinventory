@@ -9,5 +9,5 @@ introduces to basics needed to use the API.
 .. toctree::
    :maxdepth: 2
 
-  structure
-  authentication
+   structure
+   authentication
