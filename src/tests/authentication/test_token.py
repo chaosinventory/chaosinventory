@@ -143,6 +143,7 @@ class TokenTestCase(TestCase):
         self.assertEqual(content['detail'], 'Expired token.')
 
     def test_user_token_in_db(self):
+        """Especially testing that the token is linked to the specific user."""
         token = self.get_token()
         try:
             self.user.token_set.filter(key=token).get()
