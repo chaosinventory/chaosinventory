@@ -53,7 +53,7 @@ class ApiTestCase(TestCase):
                 **headers,
             )
         else:
-            raise ValueError('method mus be either get or post')
+            raise ValueError('method must be either get or post')
 
         if decode_json:
             self.assertValidJson(response.content)
