@@ -10,6 +10,8 @@ from django.test import TestCase
 
 from chaosinventory.authentication.models import Token, User
 
+from ..mixins import ApiTestMixin
+
 
 def get_db_token(key) -> Token:
     return Token.objects.get(key=key)
@@ -35,7 +37,7 @@ def create_user(**kwargs) -> User:
     return user
 
 
-class TokenTestCase(TestCase):
+class TokenTestCase(TestCase, ApiTestMixin):
     def setUp(self) -> None:
         self.user_password: str = 'password'
         self.user = create_user(password=self.user_password)
@@ -61,48 +63,6 @@ class TokenTestCase(TestCase):
             response = self.obtain_token(**kwargs)
 
         return json.loads(response.content)['token']
-
-    def assertValidJson(self, content: str):
-        try:
-            return json.loads(content)
-        except json.JSONDecodeError:
-            self.fail('Failed to parse JSON')
-
-    def api_call(self, path: str, payload: dict = None, token: str = None, method: str = 'get',
-                 decode_json: bool = True):
-        if payload is None:
-            payload = {}
-
-        headers = {}
-        if token is not None:
-            headers['HTTP_AUTHORIZATION'] = f'Token {token}'
-
-        if method == 'get':
-            response = self.client.get(
-                path,
-                payload,
-                **headers,
-            )
-        elif method == 'post':
-            response = self.client.post(
-                path,
-                payload,
-                **headers,
-            )
-        elif method == 'delete':
-            response = self.client.delete(
-                path,
-                payload,
-                **headers,
-            )
-        else:
-            raise ValueError('method mus be either get or post')
-
-        if decode_json:
-            self.assertValidJson(response.content)
-            return response, json.loads(response.content)
-        else:
-            return response, response.content
 
     def validate_token_against_api(self, token: Optional[str] = None, expected_status_code: Optional[int] = 200):
         response, response_content = self.api_call('/api/authentication/token/', token=token)
