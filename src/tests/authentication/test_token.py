@@ -1,12 +1,13 @@
 import json
 import uuid
 from datetime import datetime, timedelta
-from time import sleep
 from typing import Optional
+from unittest import mock
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
+from django.utils import timezone
 
 from chaosinventory.authentication.models import Token, User
 
@@ -95,12 +96,14 @@ class TokenTestCase(TestCase, ApiTestMixin):
         self.validate_token_against_api(token, 401)
 
     def test_token_expiry(self):
-        expiring = datetime.now() + timedelta(seconds=1)
+        expiring = timezone.now() + timedelta(hours=1)
         token = self.get_token(expiring=expiring)
         self.validate_token_against_api(token)
-        sleep(1.1)
-        response, content = self.validate_token_against_api(token, 401)
-        self.assertEqual(content['detail'], 'Expired token.')
+
+        with mock.patch('django.utils.timezone.now') as mock_now:
+            mock_now.return_value = expiring + timedelta(seconds=1)
+            response, content = self.validate_token_against_api(token, 401)
+            self.assertEqual(content['detail'], 'Expired token.')
 
     def test_user_token_in_db(self):
         """Especially testing that the token is linked to the specific user."""
