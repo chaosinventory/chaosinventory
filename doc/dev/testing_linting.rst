@@ -1,7 +1,7 @@
-.. _`linting`:
+.. _`testing_linting`:
 
-Code quality and linting
-========================
+Testing and Linting
+===================
 
 Introduction
 ------------
@@ -14,6 +14,9 @@ be ignored in especially one case, which is also specified in PEP 8:
 
 Furthermore, to have consistent imports (e.g. relative references, line
 wrapping) we sort them using `isort`_, as configured in the :code:`setup.cfg`.
+
+Further more, in order to catch bugs earlier we employ unit tests. Currently,
+the test are handled using djangos :std:doc:`test framework <django:topics/testing/index>`.
 
 .. attention::
    Please quality-check all your contributions before submitting using the provided script!
@@ -75,6 +78,38 @@ checks can be separated by spaces.
   django	passed
   isort		passed
 
+Unit Tests
+----------
+
+.. note::
+    The unit tests are *not* called from the :code:`lint.py`!
+
+All of the tests are located in in :code:`src/tests/` and are roughly
+split by apps and optionally, to improve on readability, a bit by what
+they are testing.
+
+Testing should both test if all parts are working overall, but also for
+specific edge cases.
+
+The GitHub Actions CI runs the tests from python 3.6 to 3.9.
+Tests can be run on your your local machine by running
+
+.. code-block:: bash
+
+    $ python manage.py test tests
+
+If you are interested in coverage reports, prepend :code:`coverage run`
+and use :code:`coverage report` afterwards like so:
+
+.. code-block:: bash
+
+    $ coverage run --source='.' manage.py test tests
+    $ coverage report --sort Cover # Sort files by coverage
+
+For futher information, refer to the `coverage.py docs`_.
+
+Overall it would be nice if new features and bug fixes add one or many related
+unit tests, however this usually won't be merge blocking.
 
 Checking manually
 -----------------
@@ -113,3 +148,4 @@ conformity.
 .. _PEP 8: https://legacy.python.org/dev/peps/pep-0008/
 .. _isort: https://pycqa.github.io/isort/
 .. _flake8: https://flake8.pycqa.org/en/latest/
+.. _coverage.py docs: https://coverage.readthedocs.io/en/stable/
