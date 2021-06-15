@@ -50,8 +50,7 @@ class Command(BaseCommand):
         parser.add_argument(
             '--redirect',
             help=(
-                'A list of redirect uris. If none are set, only'
-                'default_redirect_uri will be used. '
+                'A list of redirect uris. At least one is required. '
                 'NOTE: Currently, no wildcards are supported!'
             ),
             nargs='*',
@@ -77,7 +76,8 @@ class Command(BaseCommand):
                 last_input = True
                 self.stdout.write(
                     'Enter redirect uris line by line. '
-                    'Enter a new line to end the input.'
+                    'Enter a new line to end the input. '
+                    'At least one is required!'
                 )
                 while last_input is not None:
                     last_input = ask_parameter('> ')
@@ -89,6 +89,9 @@ class Command(BaseCommand):
                     'Enter default redirect uri (empty to skip): '
                 )
 
+        if len(options['redirect']) < 1:
+            raise CommandError('At least one redirect uri must be specified!')
+
         default_redirect = options['default_redirect']
 
         for uri in options['redirect']:
@@ -96,7 +99,7 @@ class Command(BaseCommand):
         if default_redirect is not None:
             validate_uri(default_redirect)
 
-        application = OIDCApplication.objects.create(
+        application = OIDCApplication(
             name=options['name'],
             description=options['description'],
             access_type=options['access_type'],
@@ -104,12 +107,20 @@ class Command(BaseCommand):
             default_redirect_uri=default_redirect,
         )
 
+        client_secret = application.generate_new_client_secret(save=False)
+
+        try:
+            application.full_clean()
+        except ValidationError as e:
+            raise CommandError(e)
+        application.save()
+
         self.stdout.write(
             self.style.SUCCESS('\nApplication created!\n\n') +
             '{:<16} {}\n{:<16} {}'.format(
                 'client_id:',
                 application.pk,
                 'client_secret:',
-                application._client_secret
+                client_secret
             )
         )
