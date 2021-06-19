@@ -2,6 +2,7 @@ import configparser
 import os
 import logging
 from pathlib import Path
+from . import __version__ as version
 
 config = configparser.RawConfigParser()
 
@@ -61,6 +62,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     'corsheaders',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -161,5 +163,15 @@ EMAIL_USE_SSL = config.getboolean('email', 'ssl', fallback=False)
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'chaosinventory.authentication.authentication.TokenAuthentication',
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Chaosinventory API',
+    'DESCRIPTION': (
+        'Chaosinventory is a a hierarchical inventory system'
+        'primarily focused on the needs of event infrastructure'
+    ),
+    'VERSION': version,
 }

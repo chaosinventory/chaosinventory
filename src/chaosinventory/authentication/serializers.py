@@ -57,7 +57,7 @@ class RenewAuthTokenSerializer(serializers.Serializer):
 class TokenSerializer(serializers.ModelSerializer):
     token_beginning = serializers.SerializerMethodField()
 
-    def get_token_beginning(self, obj):
+    def get_token_beginning(self, obj) -> str:
         return obj.key[:6]
 
     class Meta:
@@ -70,3 +70,7 @@ class TokenSerializer(serializers.ModelSerializer):
             'expiring',
             'renewable',
         ]
+
+
+class TokenCreatedSerializer(serializers.Serializer):
+    token = serializers.CharField()

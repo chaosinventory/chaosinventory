@@ -3,6 +3,7 @@ psycopg2-binary
 djangorestframework==3.12.*
 django-filter==2.4.*
 django-cors-headers==3.7.*
+drf-spectacular==0.17.*
 
 # Dev
 flake8==3.8.*

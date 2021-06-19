@@ -1,4 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
+from drf_spectacular.utils import extend_schema
 from rest_framework.exceptions import NotFound, PermissionDenied
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -8,7 +9,7 @@ from . import authentication
 from .models import Token
 from .serializers import (
     ObtainAuthTokenByAuthenticationSerializer, ObtainAuthTokenSerializer,
-    RenewAuthTokenSerializer, TokenSerializer,
+    RenewAuthTokenSerializer, TokenCreatedSerializer, TokenSerializer,
 )
 
 
@@ -20,12 +21,25 @@ class AuthTokenView(APIView):
     """
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        responses=TokenSerializer(many=True),
+    )
     def get(self, request):
+        """
+        Show all tokens for the current user.
+        """
         queryset = Token.objects.filter(user=request.user)
         serializer = TokenSerializer(queryset, many=True)
         return Response(serializer.data)
 
+    @extend_schema(
+        request=ObtainAuthTokenSerializer,
+        responses=TokenCreatedSerializer,
+    )
     def post(self, request, *args, **kwargs):
+        """
+        Obtain a new Token if already authenticated.
+        """
         serializer = ObtainAuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         token = Token.objects.create(
@@ -45,6 +59,12 @@ class AuthTokenDetailView(APIView):
     """
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        responses={
+            204: None,
+            404: None,
+        },
+    )
     def delete(self, request, *args, **kwargs):
         try:
             Token.objects.get(
@@ -60,6 +80,13 @@ class ObtainAuthTokenWithCredentialsView(APIView):
     """
     View to obtain an authentication token with username/password
     """
+
+    authentication_classes = []
+
+    @extend_schema(
+        request=ObtainAuthTokenByAuthenticationSerializer,
+        responses=TokenCreatedSerializer,
+    )
     def post(self, request, *args, **kwargs):
         serializer = ObtainAuthTokenByAuthenticationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -81,6 +108,10 @@ class RenewAuthTokenView(APIView):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        request=RenewAuthTokenSerializer,
+        responses=TokenCreatedSerializer
+    )
     def post(self, request, *args, **kwargs):
         if request.auth.renewable:
             serializer = RenewAuthTokenSerializer(data=request.data)
