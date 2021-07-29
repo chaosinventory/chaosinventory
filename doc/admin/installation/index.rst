@@ -1,7 +1,7 @@
 .. _`installation`:
 
 Installation guide
-==================
+##################
 
 .. warning::
 
@@ -19,7 +19,36 @@ Installation guide
 Chaosinventory ships as a standalone app. Therefore, you don't need to bring your own django project.
 You only need to have a wsgi server such as `gunicorn`_ and a database. `PostgreSQL`_ is recommended.
 
-Venv setup
+.. todo::
+
+   The whole chapter need structural cleanup.
+
+Docker
+******
+
+The docker option is currently in development, and primarily used for a demo instance.
+
+gunicorn is serving chaosinventory on port 8000.
+
+.. warning::
+
+   Make sure to persist the /data-volume, as it contains configuration and database!
+
+.. code-block:: bash
+
+   $ docker run -v /opt/chaosinventory:/data -p 8000:8000 TODO
+
+In the example above, the data is persisted in /opt/chaosinventory on the docker host.
+If you need to adjust the configuration from defaults, you can do it in /opt/chaosinventory/chaosinventory.cfg and restart the container afterwards.
+
+.. todo::
+
+   Verified updating guidelines
+
+PIP/Manual
+**********
+
+Virtual Environment Setup
 ----------
 
 .. todo:: Separate user
@@ -39,7 +68,7 @@ advised to install in a so called `virtual environment`_.
 Install and configure Chaosinventory
 ------------------------------------
 
-Chaosinventory can currently only be installed via pip from the source code as shown below.
+Chaosinventory can currently only be installed via pip from the source code as shown below. 
 
 .. code-block:: bash
 
