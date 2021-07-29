@@ -51,22 +51,42 @@ Now we need to provide a configuration for chaosinventory. This can be
 located in multiple locations (in the order of preference, first found
 will be used):
 
-* The path specified in the Environment variable :code:`CHAOSINVENTORY_CONFIG_FILE`
-* The :code:`chaosinventory.cfg` in your curent working directory
-* :code:`/etc/chaosinventory/chaosinventory.cfg`
+* The path specified in the Environment variable :code:`CHAOSINVENTORY_CONFIG_FILE` (exclusively)
+* The :code:`chaosinventory.cfg` in your current working directory
+* :code:`/etc/chaosinventory/chaosinventory.cfg` 
+
+The last two options will be merged, if both files exist.
+
+If there is no config file on startup, a random secret will be generated and saved in a new config file:
+
+* Environment Variable :code:`CHAOSINVENTORY_CONFIG_FILE` (preferred)
+* :code:`chaosinventory.cfg` in the current working directory, if no config file is given.
+
+.. warning::
+
+   Make sure to keep the generated config file, especially the secret, persistent.
 
 .. todo::
 
    Improve documentation of the config file.
 
-The example configuration looks like this and, except for **changing the secret**,
-should work out of the box using a sqlite Database, however this is not
-recommended for production use.
+Additionally, the location of the sqlite3-File may be given using the :code:`CHAOSINVENTORY_SQLITE3_FILE`-Environment Variable.
+If no database is present, a new one will be created.
+
+This location will be only used if no location is configured in the configuration file. 
+If the Environment Variable is not set, "db.sqlite3" in the current working directory is used as fallback.
+
+.. warning::
+
+   Make sure to keep the sqlite3-file as it contains your application data!
+
+The example configuration looks like this should work out of the box using a sqlite Database, 
+however this is not recommended for production use.
 
 .. code:: ini
 
   [django]
-  secret = foobar2342
+  secret = (generated)
   debug = True
   allowed_hosts = *
   cors_allow_all = False
