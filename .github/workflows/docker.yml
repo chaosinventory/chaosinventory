@@ -1,3 +1,5 @@
+# Based on offical documentation:
+# https://docs.github.com/en/actions/guides/publishing-docker-images
 
 name: Create and publish a Docker image
 
