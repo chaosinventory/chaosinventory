@@ -36,7 +36,9 @@ gunicorn is serving chaosinventory on port 8000.
 
 .. code-block:: bash
 
-   $ docker run -v /opt/chaosinventory:/data -p 8000:8000 TODO
+   $ docker run -v /opt/chaosinventory:/data -p 8000:8000 ghcr.io/chaosinventory/chaosinventory:latest # Latest Stable Version
+   $ docker run -v /opt/chaosinventory:/data -p 8000:8000 ghcr.io/chaosinventory/chaosinventory:main # Latest Development Version
+   $ docker run -v /opt/chaosinventory:/data -p 8000:8000 ghcr.io/chaosinventory/chaosinventory:pr-00 # Pull Request Version from PR 00 (replace with correct PR id)
 
 In the example above, the data is persisted in /opt/chaosinventory on the docker host.
 If you need to adjust the configuration from defaults, you can do it in /opt/chaosinventory/chaosinventory.cfg and restart the container afterwards.
