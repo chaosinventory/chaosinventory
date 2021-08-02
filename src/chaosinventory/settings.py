@@ -45,7 +45,7 @@ if not len(config.sections()):
     logging.warn(
         "No custom configuration file was provided! "
         "Continuing with example values. "
-        "Conffile with secrets will be written to "+conffile+", make sure to keep it!"
+        f"Conffile with secrets will be written to {conffile}, make sure to keep it!"
     )
     with open(conffile, 'w') as configfile:
         config.write(configfile)

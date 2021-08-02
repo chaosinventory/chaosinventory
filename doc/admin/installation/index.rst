@@ -117,7 +117,7 @@ however this is not recommended for production use.
 .. code:: ini
 
   [django]
-  secret = (generated)
+  secret = foobar2342
   debug = True
   allowed_hosts = *
   cors_allow_all = False
