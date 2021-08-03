@@ -5,6 +5,7 @@ from pathlib import Path
 import secrets
 
 config = configparser.RawConfigParser()
+secret_generated = False
 
 try:
     if 'CHAOSINVENTORY_CONFIG_FILE' in os.environ:
@@ -34,6 +35,7 @@ if SECRET_KEY is None:
     logging.warn("No custom secret configured. New random secret will be generated!")
     # random secret will be generated. This key may be persisted in the next section
     SECRET_KEY = secrets.token_urlsafe()
+    secret_generated = True
 
 if not len(config.sections()):
     # persist generated secret key
@@ -49,6 +51,13 @@ if not len(config.sections()):
     )
     with open(conffile, 'w') as configfile:
         config.write(configfile)
+else:
+    if secret_generated:
+        logging.error(
+            "Configuration file was loaded with no secret set! "
+            "Please configure a secret manually in your configuration files django section, and restart!")
+        exit(1)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config.getboolean('django', 'debug', fallback=False)
