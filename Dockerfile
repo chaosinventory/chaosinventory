@@ -3,7 +3,8 @@ FROM python:latest
 RUN mkdir /chaosinventory
 RUN mkdir /data
 
-COPY . /chaosinventory/
+COPY src/ /chaosinventory/src
+COPY scripts/ /chaosinventory/scripts
 WORKDIR /chaosinventory/
 
 RUN pip install -r src/requirements.txt
