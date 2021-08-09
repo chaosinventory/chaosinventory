@@ -3,6 +3,13 @@
 Installation guide
 ##################
 
+General Remarks
+***************
+
+.. warning::
+
+   Make sure to fully read and understand the documentation of your chosen installation method before trying to install Chaosinventory.
+
 .. warning::
 
    The project is currently in pre-alpha state. This setup documentation
@@ -15,16 +22,40 @@ Installation guide
    Help in the development is always appreciated, head over to `GitHub`_
    for a list of open issues!
 
+Chaosinventory ships as a standalone app. Usually, the documented installation methods include both installation of frontend and backend.
+If you want a more modular way without using a release, head over to the development documentation.
 
-Chaosinventory ships as a standalone app. Therefore, you don't need to bring your own django project.
-You only need to have a wsgi server such as `gunicorn`_ and a database. `PostgreSQL`_ is recommended.
+Prerequisites
+*************
 
-.. todo::
+Chaosinventory, especially the backend, needs the following external services:
 
-   The whole chapter need structural cleanup.
+- a PostgreSQL database. You can use sqlite, however we do not recommend this for production usage
+- a reverse proxy doing https. You can use gunicorn or a similar wsgi server directly, but we recommend using e.g. nginx as reverse proxy, also handling TLS encryption
+
+Chaosinventory is tested on current linux systems.
+
+.. warning::
+
+   We strongly recommend regular backups of the database, configuration and other files.
+
+   You must backup the whole installation before doing upgrades, otherwise you risk loosing your data and installation integrity in case of a rollback.
+
+   Chaosinventory does not handle those for you.
+
+   You must never downgrade chaosinventory after database migrations for a newer version are applied.
+
+Installation Methods
+********************
+
+For a quick and easy evaluation deployment, we suggest the use of our docker-image, prefereabbly with docker-compose for persistence.
+
+For production use, we suggest using the manual Deployment.
+
+If you have developed your own deployment or packaging method, we'd like to ask you to contribute this method to our project on `GitHub`_.
 
 Docker
-******
+======
 
 The docker option is currently in development, and primarily used for a demo instance.
 
@@ -48,10 +79,10 @@ If you need to adjust the configuration from defaults, you can do it in /opt/cha
    Verified updating guidelines
 
 PIP/Manual
-**********
+==========
 
 Virtual Environment Setup
-----------
+-------------------------
 
 .. todo:: Separate user
 
