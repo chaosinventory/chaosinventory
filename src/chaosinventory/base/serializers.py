@@ -7,7 +7,7 @@ from .models import (
 )
 
 
-class CommonBasicInventoryIdSerializer(serializers.ModelSerializer):
+class ProductInventoryIdSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductInventoryId
         fields = [
@@ -27,7 +27,7 @@ class InventoryIdSchemaSerializer(serializers.ModelSerializer):
         ]
 
 
-class BasicLocationSerializer(serializers.ModelSerializer):
+class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
         fields = [
@@ -39,44 +39,13 @@ class BasicLocationSerializer(serializers.ModelSerializer):
         ]
 
 
-class BasicTagSerializer(serializers.ModelSerializer):
+class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = [
             'id',
             'name',
             'parent'
-        ]
-
-    def validate(self, data):
-        """
-        When the object is updated, self.instance still is the original
-        instance. If we validate on that, we could use self as a parent
-        but not change it afterwards. Thus, as far as I know, we cant
-        use validators on the models.
-        """
-
-        if ('parent' in data and
-            data['parent'] is not None and
-            self.instance is not None and
-                data['parent'].pk == self.instance.pk):
-
-            raise serializers.ValidationError(
-                {'parent': "Must not be self"},
-            )
-
-        return data
-
-
-class TagSerializer(BasicTagSerializer):
-    parent = BasicTagSerializer(required=False)
-
-    class Meta:
-        model = Tag
-        fields = [
-            'id',
-            'name',
-            'parent',
         ]
 
 
@@ -90,7 +59,7 @@ class DataTypeSerializer(serializers.ModelSerializer):
         ]
 
 
-class BasicItemDataSerializer(serializers.ModelSerializer):
+class ItemDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemData
         fields = [
@@ -101,7 +70,7 @@ class BasicItemDataSerializer(serializers.ModelSerializer):
         ]
 
 
-class BasicProductDataSerializer(serializers.ModelSerializer):
+class ProductDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductData
         fields = [
@@ -112,7 +81,7 @@ class BasicProductDataSerializer(serializers.ModelSerializer):
         ]
 
 
-class WritableLocationDataSerializer(serializers.ModelSerializer):
+class LocationDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = LocationData
         fields = [
@@ -123,13 +92,9 @@ class WritableLocationDataSerializer(serializers.ModelSerializer):
         ]
 
 
-class BasicLocationDataSerializer(WritableLocationDataSerializer):
-    type = DataTypeSerializer()
-
-
 class LocationSerializer(serializers.ModelSerializer):
-    locationdata_set = BasicLocationDataSerializer(many=True, required=False, read_only=True)
-    in_location = BasicLocationSerializer()
+    locationdata_set = LocationDataSerializer(many=True, required=False, read_only=True)
+    in_location = LocationSerializer()
 
     class Meta:
         model = Location
@@ -141,26 +106,8 @@ class LocationSerializer(serializers.ModelSerializer):
             'locationdata_set'
         ]
 
-    def validate(self, data):
-        """
-        See TagSerializer.validate().
-        """
-
-        if (data['in_location'] is not None and
-            self.instance is not None and
-                data['in_location'].pk == self.instance.pk):
-
-            raise serializers.ValidationError(
-                {'in_location': "Must not be self"},
-            )
-
-        return data
-
 
 class LocationDataSerializer(serializers.ModelSerializer):
-    type = DataTypeSerializer()
-    location = BasicLocationSerializer()
-
     class Meta:
         model = LocationData
         fields = [
@@ -171,7 +118,7 @@ class LocationDataSerializer(serializers.ModelSerializer):
         ]
 
 
-class BasicOverlaySerializer(serializers.ModelSerializer):
+class OverlaySerializer(serializers.ModelSerializer):
     class Meta:
         model = Overlay
         fields = [
@@ -183,23 +130,8 @@ class BasicOverlaySerializer(serializers.ModelSerializer):
             'overlayitem_set',
         ]
 
-    def validate(self, data):
-        """
-        See TagSerializer.validate().
-        """
 
-        if (data['parent'] is not None and
-            self.instance is not None and
-                data['parent'].pk == self.instance.pk):
-
-            raise serializers.ValidationError(
-                {'parent': "Must not be self"},
-            )
-
-        return data
-
-
-class WritableOverlayItemSerializer(serializers.ModelSerializer):
+class OverlayItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OverlayItem
         fields = [
@@ -211,7 +143,7 @@ class WritableOverlayItemSerializer(serializers.ModelSerializer):
         ]
 
 
-class BasicEntitySerializer(serializers.ModelSerializer):
+class EntitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Entity
         fields = [
@@ -222,28 +154,8 @@ class BasicEntitySerializer(serializers.ModelSerializer):
             'tags',
         ]
 
-    def validate(self, data):
-        """
-        See TagSerializer.validate().
-        """
 
-        if (data['part_of'] is not None and
-            self.instance is not None and
-                data['part_of'].pk == self.instance.pk):
-
-            raise serializers.ValidationError(
-                {'part_of': "Must not be self"},
-            )
-
-        return data
-
-
-class EntitySerializer(BasicEntitySerializer):
-    tags = TagSerializer(many=True, required=False)
-    part_of = BasicEntitySerializer()
-
-
-class WritableProductInventoryIdSerializer(serializers.ModelSerializer):
+class ProductInventoryIdSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductInventoryId
         fields = [
@@ -254,11 +166,7 @@ class WritableProductInventoryIdSerializer(serializers.ModelSerializer):
         ]
 
 
-class BasicProductInventoryIdSerializer(WritableProductInventoryIdSerializer):
-    schema = InventoryIdSchemaSerializer()
-
-
-class WritableItemInventoryIdSerializer(serializers.ModelSerializer):
+class ItemInventoryIdSerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemInventoryId
         fields = [
@@ -268,12 +176,7 @@ class WritableItemInventoryIdSerializer(serializers.ModelSerializer):
             'item',
         ]
 
-
-class BasicItemInventoryIdSerializer(WritableItemInventoryIdSerializer):
-    schema = InventoryIdSchemaSerializer()
-
-
-class BasicProductSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = [
@@ -286,32 +189,7 @@ class BasicProductSerializer(serializers.ModelSerializer):
         ]
 
 
-class ProductDataSerializer(BasicProductDataSerializer):
-    type = DataTypeSerializer()
-    product = BasicProductSerializer()
-
-
-class ProductInventoryIdSerializer(BasicProductInventoryIdSerializer):
-    product = BasicProductSerializer()
-
-
-class ProductSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True, required=False)
-
-    productdata_set = BasicProductDataSerializer(
-        many=True,
-        required=False
-    )
-    productinventoryid_set = BasicProductInventoryIdSerializer(
-        many=True,
-        required=False
-    )
-
-    class Meta(BasicProductSerializer.Meta):
-        pass
-
-
-class BasicItemSerializer(serializers.ModelSerializer):
+class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = [
@@ -333,7 +211,7 @@ class BasicItemSerializer(serializers.ModelSerializer):
 
 class ItemDataSerializer(serializers.ModelSerializer):
     type = DataTypeSerializer()
-    item = BasicItemSerializer()
+    item = ItemSerializer()
 
     class Meta:
         model = ItemData
@@ -343,43 +221,3 @@ class ItemDataSerializer(serializers.ModelSerializer):
             'type',
             'item',
         ]
-
-
-class ItemSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True, required=False)
-    belongs_to = EntitySerializer(required=False)
-    product = ProductSerializer()
-    target_location = LocationSerializer(required=False)
-    actual_location = LocationSerializer(required=False)
-
-    itemdata_set = BasicItemDataSerializer(
-        many=True,
-        required=False,
-    )
-
-    iteminventoryid_set = BasicItemInventoryIdSerializer(
-        many=True,
-        required=False
-    )
-
-    class Meta(BasicItemSerializer.Meta):
-        pass
-
-
-class ItemInventoryIdSerializer(BasicItemInventoryIdSerializer):
-    item = BasicItemSerializer
-
-
-class BasicOverlayItemSerializer(WritableOverlayItemSerializer):
-    item = BasicItemSerializer()
-    target_item = BasicItemSerializer()
-    target_location = LocationSerializer()
-
-
-class OverlaySerializer(BasicOverlaySerializer):
-    parent = BasicOverlaySerializer()
-    overlayitem_set = BasicOverlayItemSerializer(many=True)
-
-
-class OverlayItemSerializer(BasicOverlayItemSerializer):
-    overlay = BasicOverlaySerializer()
