@@ -190,6 +190,99 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
+    belongs_to = EntitySerializer(
+        read_only=True,
+    )
+    belongs_to_id = serializers.PrimaryKeyRelatedField(
+        write_only=True,
+        required=False,
+        source='belongs_to',
+        queryset=Entity.objects.all(),
+    )
+
+    actual_location = LocationSerializer(
+        read_only=True,
+    )
+    actual_location_id = serializers.PrimaryKeyRelatedField(
+        write_only=True,
+        required=False,
+        source='actual_location',
+        queryset=Location.objects.all(),
+    )
+
+    target_location = LocationSerializer(
+        read_only=True,
+    )
+    target_location_id = serializers.PrimaryKeyRelatedField(
+        write_only=True,
+        required=False,
+        source='target_location',
+        queryset=Location.objects.all(),
+    )
+
+    product = ProductSerializer(
+        read_only=True,
+    )
+    product_id = serializers.PrimaryKeyRelatedField(
+        write_only=True,
+        source='product',
+        queryset=Product.objects.all(),
+    )
+
+    #target_item = ItemSerializer()
+    target_item_id = serializers.PrimaryKeyRelatedField(
+        write_only=True,
+        required=False,
+        allow_null=True,
+        source='target_item',
+        queryset=Item.objects.all(),
+    )
+
+    #actual_item = ItemSerializer()
+    actual_item_id = serializers.PrimaryKeyRelatedField(
+        write_only=True,
+        required=False,
+        allow_null=True,
+        source='actual_item',
+        queryset=Item.objects.all(),
+    )
+
+    iteminventoryid_set = ItemInventoryIdSerializer(
+        read_only=True,
+        many=True,
+    )
+    iteminventoryid_id_set = serializers.PrimaryKeyRelatedField(
+        write_only=True,
+        many=True,
+        required=False,
+        source='iteminventoryid_set',
+        queryset=ItemInventoryId.objects.all(),
+    )
+
+    itemdata_set = ItemDataSerializer(
+        read_only=True,
+        many=True,
+    )
+    itemdata_id_set = serializers.PrimaryKeyRelatedField(
+        write_only=True,
+        many=True,
+        required=False,
+        source='itemdata_set',
+        queryset=ItemData.objects.all(),
+    )
+
+    tags = TagSerializer(
+        read_only=True,
+        many=True,
+    )
+    tag_ids = serializers.PrimaryKeyRelatedField(
+        write_only=True,
+        many=True,
+        required=False,
+        source='tags',
+        queryset=Tag.objects.all(),
+    )
+
     class Meta:
         model = Item
         fields = [
@@ -198,14 +291,23 @@ class ItemSerializer(serializers.ModelSerializer):
             'note',
             'amount',
             'belongs_to',
+            'belongs_to_id',
             'actual_location',
+            'actual_location_id',
             'target_location',
+            'target_location_id',
             'product',
+            'product_id',
             'target_item',
+            'target_item_id',
             'actual_item',
+            'actual_item_id',
             'iteminventoryid_set',
+            'iteminventoryid_id_set',
             'itemdata_set',
+            'itemdata_id_set',
             'tags',
+            'tag_ids',
         ]
 
 
