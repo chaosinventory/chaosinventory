@@ -39,19 +39,6 @@ class NestedProductInventoryIdSerializer(serializers.ModelSerializer):
             'product_id',
         ]
 
-
-class LocationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Location
-        fields = [
-            'id',
-            'name',
-            'note',
-            'in_location',
-            'locationdata_set',
-        ]
-
-
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
@@ -497,18 +484,4 @@ class ItemSerializer(serializers.ModelSerializer):
             'itemdata_id_set',
             'tags',
             'tag_ids',
-        ]
-
-
-class ItemDataSerializer(serializers.ModelSerializer):
-    type = DataTypeSerializer()
-    item = ItemSerializer()
-
-    class Meta:
-        model = ItemData
-        fields = [
-            'id',
-            'value',
-            'type',
-            'item',
         ]
