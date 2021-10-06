@@ -7,6 +7,43 @@ from .models import (
 )
 
 
+class NestedTagSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='tag-detail')
+
+    class Meta:
+        model = Tag
+        fields = [
+            '_url',
+            'id',
+            'name',
+            'parent_id',
+        ]
+
+
+class TagSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='tag-detail')
+
+    parent = NestedTagSerializer(
+        read_only=True,
+    )
+    parent_id = serializers.PrimaryKeyRelatedField(
+        required=False,
+        allow_null=True,
+        source='parent',
+        queryset=Tag.objects.all(),
+    )
+
+    class Meta:
+        model = Tag
+        fields = [
+            '_url',
+            'id',
+            'name',
+            'parent',
+            'parent_id',
+        ]
+
+
 class InventoryIdSchemaSerializer(serializers.ModelSerializer):
     class Meta:
         model = InventoryIdSchema
@@ -37,15 +74,6 @@ class NestedProductInventoryIdSerializer(serializers.ModelSerializer):
             'schema',
             'schema_id',
             'product_id',
-        ]
-
-class TagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tag
-        fields = [
-            'id',
-            'name',
-            'parent'
         ]
 
 
@@ -211,8 +239,9 @@ class EntitySerializer(serializers.ModelSerializer):
         queryset=Entity.objects.all(),
     )
 
-    tags = TagSerializer(
-        read_only=True,
+    tags = NestedTagSerializer(
+        required=False,
+        allow_null=True,
         many=True,
     )
     tag_ids = serializers.PrimaryKeyRelatedField(
@@ -285,8 +314,9 @@ class ProductSerializer(serializers.ModelSerializer):
         queryset=ProductData.objects.all(),
     )
 
-    tags = TagSerializer(
-        read_only=True,
+    tags = NestedTagSerializer(
+        required=False,
+        allow_null=True,
         many=True,
     )
     tag_ids = serializers.PrimaryKeyRelatedField(
@@ -447,8 +477,9 @@ class ItemSerializer(serializers.ModelSerializer):
         queryset=ItemData.objects.all(),
     )
 
-    tags = TagSerializer(
-        read_only=True,
+    tags = NestedTagSerializer(
+        required=False,
+        allow_null=True,
         many=True,
     )
     tag_ids = serializers.PrimaryKeyRelatedField(
