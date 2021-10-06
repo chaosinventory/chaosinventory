@@ -44,6 +44,19 @@ class TagSerializer(serializers.ModelSerializer):
         ]
 
 
+class DataTypeSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='datatype-detail')
+
+    class Meta:
+        model = DataType
+        fields = [
+            '_url',
+            'id',
+            'name',
+            'note',
+        ]
+
+
 class InventoryIdSchemaSerializer(serializers.ModelSerializer):
     class Meta:
         model = InventoryIdSchema
@@ -74,16 +87,6 @@ class NestedProductInventoryIdSerializer(serializers.ModelSerializer):
             'schema',
             'schema_id',
             'product_id',
-        ]
-
-
-class DataTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = DataType
-        fields = [
-            'id',
-            'name',
-            'note',
         ]
 
 
