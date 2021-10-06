@@ -176,16 +176,69 @@ class ItemInventoryIdSerializer(serializers.ModelSerializer):
             'item',
         ]
 
-class ProductSerializer(serializers.ModelSerializer):
+
+class NestedProductSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='product-detail')
+
     class Meta:
         model = Product
         fields = [
+            '_url',
             'id',
             'name',
             'note',
-            'tags',
+        ]
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='product-detail')
+
+    productinventoryid_set = ItemInventoryIdSerializer(
+        read_only=True,
+        many=True,
+    )
+    productinventoryid_id_set = serializers.PrimaryKeyRelatedField(
+        many=True,
+        required=False,
+        source='productinventoryid_set',
+        queryset=ProductInventoryId.objects.all(),
+    )
+
+    productdata_set = ItemDataSerializer(
+        read_only=True,
+        many=True,
+    )
+    productdata_id_set = serializers.PrimaryKeyRelatedField(
+        many=True,
+        required=False,
+        source='productdata_set',
+        queryset=ProductData.objects.all(),
+    )
+
+    tags = TagSerializer(
+        read_only=True,
+        many=True,
+    )
+    tag_ids = serializers.PrimaryKeyRelatedField(
+        many=True,
+        required=False,
+        source='tags',
+        queryset=Tag.objects.all(),
+    )
+
+    class Meta:
+        model = Product
+        fields = [
+            '_url',
+            'id',
+            'name',
+            'note',
             'productinventoryid_set',
+            'productinventoryid_id_set',
             'productdata_set',
+            'productdata_id_set',
+            'tags',
+            'tag_ids',
         ]
 
 
@@ -242,7 +295,7 @@ class ItemSerializer(serializers.ModelSerializer):
         queryset=Location.objects.all(),
     )
 
-    product = ProductSerializer(
+    product = NestedProductSerializer(
         read_only=True,
     )
     product_id = serializers.PrimaryKeyRelatedField(
