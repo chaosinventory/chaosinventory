@@ -92,18 +92,59 @@ class LocationDataSerializer(serializers.ModelSerializer):
         ]
 
 
-class LocationSerializer(serializers.ModelSerializer):
-    locationdata_set = LocationDataSerializer(many=True, required=False, read_only=True)
-    in_location = LocationSerializer()
+class NestedLocationSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='location-detail')
 
     class Meta:
         model = Location
         fields = [
+            '_url',
+            'id',
+            'name',
+            'note',
+            'in_location_id',
+        ]
+
+
+class LocationSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='location-detail')
+
+
+    in_location = NestedLocationSerializer(
+        read_only=True,
+    )
+    in_location_id = serializers.PrimaryKeyRelatedField(
+        required=False,
+        allow_null=True,
+        source='in_location',
+        queryset=Location.objects.all(),
+    )
+
+    locationdata_set = LocationDataSerializer(
+        read_only=True,
+        many=True,
+    )
+    locationdata_id_set = serializers.PrimaryKeyRelatedField(
+        many=True,
+        required=False,
+        source='locationdata_set',
+        queryset=LocationData.objects.all(),
+    )
+
+
+    locationdata_set = LocationDataSerializer(many=True, required=False, read_only=True)
+
+    class Meta:
+        model = Location
+        fields = [
+            '_url',
             'id',
             'name',
             'note',
             'in_location',
-            'locationdata_set'
+            'in_location_id',
+            'locationdata_set',
+            'locationdata_id_set',
         ]
 
 
@@ -315,7 +356,7 @@ class ItemSerializer(serializers.ModelSerializer):
         queryset=Entity.objects.all(),
     )
 
-    actual_location = LocationSerializer(
+    actual_location = NestedLocationSerializer(
         read_only=True,
     )
     actual_location_id = serializers.PrimaryKeyRelatedField(
@@ -325,7 +366,7 @@ class ItemSerializer(serializers.ModelSerializer):
         queryset=Location.objects.all(),
     )
 
-    target_location = LocationSerializer(
+    target_location = NestedLocationSerializer(
         read_only=True,
     )
     target_location_id = serializers.PrimaryKeyRelatedField(
