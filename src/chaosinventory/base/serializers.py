@@ -110,6 +110,29 @@ class EntitySerializer(serializers.ModelSerializer):
         ]
 
 
+class NestedLocationDataSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='locationdata-detail')
+
+    type = DataTypeSerializer(
+        read_only=True,
+    )
+    type_id = serializers.PrimaryKeyRelatedField(
+        source='type',
+        queryset=DataType.objects.all(),
+    )
+
+    class Meta:
+        model = LocationData
+        fields = [
+            '_url',
+            'id',
+            'value',
+            'type',
+            'type_id',
+            'location_id',
+        ]
+
+
 class InventoryIdSchemaSerializer(serializers.ModelSerializer):
     class Meta:
         model = InventoryIdSchema
@@ -165,17 +188,6 @@ class ProductDataSerializer(serializers.ModelSerializer):
         ]
 
 
-class LocationDataSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = LocationData
-        fields = [
-            'id',
-            'value',
-            'type',
-            'location',
-        ]
-
-
 class NestedLocationSerializer(serializers.ModelSerializer):
     _url = serializers.HyperlinkedIdentityField(view_name='location-detail')
 
@@ -204,7 +216,7 @@ class LocationSerializer(serializers.ModelSerializer):
         queryset=Location.objects.all(),
     )
 
-    locationdata_set = LocationDataSerializer(
+    locationdata_set = NestedLocationDataSerializer(
         read_only=True,
         many=True,
     )
@@ -215,8 +227,6 @@ class LocationSerializer(serializers.ModelSerializer):
         queryset=LocationData.objects.all(),
     )
 
-
-    locationdata_set = LocationDataSerializer(many=True, required=False, read_only=True)
 
     class Meta:
         model = Location
@@ -233,13 +243,35 @@ class LocationSerializer(serializers.ModelSerializer):
 
 
 class LocationDataSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='locationdata-detail')
+
+    type = DataTypeSerializer(
+        read_only=True,
+    )
+    type_id = serializers.PrimaryKeyRelatedField(
+        source='type',
+        queryset=DataType.objects.all(),
+    )
+
+    location = NestedLocationSerializer(
+        read_only=True,
+    )
+    location_id = serializers.PrimaryKeyRelatedField(
+        source='location',
+        queryset=Location.objects.all(),
+    )
+
+
     class Meta:
         model = LocationData
         fields = [
+            '_url',
             'id',
             'value',
             'type',
-            'location'
+            'type_id',
+            'location',
+            'location_id',
         ]
 
 
