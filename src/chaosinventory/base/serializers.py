@@ -57,6 +57,59 @@ class DataTypeSerializer(serializers.ModelSerializer):
         ]
 
 
+class NestedEntitySerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='entity-detail')
+
+    class Meta:
+        model = Entity
+        fields = [
+            '_url',
+            'id',
+            'name',
+            'note',
+            'part_of_id',
+        ]
+
+
+class EntitySerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='entity-detail')
+
+    part_of = NestedEntitySerializer(
+        read_only=True,
+    )
+    part_of_id = serializers.PrimaryKeyRelatedField(
+        required=False,
+        allow_null=True,
+        source='part_of',
+        queryset=Entity.objects.all(),
+    )
+
+    tags = NestedTagSerializer(
+        required=False,
+        allow_null=True,
+        many=True,
+    )
+    tag_ids = serializers.PrimaryKeyRelatedField(
+        many=True,
+        required=False,
+        source='tags',
+        queryset=Tag.objects.all(),
+    )
+
+    class Meta:
+        model = Entity
+        fields = [
+            '_url',
+            'id',
+            'name',
+            'note',
+            'part_of',
+            'part_of_id',
+            'tags',
+            'tag_ids',
+        ]
+
+
 class InventoryIdSchemaSerializer(serializers.ModelSerializer):
     class Meta:
         model = InventoryIdSchema
@@ -212,59 +265,6 @@ class OverlayItemSerializer(serializers.ModelSerializer):
             'item',
             'target_item',
             'target_location',
-        ]
-
-
-class NestedEntitySerializer(serializers.ModelSerializer):
-    _url = serializers.HyperlinkedIdentityField(view_name='entity-detail')
-
-    class Meta:
-        model = Entity
-        fields = [
-            '_url',
-            'id',
-            'name',
-            'note',
-            'part_of_id',
-        ]
-
-
-class EntitySerializer(serializers.ModelSerializer):
-    _url = serializers.HyperlinkedIdentityField(view_name='entity-detail')
-
-    part_of = NestedEntitySerializer(
-        read_only=True,
-    )
-    part_of_id = serializers.PrimaryKeyRelatedField(
-        required=False,
-        allow_null=True,
-        source='part_of',
-        queryset=Entity.objects.all(),
-    )
-
-    tags = NestedTagSerializer(
-        required=False,
-        allow_null=True,
-        many=True,
-    )
-    tag_ids = serializers.PrimaryKeyRelatedField(
-        many=True,
-        required=False,
-        source='tags',
-        queryset=Tag.objects.all(),
-    )
-
-    class Meta:
-        model = Entity
-        fields = [
-            '_url',
-            'id',
-            'name',
-            'note',
-            'part_of',
-            'part_of_id',
-            'tags',
-            'tag_ids',
         ]
 
 
