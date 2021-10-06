@@ -143,15 +143,55 @@ class OverlayItemSerializer(serializers.ModelSerializer):
         ]
 
 
-class EntitySerializer(serializers.ModelSerializer):
+class NestedEntitySerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='entity-detail')
+
     class Meta:
         model = Entity
         fields = [
+            '_url',
+            'id',
+            'name',
+            'note',
+            'part_of_id',
+        ]
+
+
+class EntitySerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='entity-detail')
+
+    part_of = NestedEntitySerializer(
+        read_only=True,
+    )
+    part_of_id = serializers.PrimaryKeyRelatedField(
+        required=False,
+        allow_null=True,
+        source='part_of',
+        queryset=Entity.objects.all(),
+    )
+
+    tags = TagSerializer(
+        read_only=True,
+        many=True,
+    )
+    tag_ids = serializers.PrimaryKeyRelatedField(
+        many=True,
+        required=False,
+        source='tags',
+        queryset=Tag.objects.all(),
+    )
+
+    class Meta:
+        model = Entity
+        fields = [
+            '_url',
             'id',
             'name',
             'note',
             'part_of',
+            'part_of_id',
             'tags',
+            'tag_ids',
         ]
 
 
@@ -265,7 +305,7 @@ class NestedItemSerializer(serializers.ModelSerializer):
 class ItemSerializer(serializers.ModelSerializer):
     _url = serializers.HyperlinkedIdentityField(view_name='item-detail')
 
-    belongs_to = EntitySerializer(
+    belongs_to = NestedEntitySerializer(
         read_only=True,
     )
     belongs_to_id = serializers.PrimaryKeyRelatedField(
