@@ -158,9 +158,12 @@ class NestedProductDataSerializer(serializers.ModelSerializer):
 
 
 class InventoryIdSchemaSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='inventoryidschema-detail')
+
     class Meta:
         model = InventoryIdSchema
         fields = [
+            '_url',
             'id',
             'name',
             'note',
