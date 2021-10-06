@@ -190,9 +190,12 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class NestedItemSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='item-detail')
+
     class Meta:
         model = Item
         fields = [
+            '_url',
             'id',
             'name',
             'note',
@@ -207,6 +210,8 @@ class NestedItemSerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='item-detail')
+
     belongs_to = EntitySerializer(
         read_only=True,
     )
@@ -301,6 +306,7 @@ class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = [
+            '_url',
             'id',
             'name',
             'note',
