@@ -189,6 +189,23 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
 
 
+class NestedItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Item
+        fields = [
+            'id',
+            'name',
+            'note',
+            'amount',
+            'belongs_to_id',
+            'actual_location_id',
+            'target_location_id',
+            'product_id',
+            'target_item_id',
+            'actual_item_id',
+        ]
+
+
 class ItemSerializer(serializers.ModelSerializer):
     belongs_to = EntitySerializer(
         read_only=True,
@@ -225,7 +242,9 @@ class ItemSerializer(serializers.ModelSerializer):
         queryset=Product.objects.all(),
     )
 
-    #target_item = ItemSerializer()
+    target_item = NestedItemSerializer(
+        read_only=True,
+    )
     target_item_id = serializers.PrimaryKeyRelatedField(
         required=False,
         allow_null=True,
@@ -233,7 +252,9 @@ class ItemSerializer(serializers.ModelSerializer):
         queryset=Item.objects.all(),
     )
 
-    #actual_item = ItemSerializer()
+    actual_item = NestedItemSerializer(
+        read_only=True,
+    )
     actual_item_id = serializers.PrimaryKeyRelatedField(
         required=False,
         allow_null=True,
