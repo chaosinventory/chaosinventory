@@ -212,6 +212,7 @@ class ItemSerializer(serializers.ModelSerializer):
     )
     belongs_to_id = serializers.PrimaryKeyRelatedField(
         required=False,
+        allow_null=True,
         source='belongs_to',
         queryset=Entity.objects.all(),
     )
@@ -221,6 +222,7 @@ class ItemSerializer(serializers.ModelSerializer):
     )
     actual_location_id = serializers.PrimaryKeyRelatedField(
         required=False,
+        allow_null=True,
         source='actual_location',
         queryset=Location.objects.all(),
     )
@@ -230,6 +232,7 @@ class ItemSerializer(serializers.ModelSerializer):
     )
     target_location_id = serializers.PrimaryKeyRelatedField(
         required=False,
+        allow_null=True,
         source='target_location',
         queryset=Location.objects.all(),
     )
