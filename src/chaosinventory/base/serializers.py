@@ -329,14 +329,26 @@ class OverlayItemSerializer(serializers.ModelSerializer):
         ]
 
 
-class ItemInventoryIdSerializer(serializers.ModelSerializer):
+class NestedItemInventoryIdSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='iteminventoryid-detail')
+
+    schema = InventoryIdSchemaSerializer(
+        read_only=True,
+    )
+    schema_id = serializers.PrimaryKeyRelatedField(
+        source='schema',
+        queryset=InventoryIdSchema.objects.all(),
+    )
+
     class Meta:
         model = ItemInventoryId
         fields = [
+            '_url',
             'id',
             'value',
             'schema',
-            'item',
+            'schema_id',
+            'item_id',
         ]
 
 
@@ -551,7 +563,7 @@ class ItemSerializer(serializers.ModelSerializer):
         queryset=Item.objects.all(),
     )
 
-    iteminventoryid_set = ItemInventoryIdSerializer(
+    iteminventoryid_set = NestedItemInventoryIdSerializer(
         read_only=True,
         many=True,
     )
@@ -611,6 +623,38 @@ class ItemSerializer(serializers.ModelSerializer):
             'itemdata_id_set',
             'tags',
             'tag_ids',
+        ]
+
+
+class ItemInventoryIdSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='iteminventoryid-detail')
+
+    schema = InventoryIdSchemaSerializer(
+        read_only=True,
+    )
+    schema_id = serializers.PrimaryKeyRelatedField(
+        source='schema',
+        queryset=InventoryIdSchema.objects.all(),
+    )
+
+    item = NestedItemSerializer(
+        read_only=True,
+    )
+    item_id = serializers.PrimaryKeyRelatedField(
+        source='item',
+        queryset=Item.objects.all(),
+    )
+
+    class Meta:
+        model = ItemInventoryId
+        fields = [
+            '_url',
+            'id',
+            'value',
+            'schema',
+            'schema_id',
+            'item',
+            'item_id',
         ]
 
 
