@@ -194,7 +194,6 @@ class ItemSerializer(serializers.ModelSerializer):
         read_only=True,
     )
     belongs_to_id = serializers.PrimaryKeyRelatedField(
-        write_only=True,
         required=False,
         source='belongs_to',
         queryset=Entity.objects.all(),
@@ -204,7 +203,6 @@ class ItemSerializer(serializers.ModelSerializer):
         read_only=True,
     )
     actual_location_id = serializers.PrimaryKeyRelatedField(
-        write_only=True,
         required=False,
         source='actual_location',
         queryset=Location.objects.all(),
@@ -214,7 +212,6 @@ class ItemSerializer(serializers.ModelSerializer):
         read_only=True,
     )
     target_location_id = serializers.PrimaryKeyRelatedField(
-        write_only=True,
         required=False,
         source='target_location',
         queryset=Location.objects.all(),
@@ -224,14 +221,12 @@ class ItemSerializer(serializers.ModelSerializer):
         read_only=True,
     )
     product_id = serializers.PrimaryKeyRelatedField(
-        write_only=True,
         source='product',
         queryset=Product.objects.all(),
     )
 
     #target_item = ItemSerializer()
     target_item_id = serializers.PrimaryKeyRelatedField(
-        write_only=True,
         required=False,
         allow_null=True,
         source='target_item',
@@ -240,7 +235,6 @@ class ItemSerializer(serializers.ModelSerializer):
 
     #actual_item = ItemSerializer()
     actual_item_id = serializers.PrimaryKeyRelatedField(
-        write_only=True,
         required=False,
         allow_null=True,
         source='actual_item',
@@ -252,7 +246,6 @@ class ItemSerializer(serializers.ModelSerializer):
         many=True,
     )
     iteminventoryid_id_set = serializers.PrimaryKeyRelatedField(
-        write_only=True,
         many=True,
         required=False,
         source='iteminventoryid_set',
@@ -264,7 +257,6 @@ class ItemSerializer(serializers.ModelSerializer):
         many=True,
     )
     itemdata_id_set = serializers.PrimaryKeyRelatedField(
-        write_only=True,
         many=True,
         required=False,
         source='itemdata_set',
@@ -276,7 +268,6 @@ class ItemSerializer(serializers.ModelSerializer):
         many=True,
     )
     tag_ids = serializers.PrimaryKeyRelatedField(
-        write_only=True,
         many=True,
         required=False,
         source='tags',
