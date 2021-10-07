@@ -246,12 +246,6 @@ class LocationSerializer(serializers.ModelSerializer):
         read_only=True,
         many=True,
     )
-    locationdata_id_set = serializers.PrimaryKeyRelatedField(
-        many=True,
-        required=False,
-        source='locationdata_set',
-        queryset=LocationData.objects.all(),
-    )
 
     class Meta:
         model = Location
@@ -263,7 +257,6 @@ class LocationSerializer(serializers.ModelSerializer):
             'in_location',
             'in_location_id',
             'locationdata_set',
-            'locationdata_id_set',
         ]
 
 
@@ -367,22 +360,10 @@ class ProductSerializer(serializers.ModelSerializer):
         read_only=True,
         many=True,
     )
-    productinventoryid_id_set = serializers.PrimaryKeyRelatedField(
-        many=True,
-        required=False,
-        source='productinventoryid_set',
-        queryset=ProductInventoryId.objects.all(),
-    )
 
     productdata_set = NestedProductDataSerializer(
         read_only=True,
         many=True,
-    )
-    productdata_id_set = serializers.PrimaryKeyRelatedField(
-        many=True,
-        required=False,
-        source='productdata_set',
-        queryset=ProductData.objects.all(),
     )
 
     tags = NestedTagSerializer(
@@ -405,9 +386,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'name',
             'note',
             'productinventoryid_set',
-            'productinventoryid_id_set',
             'productdata_set',
-            'productdata_id_set',
             'tags',
             'tag_ids',
         ]
@@ -562,22 +541,10 @@ class ItemSerializer(serializers.ModelSerializer):
         read_only=True,
         many=True,
     )
-    iteminventoryid_id_set = serializers.PrimaryKeyRelatedField(
-        many=True,
-        required=False,
-        source='iteminventoryid_set',
-        queryset=ItemInventoryId.objects.all(),
-    )
 
     itemdata_set = NestedItemDataSerializer(
         read_only=True,
         many=True,
-    )
-    itemdata_id_set = serializers.PrimaryKeyRelatedField(
-        many=True,
-        required=False,
-        source='itemdata_set',
-        queryset=ItemData.objects.all(),
     )
 
     tags = NestedTagSerializer(
@@ -613,9 +580,7 @@ class ItemSerializer(serializers.ModelSerializer):
             'actual_item',
             'actual_item_id',
             'iteminventoryid_set',
-            'iteminventoryid_id_set',
             'itemdata_set',
-            'itemdata_id_set',
             'tags',
             'tag_ids',
         ]
