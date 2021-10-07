@@ -144,7 +144,6 @@ class NestedProductDataSerializer(serializers.ModelSerializer):
         queryset=DataType.objects.all(),
     )
 
-
     class Meta:
         model = ProductData
         fields = [
@@ -204,7 +203,6 @@ class NestedItemDataSerializer(serializers.ModelSerializer):
         queryset=DataType.objects.all(),
     )
 
-
     class Meta:
         model = ItemData
         fields = [
@@ -234,7 +232,6 @@ class NestedLocationSerializer(serializers.ModelSerializer):
 class LocationSerializer(serializers.ModelSerializer):
     _url = serializers.HyperlinkedIdentityField(view_name='location-detail')
 
-
     in_location = NestedLocationSerializer(
         read_only=True,
     )
@@ -255,7 +252,6 @@ class LocationSerializer(serializers.ModelSerializer):
         source='locationdata_set',
         queryset=LocationData.objects.all(),
     )
-
 
     class Meta:
         model = Location
@@ -289,7 +285,6 @@ class LocationDataSerializer(serializers.ModelSerializer):
         source='location',
         queryset=Location.objects.all(),
     )
-
 
     class Meta:
         model = LocationData
