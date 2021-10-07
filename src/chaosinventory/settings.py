@@ -180,6 +180,7 @@ EMAIL_USE_SSL = config.getboolean('email', 'ssl', fallback=False)
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
         'chaosinventory.authentication.authentication.TokenAuthentication',
-    ]
+    ],
 }
