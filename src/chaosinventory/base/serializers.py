@@ -85,13 +85,13 @@ class EntitySerializer(serializers.ModelSerializer):
     )
 
     tags = NestedTagSerializer(
-        required=False,
-        allow_null=True,
+        read_only=True,
         many=True,
     )
     tag_ids = serializers.PrimaryKeyRelatedField(
         many=True,
         required=False,
+        allow_null=True,
         source='tags',
         queryset=Tag.objects.all(),
     )
@@ -367,13 +367,13 @@ class ProductSerializer(serializers.ModelSerializer):
     )
 
     tags = NestedTagSerializer(
-        required=False,
-        allow_null=True,
+        read_only=True,
         many=True,
     )
     tag_ids = serializers.PrimaryKeyRelatedField(
         many=True,
         required=False,
+        allow_null=True,
         source='tags',
         queryset=Tag.objects.all(),
     )
@@ -548,13 +548,13 @@ class ItemSerializer(serializers.ModelSerializer):
     )
 
     tags = NestedTagSerializer(
-        required=False,
-        allow_null=True,
+        read_only=True,
         many=True,
     )
     tag_ids = serializers.PrimaryKeyRelatedField(
         many=True,
         required=False,
+        allow_null=True,
         source='tags',
         queryset=Tag.objects.all(),
     )
