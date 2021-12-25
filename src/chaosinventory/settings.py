@@ -71,7 +71,6 @@ CORS_ALLOW_ALL_ORIGINS = config.getboolean('django', 'cors_allow_all', fallback=
 
 INSTALLED_APPS = [
     'chaosinventory.base',
-    'chaosinventory.authentication',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -154,8 +153,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'authentication.User'
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -185,6 +182,6 @@ EMAIL_USE_SSL = config.getboolean('email', 'ssl', fallback=False)
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'chaosinventory.authentication.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ]
 }
