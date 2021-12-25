@@ -1,6 +1,4 @@
-const API_URL = `${import.meta.env.VITE_API_PROTOCOL}://${
-  import.meta.env.VITE_API_DOMAIN
-}:${import.meta.env.VITE_API_PORT}`;
+const API_URL = "";
 
 export async function postData(url = "", data = {}) {
   const response = await fetch(API_URL + url, {

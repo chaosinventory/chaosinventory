@@ -20,28 +20,28 @@ function App() {
       <Router>
         <Layout>
           <Switch>
-            <Route path="/login">
+            <Route path="/app/login">
               <Login />
             </Route>
-            <ProtectedRoute path="/products">
+            <ProtectedRoute path="/app/products">
               <Products />
             </ProtectedRoute>
-            <ProtectedRoute path="/locations">
+            <ProtectedRoute path="/app/locations">
               <Locations />
             </ProtectedRoute>
-            <ProtectedRoute path="/overlays">
+            <ProtectedRoute path="/app/overlays">
               <Overlays />
             </ProtectedRoute>
-            <ProtectedRoute path="/entities">
+            <ProtectedRoute path="/app/entities">
               <Entities />
             </ProtectedRoute>
-            <ProtectedRoute path="/tags">
+            <ProtectedRoute path="/app/tags">
               <Tags />
             </ProtectedRoute>
-            <ProtectedRoute path="/datatypes">
+            <ProtectedRoute path="/app/datatypes">
               <DataTypes />
             </ProtectedRoute>
-            <ProtectedRoute path="/">
+            <ProtectedRoute path="/app/">
               <Items />
             </ProtectedRoute>
           </Switch>

@@ -13,7 +13,7 @@ function ProtectedRoute({ children, ...rest }) {
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: "/app/login",
               state: { from: location },
             }}
           />

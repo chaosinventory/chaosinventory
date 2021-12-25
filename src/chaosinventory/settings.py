@@ -28,6 +28,7 @@ except configparser.Error as e:
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_ROOT = BASE_DIR / 'static'
+APP_ROOT = BASE_DIR / 'project-static' / 'dist'
 
 SECRET_KEY = config.get('django', 'secret', fallback=None)
 

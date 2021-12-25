@@ -24,13 +24,13 @@ import { Link as RouterLink } from "react-router-dom";
 import { authenticationService } from "../services/authenticationService";
 
 const Links = [
-  { name: "Items", link: "/items" },
-  { name: "Products", link: "/products" },
-  { name: "Overlays", link: "/overlays" },
-  { name: "Locations", link: "/locations" },
-  { name: "Tags", link: "/tags" },
-  { name: "Entities", link: "/entities" },
-  { name: "Data types", link: "/datatypes" },
+  { name: "Items", link: "/app/items" },
+  { name: "Products", link: "/app/products" },
+  { name: "Overlays", link: "/app/overlays" },
+  { name: "Locations", link: "/app/locations" },
+  { name: "Tags", link: "/app/tags" },
+  { name: "Entities", link: "/app/entities" },
+  { name: "Data types", link: "/app/datatypes" },
 ];
 
 const NavLink = ({ children }) => (
@@ -51,7 +51,7 @@ const NavLink = ({ children }) => (
 
 function logout(history) {
   authenticationService.logout();
-  history.push("/login");
+  history.push("/app/login");
 }
 
 export default function Navbar() {
