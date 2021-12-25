@@ -1,10 +1,13 @@
-from django.views.static import serve
+from pathlib import Path
+
 from django.http import FileResponse
 from django.shortcuts import render
-from pathlib import Path
+from django.views.static import serve
+
 
 def index(request):
     return render(request, 'base/index.html')
+
 
 def app(request, path, document_root=None):
     if path.startswith("assets/"):
