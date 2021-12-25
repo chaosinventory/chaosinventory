@@ -1,7 +1,8 @@
-from django.urls import include, path
+from django.conf import settings
+from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
 
-from .views import api, index
+from .views import api, app, index
 
 router = DefaultRouter()
 
@@ -27,5 +28,6 @@ router.register(r'inventoryidschema', api.InventoryIdSchemaViewSet)
 
 urlpatterns = [
     path('', index),
+    re_path(r'^app/(?P<path>.*)$', app, {"document_root": settings.APP_ROOT}),
     path('api/', include(router.urls))
 ]
