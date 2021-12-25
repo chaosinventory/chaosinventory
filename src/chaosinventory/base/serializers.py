@@ -7,171 +7,292 @@ from .models import (
 )
 
 
-class CommonBasicInventoryIdSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProductInventoryId
-        fields = [
-            'id',
-            'value',
-            'schema',
-        ]
-
-
-class InventoryIdSchemaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = InventoryIdSchema
-        fields = [
-            'id',
-            'name',
-            'note',
-        ]
-
-
-class BasicLocationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Location
-        fields = [
-            'id',
-            'name',
-            'note',
-            'in_location',
-            'locationdata_set',
-        ]
-
-
-class BasicTagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tag
-        fields = [
-            'id',
-            'name',
-            'parent'
-        ]
-
-    def validate(self, data):
-        """
-        When the object is updated, self.instance still is the original
-        instance. If we validate on that, we could use self as a parent
-        but not change it afterwards. Thus, as far as I know, we cant
-        use validators on the models.
-        """
-
-        if ('parent' in data and
-            data['parent'] is not None and
-            self.instance is not None and
-                data['parent'].pk == self.instance.pk):
-
-            raise serializers.ValidationError(
-                {'parent': "Must not be self"},
-            )
-
-        return data
-
-
-class TagSerializer(BasicTagSerializer):
-    parent = BasicTagSerializer(required=False)
+class NestedTagSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='tag-detail')
 
     class Meta:
         model = Tag
         fields = [
+            '_url',
+            'id',
+            'name',
+            'parent_id',
+        ]
+
+
+class TagSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='tag-detail')
+
+    parent = NestedTagSerializer(
+        read_only=True,
+    )
+    parent_id = serializers.PrimaryKeyRelatedField(
+        required=False,
+        allow_null=True,
+        source='parent',
+        queryset=Tag.objects.all(),
+    )
+
+    class Meta:
+        model = Tag
+        fields = [
+            '_url',
             'id',
             'name',
             'parent',
+            'parent_id',
         ]
 
 
 class DataTypeSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='datatype-detail')
+
     class Meta:
         model = DataType
         fields = [
+            '_url',
             'id',
             'name',
             'note',
         ]
 
 
-class BasicItemDataSerializer(serializers.ModelSerializer):
+class NestedEntitySerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='entity-detail')
+
     class Meta:
-        model = ItemData
+        model = Entity
         fields = [
+            '_url',
             'id',
-            'value',
-            'type',
-            'item',
+            'name',
+            'note',
+            'part_of_id',
         ]
 
 
-class BasicProductDataSerializer(serializers.ModelSerializer):
+class EntitySerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='entity-detail')
+
+    part_of = NestedEntitySerializer(
+        read_only=True,
+    )
+    part_of_id = serializers.PrimaryKeyRelatedField(
+        required=False,
+        allow_null=True,
+        source='part_of',
+        queryset=Entity.objects.all(),
+    )
+
+    tags = NestedTagSerializer(
+        read_only=True,
+        many=True,
+    )
+    tag_ids = serializers.PrimaryKeyRelatedField(
+        many=True,
+        required=False,
+        allow_null=True,
+        source='tags',
+        queryset=Tag.objects.all(),
+    )
+
     class Meta:
-        model = ProductData
+        model = Entity
         fields = [
+            '_url',
             'id',
-            'value',
-            'type',
-            'product'
+            'name',
+            'note',
+            'part_of',
+            'part_of_id',
+            'tags',
+            'tag_ids',
         ]
 
 
-class WritableLocationDataSerializer(serializers.ModelSerializer):
+class NestedLocationDataSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='locationdata-detail')
+
+    type = DataTypeSerializer(
+        read_only=True,
+    )
+    type_id = serializers.PrimaryKeyRelatedField(
+        source='type',
+        queryset=DataType.objects.all(),
+    )
+
     class Meta:
         model = LocationData
         fields = [
+            '_url',
             'id',
             'value',
             'type',
-            'location',
+            'type_id',
+            'location_id',
         ]
 
 
-class BasicLocationDataSerializer(WritableLocationDataSerializer):
-    type = DataTypeSerializer()
+class NestedProductDataSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='productinventoryid-detail')
+
+    type = DataTypeSerializer(
+        read_only=True,
+    )
+    type_id = serializers.PrimaryKeyRelatedField(
+        source='type',
+        queryset=DataType.objects.all(),
+    )
+
+    class Meta:
+        model = ProductData
+        fields = [
+            '_url',
+            'id',
+            'value',
+            'type',
+            'type_id',
+            'product_id',
+        ]
 
 
-class LocationSerializer(serializers.ModelSerializer):
-    locationdata_set = BasicLocationDataSerializer(many=True, required=False, read_only=True)
-    in_location = BasicLocationSerializer()
+class InventoryIdSchemaSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='inventoryidschema-detail')
+
+    class Meta:
+        model = InventoryIdSchema
+        fields = [
+            '_url',
+            'id',
+            'name',
+            'note',
+        ]
+
+
+class NestedProductInventoryIdSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='productinventoryid-detail')
+
+    schema = InventoryIdSchemaSerializer(
+        read_only=True,
+    )
+    schema_id = serializers.PrimaryKeyRelatedField(
+        source='schema',
+        queryset=InventoryIdSchema.objects.all(),
+    )
+
+    class Meta:
+        model = ProductInventoryId
+        fields = [
+            '_url',
+            'id',
+            'value',
+            'schema',
+            'schema_id',
+            'product_id',
+        ]
+
+
+class NestedItemDataSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='itemdata-detail')
+
+    type = DataTypeSerializer(
+        read_only=True,
+    )
+    type_id = serializers.PrimaryKeyRelatedField(
+        source='type',
+        queryset=DataType.objects.all(),
+    )
+
+    class Meta:
+        model = ItemData
+        fields = [
+            '_url',
+            'id',
+            'value',
+            'type',
+            'type_id',
+            'item_id',
+        ]
+
+
+class NestedLocationSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='location-detail')
 
     class Meta:
         model = Location
         fields = [
+            '_url',
+            'id',
+            'name',
+            'note',
+            'in_location_id',
+        ]
+
+
+class LocationSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='location-detail')
+
+    in_location = NestedLocationSerializer(
+        read_only=True,
+    )
+    in_location_id = serializers.PrimaryKeyRelatedField(
+        required=False,
+        allow_null=True,
+        source='in_location',
+        queryset=Location.objects.all(),
+    )
+
+    locationdata_set = NestedLocationDataSerializer(
+        read_only=True,
+        many=True,
+    )
+
+    class Meta:
+        model = Location
+        fields = [
+            '_url',
             'id',
             'name',
             'note',
             'in_location',
-            'locationdata_set'
+            'in_location_id',
+            'locationdata_set',
         ]
-
-    def validate(self, data):
-        """
-        See TagSerializer.validate().
-        """
-
-        if (data['in_location'] is not None and
-            self.instance is not None and
-                data['in_location'].pk == self.instance.pk):
-
-            raise serializers.ValidationError(
-                {'in_location': "Must not be self"},
-            )
-
-        return data
 
 
 class LocationDataSerializer(serializers.ModelSerializer):
-    type = DataTypeSerializer()
-    location = BasicLocationSerializer()
+    _url = serializers.HyperlinkedIdentityField(view_name='locationdata-detail')
+
+    type = DataTypeSerializer(
+        read_only=True,
+    )
+    type_id = serializers.PrimaryKeyRelatedField(
+        source='type',
+        queryset=DataType.objects.all(),
+    )
+
+    location = NestedLocationSerializer(
+        read_only=True,
+    )
+    location_id = serializers.PrimaryKeyRelatedField(
+        source='location',
+        queryset=Location.objects.all(),
+    )
 
     class Meta:
         model = LocationData
         fields = [
+            '_url',
             'id',
             'value',
             'type',
-            'location'
+            'type_id',
+            'location',
+            'location_id',
         ]
 
 
-class BasicOverlaySerializer(serializers.ModelSerializer):
+class OverlaySerializer(serializers.ModelSerializer):
     class Meta:
         model = Overlay
         fields = [
@@ -183,23 +304,8 @@ class BasicOverlaySerializer(serializers.ModelSerializer):
             'overlayitem_set',
         ]
 
-    def validate(self, data):
-        """
-        See TagSerializer.validate().
-        """
 
-        if (data['parent'] is not None and
-            self.instance is not None and
-                data['parent'].pk == self.instance.pk):
-
-            raise serializers.ValidationError(
-                {'parent': "Must not be self"},
-            )
-
-        return data
-
-
-class WritableOverlayItemSerializer(serializers.ModelSerializer):
+class OverlayItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OverlayItem
         fields = [
@@ -211,175 +317,334 @@ class WritableOverlayItemSerializer(serializers.ModelSerializer):
         ]
 
 
-class BasicEntitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Entity
-        fields = [
-            'id',
-            'name',
-            'note',
-            'part_of',
-            'tags',
-        ]
+class NestedItemInventoryIdSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='iteminventoryid-detail')
 
-    def validate(self, data):
-        """
-        See TagSerializer.validate().
-        """
+    schema = InventoryIdSchemaSerializer(
+        read_only=True,
+    )
+    schema_id = serializers.PrimaryKeyRelatedField(
+        source='schema',
+        queryset=InventoryIdSchema.objects.all(),
+    )
 
-        if (data['part_of'] is not None and
-            self.instance is not None and
-                data['part_of'].pk == self.instance.pk):
-
-            raise serializers.ValidationError(
-                {'part_of': "Must not be self"},
-            )
-
-        return data
-
-
-class EntitySerializer(BasicEntitySerializer):
-    tags = TagSerializer(many=True, required=False)
-    part_of = BasicEntitySerializer()
-
-
-class WritableProductInventoryIdSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProductInventoryId
-        fields = [
-            'id',
-            'value',
-            'schema',
-            'product',
-        ]
-
-
-class BasicProductInventoryIdSerializer(WritableProductInventoryIdSerializer):
-    schema = InventoryIdSchemaSerializer()
-
-
-class WritableItemInventoryIdSerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemInventoryId
         fields = [
+            '_url',
             'id',
             'value',
             'schema',
-            'item',
+            'schema_id',
+            'item_id',
         ]
 
 
-class BasicItemInventoryIdSerializer(WritableItemInventoryIdSerializer):
-    schema = InventoryIdSchemaSerializer()
+class NestedProductSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='product-detail')
 
-
-class BasicProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = [
+            '_url',
             'id',
             'name',
             'note',
-            'tags',
-            'productinventoryid_set',
-            'productdata_set',
         ]
 
 
-class ProductDataSerializer(BasicProductDataSerializer):
-    type = DataTypeSerializer()
-    product = BasicProductSerializer()
-
-
-class ProductInventoryIdSerializer(BasicProductInventoryIdSerializer):
-    product = BasicProductSerializer()
-
-
 class ProductSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True, required=False)
+    _url = serializers.HyperlinkedIdentityField(view_name='product-detail')
 
-    productdata_set = BasicProductDataSerializer(
+    productinventoryid_set = NestedProductInventoryIdSerializer(
+        read_only=True,
         many=True,
-        required=False
-    )
-    productinventoryid_set = BasicProductInventoryIdSerializer(
-        many=True,
-        required=False
     )
 
-    class Meta(BasicProductSerializer.Meta):
-        pass
+    productdata_set = NestedProductDataSerializer(
+        read_only=True,
+        many=True,
+    )
+
+    tags = NestedTagSerializer(
+        read_only=True,
+        many=True,
+    )
+    tag_ids = serializers.PrimaryKeyRelatedField(
+        many=True,
+        required=False,
+        allow_null=True,
+        source='tags',
+        queryset=Tag.objects.all(),
+    )
+
+    class Meta:
+        model = Product
+        fields = [
+            '_url',
+            'id',
+            'name',
+            'note',
+            'productinventoryid_set',
+            'productdata_set',
+            'tags',
+            'tag_ids',
+        ]
 
 
-class BasicItemSerializer(serializers.ModelSerializer):
+class ProductInventoryIdSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='productinventoryid-detail')
+
+    schema = InventoryIdSchemaSerializer(
+        read_only=True,
+    )
+    schema_id = serializers.PrimaryKeyRelatedField(
+        source='schema',
+        queryset=InventoryIdSchema.objects.all(),
+    )
+
+    product = NestedProductSerializer(
+        read_only=True,
+    )
+    product_id = serializers.PrimaryKeyRelatedField(
+        source='product',
+        queryset=Product.objects.all(),
+    )
+
+    class Meta:
+        model = ProductInventoryId
+        fields = [
+            '_url',
+            'id',
+            'value',
+            'schema',
+            'schema_id',
+            'product',
+            'product_id',
+        ]
+
+
+class ProductDataSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='productinventoryid-detail')
+
+    type = DataTypeSerializer(
+        read_only=True,
+    )
+    type_id = serializers.PrimaryKeyRelatedField(
+        source='type',
+        queryset=DataType.objects.all(),
+    )
+
+    product = NestedProductSerializer(
+        read_only=True,
+    )
+    product_id = serializers.PrimaryKeyRelatedField(
+        source='product',
+        queryset=Product.objects.all(),
+    )
+
+    class Meta:
+        model = ProductData
+        fields = [
+            '_url',
+            'id',
+            'value',
+            'type',
+            'type_id',
+            'product',
+            'product_id',
+        ]
+
+
+class NestedItemSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='item-detail')
+
     class Meta:
         model = Item
         fields = [
+            '_url',
+            'id',
+            'name',
+            'note',
+            'amount',
+            'belongs_to_id',
+            'actual_location_id',
+            'target_location_id',
+            'product_id',
+            'target_item_id',
+            'actual_item_id',
+        ]
+
+
+class ItemSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='item-detail')
+
+    belongs_to = NestedEntitySerializer(
+        read_only=True,
+    )
+    belongs_to_id = serializers.PrimaryKeyRelatedField(
+        required=False,
+        allow_null=True,
+        source='belongs_to',
+        queryset=Entity.objects.all(),
+    )
+
+    actual_location = NestedLocationSerializer(
+        read_only=True,
+    )
+    actual_location_id = serializers.PrimaryKeyRelatedField(
+        required=False,
+        allow_null=True,
+        source='actual_location',
+        queryset=Location.objects.all(),
+    )
+
+    target_location = NestedLocationSerializer(
+        read_only=True,
+    )
+    target_location_id = serializers.PrimaryKeyRelatedField(
+        required=False,
+        allow_null=True,
+        source='target_location',
+        queryset=Location.objects.all(),
+    )
+
+    product = NestedProductSerializer(
+        read_only=True,
+    )
+    product_id = serializers.PrimaryKeyRelatedField(
+        source='product',
+        queryset=Product.objects.all(),
+    )
+
+    target_item = NestedItemSerializer(
+        read_only=True,
+    )
+    target_item_id = serializers.PrimaryKeyRelatedField(
+        required=False,
+        allow_null=True,
+        source='target_item',
+        queryset=Item.objects.all(),
+    )
+
+    actual_item = NestedItemSerializer(
+        read_only=True,
+    )
+    actual_item_id = serializers.PrimaryKeyRelatedField(
+        required=False,
+        allow_null=True,
+        source='actual_item',
+        queryset=Item.objects.all(),
+    )
+
+    iteminventoryid_set = NestedItemInventoryIdSerializer(
+        read_only=True,
+        many=True,
+    )
+
+    itemdata_set = NestedItemDataSerializer(
+        read_only=True,
+        many=True,
+    )
+
+    tags = NestedTagSerializer(
+        read_only=True,
+        many=True,
+    )
+    tag_ids = serializers.PrimaryKeyRelatedField(
+        many=True,
+        required=False,
+        allow_null=True,
+        source='tags',
+        queryset=Tag.objects.all(),
+    )
+
+    class Meta:
+        model = Item
+        fields = [
+            '_url',
             'id',
             'name',
             'note',
             'amount',
             'belongs_to',
+            'belongs_to_id',
             'actual_location',
+            'actual_location_id',
             'target_location',
+            'target_location_id',
             'product',
+            'product_id',
             'target_item',
+            'target_item_id',
             'actual_item',
+            'actual_item_id',
             'iteminventoryid_set',
             'itemdata_set',
             'tags',
+            'tag_ids',
+        ]
+
+
+class ItemInventoryIdSerializer(serializers.ModelSerializer):
+    _url = serializers.HyperlinkedIdentityField(view_name='iteminventoryid-detail')
+
+    schema = InventoryIdSchemaSerializer(
+        read_only=True,
+    )
+    schema_id = serializers.PrimaryKeyRelatedField(
+        source='schema',
+        queryset=InventoryIdSchema.objects.all(),
+    )
+
+    item = NestedItemSerializer(
+        read_only=True,
+    )
+    item_id = serializers.PrimaryKeyRelatedField(
+        source='item',
+        queryset=Item.objects.all(),
+    )
+
+    class Meta:
+        model = ItemInventoryId
+        fields = [
+            '_url',
+            'id',
+            'value',
+            'schema',
+            'schema_id',
+            'item',
+            'item_id',
         ]
 
 
 class ItemDataSerializer(serializers.ModelSerializer):
-    type = DataTypeSerializer()
-    item = BasicItemSerializer()
+    _url = serializers.HyperlinkedIdentityField(view_name='itemdata-detail')
+
+    type = DataTypeSerializer(
+        read_only=True,
+    )
+    type_id = serializers.PrimaryKeyRelatedField(
+        source='type',
+        queryset=DataType.objects.all(),
+    )
+
+    item = NestedItemSerializer(
+        read_only=True,
+    )
+    item_id = serializers.PrimaryKeyRelatedField(
+        source='item',
+        queryset=Item.objects.all(),
+    )
 
     class Meta:
         model = ItemData
         fields = [
+            '_url',
             'id',
             'value',
             'type',
+            'type_id',
             'item',
+            'item_id',
         ]
-
-
-class ItemSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True, required=False)
-    belongs_to = EntitySerializer(required=False)
-    product = ProductSerializer()
-    target_location = LocationSerializer(required=False)
-    actual_location = LocationSerializer(required=False)
-
-    itemdata_set = BasicItemDataSerializer(
-        many=True,
-        required=False,
-    )
-
-    iteminventoryid_set = BasicItemInventoryIdSerializer(
-        many=True,
-        required=False
-    )
-
-    class Meta(BasicItemSerializer.Meta):
-        pass
-
-
-class ItemInventoryIdSerializer(BasicItemInventoryIdSerializer):
-    item = BasicItemSerializer
-
-
-class BasicOverlayItemSerializer(WritableOverlayItemSerializer):
-    item = BasicItemSerializer()
-    target_item = BasicItemSerializer()
-    target_location = LocationSerializer()
-
-
-class OverlaySerializer(BasicOverlaySerializer):
-    parent = BasicOverlaySerializer()
-    overlayitem_set = BasicOverlayItemSerializer(many=True)
-
-
-class OverlayItemSerializer(BasicOverlayItemSerializer):
-    overlay = BasicOverlaySerializer()
