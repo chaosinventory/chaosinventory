@@ -116,17 +116,22 @@ WSGI_APPLICATION = 'chaosinventory.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-database_backend = config.get('database', 'engine', fallback='sqlite3')
+# Prioritizing env variables over config files
+database_backend = os.environ.get('CHAOSINVENTORY_DB_ENGINE', config.get('database', 'engine', fallback='sqlite3'))
+database_name = os.environ.get('CHAOSINVENTORY_DB_NAME', config.get('database', 'name', fallback='db.sqlite3'))
+database_user = os.environ.get('CHAOSINVENTORY_DB_USER', config.get('database', 'user', fallback=''))
+database_password = os.environ.get('CHAOSINVENTORY_DB_PASSWORD', config.get('database', 'password', fallback=''))
+database_host = os.environ.get('CHAOSINVENTORY_DB_HOST', config.get('database', 'host', fallback=''))
+database_port = os.environ.get('CHAOSINVENTORY_DB_PORT', config.get('database', 'port', fallback=''))
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.' + database_backend,
-        'NAME': config.get('database', 'name', fallback=os.environ.get('CHAOSINVENTORY_SQLITE3_FILE', 'db.sqlite3')),
-        'USER': config.get('database', 'user', fallback=''),
-        'PASSWORD': config.get('database', 'password', fallback=''),
-        'HOST': config.get('database', 'host', fallback=''),
-        'PORT': config.get('database', 'port', fallback=''),
+        'NAME': database_name,
+        'USER': database_user,
+        'PASSWORD': database_password,
+        'HOST': database_host,
+        'PORT': database_port,
         'CONN_MAX_AGE': 0 if database_backend == 'sqlite3' else 120
     }
 }
