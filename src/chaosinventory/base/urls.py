@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
 
@@ -28,7 +29,8 @@ router.register(r'inventoryidschema', api.InventoryIdSchemaViewSet)
 
 urlpatterns = [
     path('', index),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('login/', LoginView.as_view(redirect_authenticated_user=True), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
     re_path(r'^app/(?P<path>.*)$', app, {"document_root": settings.APP_ROOT}),
     path('api/', include(router.urls)),
     path('api/me/', api.MeView.as_view()),

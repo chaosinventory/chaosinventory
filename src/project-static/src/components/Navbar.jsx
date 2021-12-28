@@ -105,7 +105,7 @@ export default function Navbar() {
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
-                    location.href = "/accounts/logout/";
+                    location.href = "/logout/";
                   }}
                 >
                   Logout
