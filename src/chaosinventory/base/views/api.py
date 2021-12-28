@@ -96,6 +96,7 @@ class ItemViewSet(viewsets.ModelViewSet):
 
 class MeView(APIView):
     permission_classes = [IsAuthenticated]
+
     def get(self, request, **kwargs):
         return Response(
             {
