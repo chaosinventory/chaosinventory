@@ -29,5 +29,6 @@ router.register(r'inventoryidschema', api.InventoryIdSchemaViewSet)
 urlpatterns = [
     path('', index),
     re_path(r'^app/(?P<path>.*)$', app, {"document_root": settings.APP_ROOT}),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('api/me/', api.MeView.as_view()),
 ]
