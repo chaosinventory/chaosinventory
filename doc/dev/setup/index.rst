@@ -55,6 +55,18 @@ To populate your local development database you must execute the migrations.
 
    (venv) $ ./manage.py migrate
 
+Create an admin user.
+
+.. code-block:: bash
+
+   (venv) $ ./manage.py createsuperuser
+
+Fill with some demo data.
+
+.. code-block:: bash
+
+   (venv) $ ./manage.py load_demo_data
+
 Development server
 ------------------
 

@@ -12,6 +12,7 @@ Development documentation
    :maxdepth: 2
 
    setup/index
+   frontend/index
    testing_linting
    structure/index
    configuration

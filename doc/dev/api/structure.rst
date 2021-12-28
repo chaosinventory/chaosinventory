@@ -49,22 +49,6 @@ A openapi compatible schema description can be generated using
    $ python manage.py generateschema --format openapi > schema.yml
 
 
-.. note::
-
-    Currently, multiple API requests are required for retrieving e.G. tags.
-
-    .. autoclass:: chaosinventory.base.serializers.EntitySerializer
-
-
-.. note::
-
-     We try to do as much inheritance as possible (if sensible) for
-     the sake of constistency. During the development of the
-     :code:`ItemInventoryIdSerializer` we noticed some strange™ behaviour:
-
-    .. autoclass:: chaosinventory.base.serializers.ProductInventoryIdSerializer.Meta
-
-
 .. _django rest framework: https://www.django-rest-framework.org/
 .. _viewsets: https://www.django-rest-framework.org/api-guide/viewsets/
 .. _drf documentation on making requests: https://www.django-rest-framework.org/api-guide/testing/#making-requests

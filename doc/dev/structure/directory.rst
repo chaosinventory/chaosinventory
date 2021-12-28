@@ -17,3 +17,6 @@ are directly located in this folder.
   ``base/``
     The core of chaosinventory, all models and essential methods are located
     here. Basically a :std:doc:`django Application <django:ref/applications>`.
+
+``project-static/``
+  Stuff needed to generate the frontend magic.
