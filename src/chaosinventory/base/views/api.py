@@ -1,5 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from ..models import (
     DataType, Entity, InventoryIdSchema, Item, ItemData, ItemInventoryId,
@@ -90,3 +92,14 @@ class ItemViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+
+
+class MeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, **kwargs):
+        return Response(
+            {
+                "username": getattr(request.user, "username", None),
+            }
+        )

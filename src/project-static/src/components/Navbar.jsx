@@ -49,11 +49,6 @@ const NavLink = ({ children }) => (
   </Link>
 );
 
-function logout(history) {
-  authenticationService.logout();
-  history.push("/app/login");
-}
-
 export default function Navbar() {
   let history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -110,7 +105,7 @@ export default function Navbar() {
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
-                    logout(history);
+                    location.href = "/logout/";
                   }}
                 >
                   Logout
