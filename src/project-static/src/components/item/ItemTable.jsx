@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useContext } from "react";
 import DataUpdateContext from "../../context/DataUpdateContext";
+import TagList from "../tag/TagList";
 
 export default function ItemTable() {
   const [error, setError] = useState(null);
@@ -65,7 +66,7 @@ export default function ItemTable() {
               <Td>{item.amount}</Td>
               <Td>{item.actual_location != null ? item.actual_location.name : <>...</>}</Td>
               <Td>{item.actual_item != null ? <>?</> : <>...</>}</Td>
-              <Td>?</Td>
+              <Td><TagList data={item.tags} /></Td>
             </Tr>
           ))}
         </Tbody>
