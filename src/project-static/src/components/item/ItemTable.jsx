@@ -63,8 +63,9 @@ export default function ItemTable() {
               <Td>{item.name}</Td>
               <Td>{item.product.name}</Td>
               <Td>{item.amount}</Td>
-              <Td>{item.actual_location.name}</Td>
+              <Td>{item.actual_location != null ? item.actual_location.name : <>...</>}</Td>
               <Td>{item.actual_item != null ? <>?</> : <>...</>}</Td>
+              <Td>?</Td>
             </Tr>
           ))}
         </Tbody>
