@@ -89,7 +89,8 @@ export default function ItemForm({ type, id, data }) {
         errors={errors.note && errors.note.message}
         {...register("note")}
       />
-      <FormControl mt={4}>
+      {/*
+        <FormControl mt={4}>
         <FormLabel htmlFor="amount">Amount</FormLabel>
         <NumberInput
           name="amount"
@@ -104,11 +105,12 @@ export default function ItemForm({ type, id, data }) {
           </NumberInputStepper>
         </NumberInput>
       </FormControl>
+      */}
       <ProductSelect
         topMargin
         label="Product type"
         name="product"
-        registerFunction={register("product", { valueAsNumber: true })}
+        registerFunction={register("product_id", { valueAsNumber: true })}
       />
 
       <SubmitButton mt={4} isLoading={isSubmitting} />
