@@ -1,29 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { getItem } from "../../services/itemService";
+import React from "react";
+import {
+  Link,
+} from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 
-function ItemLabel(props) {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    getItem(props.id).then(
-      (d) => {
-        setIsLoaded(true);
-        setData(d);
-      },
-      (e) => {
-        setIsLoaded(true);
-        setError(e);
-      }
-    );
-  }, []);
-
-  if (error) {
-    return <>{error.message}</>;
-  } else if (!isLoaded) {
+export default function ItemLabel({ data }) {
+  if (!data) {
     return <>...</>;
   } else {
-    return <>{data.name}</>;
+    return (
+      <Link
+        as={RouterLink}
+        to={"/app/items/" + data.id}
+      >
+        {data.name}
+      </Link>
+    );
   }
 }

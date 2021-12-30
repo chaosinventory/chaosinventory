@@ -1,11 +1,11 @@
 import React from "react";
-import TagView from "./TagView";
+import TagLabel from "./TagLabel";
 
 export default function TagList({ data }) {
   return (
     <div>
       {data.map((tag) => {
-        return <TagView key={tag.id} name={tag.name} parent={tag.parent} />;
+        return <TagLabel data={tag} />;
       })}
     </div>
   );
