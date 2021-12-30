@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie';
+
 const API_URL = "";
 
 export async function postData(url = "", data = {}) {
@@ -31,8 +33,6 @@ export async function getDataAuth(url = "") {
     credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
-      Authorization:
-        "Token " + localStorage.getItem(import.meta.env.VITE_TOKEN_NAME),
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
@@ -73,6 +73,7 @@ async function apiInteractionAuth(url = "", data = {}, method = "POST") {
       "Content-Type": "application/json",
       Authorization:
         "Token " + localStorage.getItem(import.meta.env.VITE_TOKEN_NAME),
+      "X-CSRFToken": Cookies.get('csrftoken'),
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
