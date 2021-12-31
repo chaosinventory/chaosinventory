@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { getMe } from "../services/meService";
 import {
   Box,
   Flex,
+  Alert,
+  AlertIcon,
   Avatar,
   HStack,
   Link,
@@ -11,6 +14,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Spinner,
   Switch,
   useDisclosure,
   useColorModeValue,
@@ -19,9 +23,9 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, MoonIcon } from "@chakra-ui/icons";
+import DataUpdateContext from "../context/DataUpdateContext";
 import { useHistory } from "react-router";
 import { Link as RouterLink } from "react-router-dom";
-import { authenticationService } from "../services/authenticationService";
 
 const Links = [
   { name: "Items", link: "/app/items" },
@@ -49,10 +53,71 @@ const NavLink = ({ children }) => (
   </Link>
 );
 
+function MeMenu() {
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [me, setMe] = useState([]);
+
+  const { lastUpdate, setLastUpdate } = useContext(DataUpdateContext);
+
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  useEffect(() => {
+    getMe().then(
+      (data) => {
+        setIsLoaded(true);
+        setMe(data);
+      },
+      (err) => {
+        setIsLoaded(true);
+        setError(err);
+      }
+    );
+  }, [lastUpdate]);
+
+  if (error) {
+    return (
+      <Alert status="error">
+        <AlertIcon />
+        {error.message}
+      </Alert>
+    );
+  } else if (!isLoaded) {
+    return <Spinner />;
+  } else {
+    return (
+      <Menu>
+        <MenuButton
+          as={Button}
+          rounded={"full"}
+          variant={"link"}
+          cursor={"pointer"}
+        >
+          <Avatar size={"sm"} name={me.username} />
+        </MenuButton>
+        <MenuList>
+          <MenuItem>
+            {me.username}
+          </MenuItem>
+          <MenuItem onClick={toggleColorMode}>
+            Swtich to {colorMode === "light" ? "Dark" : "Light"} Mode
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              location.href = "/logout/";
+            }}
+          >
+            Logout
+          </MenuItem>
+        </MenuList>
+      </Menu>
+    );
+  }
+}
+
 export default function Navbar() {
   let history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <>
@@ -76,7 +141,7 @@ export default function Navbar() {
                 boxSize="50px"
                 objectFit="cover"
                 src="/assets/logo.png"
-                alt="Segun Adebayo"
+                alt="Logo"
               />
             </Box>
             <HStack
@@ -90,28 +155,7 @@ export default function Navbar() {
             </HStack>
           </HStack>
           <Flex alignItems={"center"}>
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded={"full"}
-                variant={"link"}
-                cursor={"pointer"}
-              >
-                <Avatar size={"sm"} />
-              </MenuButton>
-              <MenuList>
-                <MenuItem onClick={toggleColorMode}>
-                  Swtich to {colorMode === "light" ? "Dark" : "Light"} Mode
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    location.href = "/logout/";
-                  }}
-                >
-                  Logout
-                </MenuItem>
-              </MenuList>
-            </Menu>
+            <MeMenu />
           </Flex>
         </Flex>
 

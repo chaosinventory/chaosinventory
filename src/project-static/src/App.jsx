@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Layout from "./components/Layout";
-import ProtectedRoute from "./components/ProtectedRoute";
 import Items from "./pages/Items";
-import Login from "./pages/Login";
 import Tags from "./pages/Tags";
 import Entities from "./pages/Entities";
 import Products from "./pages/Products";
@@ -20,30 +18,27 @@ function App() {
       <Router>
         <Layout>
           <Switch>
-            <Route path="/app/login">
-              <Login />
-            </Route>
-            <ProtectedRoute path="/app/products">
+            <Route path="/app/products">
               <Products />
-            </ProtectedRoute>
-            <ProtectedRoute path="/app/locations">
+            </Route>
+            <Route path="/app/locations">
               <Locations />
-            </ProtectedRoute>
-            <ProtectedRoute path="/app/overlays">
+            </Route>
+            <Route path="/app/overlays">
               <Overlays />
-            </ProtectedRoute>
-            <ProtectedRoute path="/app/entities">
+            </Route>
+            <Route path="/app/entities">
               <Entities />
-            </ProtectedRoute>
-            <ProtectedRoute path="/app/tags">
+            </Route>
+            <Route path="/app/tags">
               <Tags />
-            </ProtectedRoute>
-            <ProtectedRoute path="/app/datatypes">
+            </Route>
+            <Route path="/app/datatypes">
               <DataTypes />
-            </ProtectedRoute>
-            <ProtectedRoute path="/app/">
+            </Route>
+            <Route path="/app/">
               <Items />
-            </ProtectedRoute>
+            </Route>
           </Switch>
         </Layout>
       </Router>
