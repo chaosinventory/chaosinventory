@@ -21,7 +21,6 @@ import {
 import { HamburgerIcon, CloseIcon, MoonIcon } from "@chakra-ui/icons";
 import { useHistory } from "react-router";
 import { Link as RouterLink } from "react-router-dom";
-import { authenticationService } from "../services/authenticationService";
 
 const Links = [
   { name: "Items", link: "/app/items" },
