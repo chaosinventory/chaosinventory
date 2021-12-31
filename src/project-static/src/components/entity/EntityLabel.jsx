@@ -1,23 +1,19 @@
 import React from "react";
 import {
-  Tag,
   Link,
 } from "@chakra-ui/react";
-import { TriangleDownIcon } from "@chakra-ui/icons";
 import { Link as RouterLink } from "react-router-dom";
 
-export default function TagLabel({ data }) {
+export default function EntityLabel({ data }) {
   if (!data) {
     return <>...</>;
   } else {
     return (
       <Link
         as={RouterLink}
-        to={"/app/tags/" + data.id}
+        to={"/app/entities/" + data.id}
       >
-        <Tag>
-          {data.name}
-        </Tag>
+        {data.name}
       </Link>
     );
   }

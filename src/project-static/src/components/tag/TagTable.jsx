@@ -3,6 +3,7 @@ import { Spinner, Table, Thead, Tr, Th, Tbody, Td } from "@chakra-ui/react";
 import { getTags } from "../../services/tagService";
 import { useContext } from "react";
 import DataUpdateContext from "../../context/DataUpdateContext";
+import TagLabel from "./TagLabel";
 
 export default function TagTable() {
   const [error, setError] = useState(null);
@@ -45,8 +46,8 @@ export default function TagTable() {
         <Tbody>
           {items.map((item) => (
             <Tr key={item.id}>
-              <Td>{item.name}</Td>
-              {item.parent ? <Td>{item.parent.name}</Td> : <Td>...</Td>}
+              <Td><TagLabel data={item} /></Td>
+              <Td><TagLabel data={item.parent} /></Td>
             </Tr>
           ))}
         </Tbody>

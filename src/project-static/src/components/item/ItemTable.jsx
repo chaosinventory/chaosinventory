@@ -15,6 +15,7 @@ import {
 import { useContext } from "react";
 import DataUpdateContext from "../../context/DataUpdateContext";
 import ItemLabel from "./ItemLabel";
+import EntityLabel from "../entity/EntityLabel";
 import LocationLabel from "../location/LocationLabel";
 import ProductLabel from "../product/ProductLabel";
 import TagList from "../tag/TagList";
@@ -68,7 +69,7 @@ export default function ItemTable() {
               <Td><ProductLabel data={item.product} /></Td>
               <Td>{item.amount}</Td>
               <Td><LocationLabel data={item.actual_location} /></Td>
-              <Td>{item.actual_item != null ? <>?</> : <>...</>}</Td>
+              <Td><EntityLabel data={item.belongs_to} /></Td>
               <Td><TagList data={item.tags} /></Td>
             </Tr>
           ))}

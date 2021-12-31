@@ -3,6 +3,7 @@ import { Spinner, Table, Thead, Tr, Th, Tbody, Td } from "@chakra-ui/react";
 import { getLocations } from "../../services/locationService";
 import { useContext } from "react";
 import DataUpdateContext from "../../context/DataUpdateContext";
+import LocationLabel from "./LocationLabel";
 
 export default function ProductTable() {
   const [error, setError] = useState(null);
@@ -46,9 +47,9 @@ export default function ProductTable() {
         <Tbody>
           {items.map((item) => (
             <Tr key={item.id}>
-              <Td>{item.name}</Td>
+              <Td><LocationLabel data={item} /></Td>
               <Td>{item.note}</Td>
-              <Td>{item.in_location ? item.in_location.name : "..."}</Td>
+              <Td><LocationLabel data={item.in_location} /></Td>
             </Tr>
           ))}
         </Tbody>
