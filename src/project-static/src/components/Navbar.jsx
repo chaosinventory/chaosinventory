@@ -75,7 +75,7 @@ export default function Navbar() {
                 boxSize="50px"
                 objectFit="cover"
                 src="/assets/logo.png"
-                alt="Segun Adebayo"
+                alt="Logo"
               />
             </Box>
             <HStack
