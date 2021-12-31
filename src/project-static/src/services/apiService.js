@@ -42,6 +42,9 @@ export async function getDataAuth(url = "") {
     if (response.ok) {
       resolve(response.json());
     } else {
+      if (response.status === 403) {
+        document.location.href = "/login/?next=" + window.location.pathname;
+      }
       reject(new Error("request failed"));
     }
   });
