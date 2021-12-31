@@ -4,6 +4,7 @@ import TagList from "../tag/TagList";
 import { getProducts } from "../../services/productService";
 import { useContext } from "react";
 import DataUpdateContext from "../../context/DataUpdateContext";
+import ProductLabel from "./ProductLabel";
 
 export default function ProductTable() {
   const [error, setError] = useState(null);
@@ -47,11 +48,9 @@ export default function ProductTable() {
         <Tbody>
           {items.map((item) => (
             <Tr key={item.id}>
-              <Td>{item.name}</Td>
+              <Td><ProductLabel data={item} /></Td>
               <Td>{item.note}</Td>
-              <Td>
-                <TagList data={item.tags} />
-              </Td>
+              <Td><TagList data={item.tags} /></Td>
             </Tr>
           ))}
         </Tbody>
